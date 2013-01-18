@@ -107,10 +107,10 @@ public class BaseDataSource {
 			Log.d("db", "Access database from system storage");
 			// 没有则存系统的数据库。
 			if(context == null) {
-				Log.e("androidx.db", "System Context didn't set properly.");
+				Log.e("andex.db", "System Context didn't set properly.");
 				return null;
 			}
-			DefaultSQLiteOpenHelper dbHelper = new DefaultSQLiteOpenHelper(context, "androidx");
+			DefaultSQLiteOpenHelper dbHelper = new DefaultSQLiteOpenHelper(context, "andex");
 			return dbHelper.getWritableDatabase();
 		}
 	}

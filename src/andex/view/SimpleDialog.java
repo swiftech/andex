@@ -302,7 +302,7 @@ public class SimpleDialog {
 	}
 
 	/**
-	 * 
+	 * 显示提示对话框。
 	 * @param msg
 	 */
 	public void showInfoDialog(final String msg) {
@@ -310,7 +310,7 @@ public class SimpleDialog {
 	}
 	
 	/**
-	 * 显示信息对话框。
+	 * 显示提示对话框。
 	 * 
 	 * @param msg
 	 */

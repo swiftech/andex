@@ -63,8 +63,8 @@ import android.widget.ToggleButton;
  */
 public abstract class BaseActivity extends Activity {
 
-	public static final String SYS_PROP_DEBUG_MODE = "androidx.debug";
-	public static final String SYS_PROP_DB_VERSION = "androidx.db.version";
+	public static final String SYS_PROP_DEBUG_MODE = "andex.debug";
+	public static final String SYS_PROP_DB_VERSION = "andex.db.version";
 	
 	// Key of data in intent extra bundle.
 	protected final String INTENT_DATA_ID_KEY = "INTENT_DATA_ID";
@@ -79,7 +79,7 @@ public abstract class BaseActivity extends Activity {
 
 	protected Context context;
 	
-	// DEBUG模式（默认） changed by setting system arguments "androidx.debug"
+	// DEBUG模式（默认） changed by setting system arguments "andex.debug"
 	protected boolean debugMode = true; 
 	
 	// Context resources(deprecated to rs)
@@ -304,7 +304,6 @@ public abstract class BaseActivity extends Activity {
 		Bundle bundle = (Bundle)this.getIntent().getExtras().get(INTENT_DATA_ARGS_KEY);
 		return bundle.get(argName);
 	}
-
 	
 	protected DataList getDataListFromPreviousActivity() {
 		throw new UnsupportedOperationException();
@@ -654,17 +653,17 @@ public abstract class BaseActivity extends Activity {
 	
 	protected void debug(Object log) {
 		if(log == null) log = "[null]";
-		Log.d("androidx", log.toString());
+		Log.d("andex", log.toString());
 	}
 	
 	protected void warn(Object log) {
 		if(log == null) log = "[null]";
-		Log.w("androidx", log.toString());		
+		Log.w("andex", log.toString());		
 	}
 	
 	protected void error(Object log) {
 		if(log == null) log = "[null]";
-		Log.e("androidx", log.toString());
+		Log.e("andex", log.toString());
 	}
 	
 	protected View inflatView(int viewId) {

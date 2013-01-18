@@ -136,8 +136,8 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 	public void traverse(Callback handler) {
 		handler.before(this.size());
 		for (int i = 0; i < this.size(); i++) {
-//			Log.d("androidx", "Traverse DataList's items with type: " + this.get(i).getClass().toString());
-//			Log.d("androidx", this.get(i).toString());
+//			Log.d("andex", "Traverse DataList's items with type: " + this.get(i).getClass().toString());
+//			Log.d("andex", this.get(i).toString());
 			handler.invoke(i, (T)this.get(i));
 		}
 		handler.after();

@@ -39,7 +39,7 @@ import android.widget.Toast;
  */
 public class AndroidUtils {
 	
-	private static final String GLOBAL_SETTING = "org.androidx";
+//	private static final String GLOBAL_SETTING = "org.andex";
 	
 	/**
 	 * 
@@ -59,10 +59,10 @@ public class AndroidUtils {
 		Iterator<RunningAppProcessInfo> it = processes.iterator();
 		while(it.hasNext()) {
 			RunningAppProcessInfo psinfo = it.next();
-//			Log.d("androidx", psinfo.pid + "");
-//			Log.d("androidx", psinfo.processName);
+//			Log.d("andex", psinfo.pid + "");
+//			Log.d("andex", psinfo.processName);
 			for(int i=0; i<psinfo.pkgList.length; i++) {
-//				Log.d("androidx", "  " + psinfo.pkgList[i]);
+//				Log.d("andex", "  " + psinfo.pkgList[i]);
 				if(psinfo.pkgList[i].equals(pkgName)) {
 					return psinfo.pid;
 				}
