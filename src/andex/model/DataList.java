@@ -138,7 +138,9 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 		for (int i = 0; i < this.size(); i++) {
 //			Log.d("andex", "Traverse DataList's items with type: " + this.get(i).getClass().toString());
 //			Log.d("andex", this.get(i).toString());
-			handler.invoke(i, (T)this.get(i));
+			if (!handler.invoke(i, (T) this.get(i))) {
+				break;
+			}
 		}
 		handler.after();
 	}
@@ -188,6 +190,7 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 		 */
 		public boolean invoke(int i, T row);
 	}
+	
 	
 	public static class CallbackAdapter<T extends DataRow> implements Callback<T>{
 

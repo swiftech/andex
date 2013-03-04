@@ -66,9 +66,16 @@ public class SimpleDialog {
 		tagNo = rs.getString(android.R.string.no);
 	}
 
+	/**
+	 * 
+	 * @param msg
+	 * @param callback
+	 */
 	public void showConfirmDialog(String msg, final DialogCallback callback) {
-		showConfirmDialog(msg, null, callback);
+		showConfirmDialog(msg, new String[] { rs.getString(R.string.common_yes), rs.getString(R.string.common_no) },
+				callback);
 	}
+	
 	/**
 	 * Show dialog with message to confirm something.
 	 * 

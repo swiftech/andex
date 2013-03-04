@@ -132,10 +132,10 @@ public abstract class BaseActivity extends Activity {
 		sh = dm.heightPixels;
 	}
 	
+	
 	protected void setWindowFullscreenNoTitle() {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 	}
 
 	public void startActivityByName(String actName) {
@@ -629,7 +629,7 @@ public abstract class BaseActivity extends Activity {
 	 * @param handler
 	 */
 	protected View onViewClicked(int resId, final Callback handler) {
-		View view = this.findViewById(resId);
+		final View view = this.findViewById(resId);
 		if(view == null) {
 			Log.d("android", "No view found：" + rs.getResourceName(resId));
 			return view;
@@ -637,8 +637,10 @@ public abstract class BaseActivity extends Activity {
 		view.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				view.setEnabled(false);
 				handler.invoke();
 				handler.invoke(v);
+				view.setEnabled(true);
 			}
 		});
 		return view;
@@ -650,6 +652,11 @@ public abstract class BaseActivity extends Activity {
 		return ckb;
 	}
 
+//	boolean isClickSound = false;
+//	
+//	public void enableDefaultClickSound() {
+//		isClickSound = true;
+//	}
 	
 	protected void debug(Object log) {
 		if(log == null) log = "[null]";

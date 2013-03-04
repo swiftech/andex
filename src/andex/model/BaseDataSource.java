@@ -270,12 +270,12 @@ public class BaseDataSource {
 		}
 		try {
 			db.execSQL(sql);
+			Log.i("db", "Table created: " + sql);
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			Log.w("db", e.getLocalizedMessage());
 			return false;
 		} finally {
-			Log.i("db", "Table created");
 //			db.close();
 		}
 		return true;
