@@ -81,8 +81,8 @@ public abstract class BaseActivity extends Activity {
 	
 	// DEBUG模式（默认） changed by setting system arguments "andex.debug"
 	protected boolean debugMode = true; 
-	
-	// Context resources(deprecated to rs)
+
+	// Resources from context.
 	protected Resources rs;
 	
 	// Handler UI update
