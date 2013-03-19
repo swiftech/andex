@@ -11,11 +11,11 @@ andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，�
 
 andex使用的方法很简单，只需要将您的Activity继承自andex的BaseActivity，您就可以获得大多数调用简便的扩展功能了。
 
-
+```java
 		public class MyActivity extends BaseActivity {
 		
 		}
-
+```
 
 
 ##API指南##
