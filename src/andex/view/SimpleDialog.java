@@ -83,7 +83,7 @@ public class SimpleDialog {
 	 * @param callback
 	 */
 	public void showConfirmDialog(String msg, String[] buttonsTitle, final DialogCallback callback) {
-		Log.d("androidx", "showConfirmDialog()");
+		Log.d("andex", "showConfirmDialog()");
 		
 		String tagPositive = null;
 		String tagNegative = null;
@@ -117,7 +117,7 @@ public class SimpleDialog {
 		AlertDialog confirmDialog = dBuilder.create();
 		confirmDialog.setTitle(rs.getString(R.string.common_dialog_confirm_title));
 		confirmDialog.show();
-		Log.d("androidx", "  show");
+		Log.d("andex", "  show");
 		dialogStack.push(confirmDialog);
 	}
 
@@ -498,14 +498,14 @@ public class SimpleDialog {
 	 */
 	public void dismissDialogOnTop() {
 		if(dialogStack == null || dialogStack.isEmpty()) {
-			Log.d("androidx", "No dialog on the top");
+			Log.d("andex", "No dialog on the top");
 			return;
 		}
 		AlertDialog dlg = dialogStack.pop();
 		if (dlg == null)
-			Log.d("androidx", "No dialog on the top");
+			Log.d("andex", "No dialog on the top");
 		else{
-			Log.d("androidx", "Dismiss top dialog");
+			Log.d("andex", "Dismiss top dialog");
 			dlg.dismiss();			
 		}
 	}
