@@ -1,17 +1,13 @@
 package andex;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.andex.R;
-
 import android.app.ActivityManager;
-import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,12 +15,11 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.TelephonyManager;
@@ -42,7 +37,7 @@ public class AndroidUtils {
 //	private static final String GLOBAL_SETTING = "org.andex";
 	
 	/**
-	 * 
+	 * 获取设备的IMEI编号
 	 * @param ctx
 	 * @return
 	 */
@@ -52,26 +47,11 @@ public class AndroidUtils {
 		return imei;
 	}
 
-	public static int getProcessId(Context ctx, String pkgName) {
-		ActivityManager actManager = (ActivityManager)ctx.getSystemService(Context.ACTIVITY_SERVICE);
-		
-		List<RunningAppProcessInfo> processes = actManager.getRunningAppProcesses();
-		Iterator<RunningAppProcessInfo> it = processes.iterator();
-		while(it.hasNext()) {
-			RunningAppProcessInfo psinfo = it.next();
-//			Log.d("andex", psinfo.pid + "");
-//			Log.d("andex", psinfo.processName);
-			for(int i=0; i<psinfo.pkgList.length; i++) {
-//				Log.d("andex", "  " + psinfo.pkgList[i]);
-				if(psinfo.pkgList[i].equals(pkgName)) {
-					return psinfo.pid;
-				}
-			}
-		}
-		return 0;
-	}
-
-	
+	/**
+	 * 杀掉一个进程
+	 * @param ctx
+	 * @param pkgName
+	 */
 	public static void killProcess(Context ctx,String pkgName) {
 		ActivityManager actManager = (ActivityManager)ctx.getSystemService(Context.ACTIVITY_SERVICE);
 		// version 1.5 - 2.1
@@ -85,6 +65,7 @@ public class AndroidUtils {
 	}
 	
 	/**
+	 * 比较某个包所在的APP的版本与目标版本的差异。
 	 * Compare target version with APP version.
 	 * @param ctx
 	 * @param packageName
@@ -108,68 +89,12 @@ public class AndroidUtils {
 		}
 		return 0;
 	}
-	
-	public static Drawable getAppIcon(Context ctx, String pkgName) {
-//		PackageInfo pi = ctx.getPackageManager().getPackageInfo(pkgName, PackageManager.GET_ACTIVITIES);
-		try {
-			return ctx.getPackageManager().getApplicationIcon(pkgName);
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-			return ctx.getResources().getDrawable(R.drawable.ic_launcher);
-		}
-	}
-	
-	/**
-	 * Retrieve APP displaying name by it's package name.
-	 * @param ctx
-	 * @param pkgName
-	 * @return
-	 */
-	public static String getAppName(Context ctx, String pkgName) {
-		try {
-			ApplicationInfo appinfo = ctx.getPackageManager().getApplicationInfo(pkgName, PackageManager.GET_ACTIVITIES);
-			if(appinfo == null) {
-				return pkgName;
-			}
-			return ctx.getPackageManager().getApplicationLabel(appinfo).toString();
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-			return pkgName;
-		}
-	}
-	
-	/**
-	 * Retrieve all installed APPs.
-	 * @param ctx
-	 * @return
-	 */
-	public static List getInstalledApps(Context ctx) {
-		List<PackageInfo> pkgs = ctx.getPackageManager().getInstalledPackages(PackageManager.GET_ACTIVITIES);
-		List ret = new ArrayList();
-		for (Iterator it = pkgs.iterator(); it.hasNext();) {
-			PackageInfo pkg = (PackageInfo) it.next();
-			String packageName = pkg.packageName;
-			String appName;
-			Drawable icon;
-			try {
-				if ((pkg.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
-					continue;
-				}
-				appName = ctx.getPackageManager().getApplicationLabel(pkg.applicationInfo).toString();
-				icon = ctx.getPackageManager().getApplicationIcon(packageName);
-				ret.add(new Object[]{packageName, appName, icon});
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return ret;
-	}
-	
+
 	/**
 	 * 获取应用程序的版本号
 	 * @param ctx
 	 * @param packageName
-	 * @return 版本数组（长度取决于版本信息�?
+	 * @return 版本数组（长度取决于版本信息
 	 */
 	public static int[] getAppVersion(Context ctx, String packageName) {
 		List<PackageInfo> pkgs = ctx.getPackageManager().getInstalledPackages(0);
@@ -347,7 +272,7 @@ public class AndroidUtils {
 	
 	
 	/**
-	 * 在状态栏显示提示消息�?
+	 * 在状态栏显示提示消息
 	 * @param context
 	 * @param id Notification ID
 	 * @param icon
@@ -377,7 +302,7 @@ public class AndroidUtils {
 	
 	
 	/**
-	 * 取消状态栏提示消息�?
+	 * 取消状态栏提示消息
 	 * @param id
 	 */
 	public static void cancelNotification(Context context, int id) {
@@ -385,43 +310,45 @@ public class AndroidUtils {
 		notificationManager.cancel(id);
 	}
 	
-	public static void showToast(Context context,String msg) {
+	/**
+	 * 显示一个长Toast
+	 * 
+	 * @param context
+	 * @param msg
+	 */
+	public static void showToast(Context context, String msg) {
 		Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-	}
-	
-	public static void showToast(Context context,String msg, Object... params) {
-		// TODO
-		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * 
+	 * @param context
+	 * @param msg
+	 * @param params
+	 */
+	public static void showToast(Context context, String msg, Object... params) {
+		// TODO
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * 显示一个短Toast
+	 * @param context
+	 * @param msg
+	 */
+	public static void showToastShort(Context context, String msg) {
+		Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+	}
+	
+	/**
+	 * 检测SD卡是否可用。
 	 * @return
 	 */
 	public static boolean isSDCardAvailable() {
-		File sdcard = new File("/sdcard/");
+		File sdcard = Environment.getExternalStorageDirectory();
 		return sdcard.exists() && sdcard.canWrite();
 	}
-		
-	public static String getContactName(Context context, String phone) {
-		ContentResolver cr = context.getContentResolver();
-		Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-				ContactsContract.CommonDataKinds.Phone.NUMBER + " = " + phone, null, null);
-		if (cursor == null)
-			return null;
-		while (cursor.moveToNext()) {
-			String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
 
-			Cursor cursor2 = cr.query(ContactsContract.Contacts.CONTENT_URI, null, ContactsContract.Contacts._ID + "="
-					+ contactId, null, null);
-			if (cursor2 == null)
-				return null;
-			while (cursor2.moveToNext()) {
-				return cursor2.getString(cursor2.getColumnIndex(PhoneLookup.DISPLAY_NAME));
-			}
-		}
-		return null;
-	}
 
 	/**
 	 * Read contacts names from device storage.
