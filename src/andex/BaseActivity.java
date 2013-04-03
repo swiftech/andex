@@ -258,18 +258,23 @@ public abstract class BaseActivity extends Activity {
 		finish();
 	}
 	
-	/**
-	 * Get ID from pre-activity
-	 * @return >0
-	 */
-	protected long getIdFromPreActivity() {
+	protected Object getIdObjectFromPreActivity() {
 		if (this.getIntent().getExtras() == null) {
 			return 0;
 		}
 		Object v = this.getIntent().getExtras().get(INTENT_DATA_ID_KEY);
 		if (v == null)
 			return 0;
-		return (Long) v;
+		return v;
+	}
+
+	/**
+	 * Get ID from pre-activity
+	 * 
+	 * @return >0
+	 */
+	protected long getIdFromPreActivity() {
+		return (Long) getIdObjectFromPreActivity();
 	}
 	
 	protected String getIdStrFromPreActivity() {
