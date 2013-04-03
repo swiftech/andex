@@ -73,7 +73,8 @@ public abstract class BaseActivity extends Activity {
 	protected final String INTENT_DATA_LIST_KEY = "INTENT_DATA_LIST";
 	protected final String INTENT_DATA_ROW_KEY = "INTENT_DATA_ROW";
 	
-	protected final int REQUEST_CODE_DEFAULT = 1234;
+	//
+	protected final int REQUEST_CODE_DEFAULT = 1000;
 	
 	protected Activity thisActivity;
 
@@ -132,12 +133,18 @@ public abstract class BaseActivity extends Activity {
 		sh = dm.heightPixels;
 	}
 	
-	
+	/**
+	 * 设置Activity为全屏无标题栏模式。
+	 */
 	protected void setWindowFullscreenNoTitle() {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
 
+	/**
+	 * 按照Activity类的名字启动（相同的classpath下面）
+	 * @param actName
+	 */
 	public void startActivityByName(String actName) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		ComponentName cn = new ComponentName(this.getClass().getPackage().getName(), actName);
@@ -145,21 +152,30 @@ public abstract class BaseActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	protected void startActivityWithoutTrace(Class clazz) {
+	/**
+	 * 按照Activity的Class启动
+	 * @param clazz
+	 */
+	protected void startActivityWithoutTrace(Class<? extends Activity> clazz) {
 		Intent intent = new Intent(context, clazz);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 	}
 	
-	protected void startActivity(Class clazz) {
+	/**
+	 * 按照Activity的Class启动
+	 * @param clazz
+	 */
+	protected void startActivity(Class<? extends Activity> clazz) {
 		startActivity(clazz, false);
 	}
 	
 	/**
-	 * Simply start activity by it Class type.
+	 * 按照Activity的Class启动
 	 * @param clazz
+	 * @param forResult
 	 */
-	protected void startActivity(Class clazz, boolean forResult) {
+	protected void startActivity(Class<? extends Activity> clazz, boolean forResult) {
 		if(forResult) {
 			startActivityForResult(new Intent(context, clazz), REQUEST_CODE_DEFAULT);
 		}
@@ -174,7 +190,7 @@ public abstract class BaseActivity extends Activity {
 	 * @param id
 	 * @param forResult
 	 */
-	protected void startActivityWith(Class clazz, int id, boolean forResult) {
+	protected void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult) {
 		startActivityWith(clazz, id, null, forResult);	
 	}
 	
@@ -184,7 +200,7 @@ public abstract class BaseActivity extends Activity {
 	 * @param clazz
 	 * @param id
 	 */
-	protected void startActivityWith(Class clazz, long id, boolean forResult) {
+	protected void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult) {
 		startActivityWith(clazz, id, null, forResult);	
 	}
 	
@@ -194,7 +210,7 @@ public abstract class BaseActivity extends Activity {
 	 * @param args
 	 * @param forResult
 	 */
-	protected void startActivityWith(Class clazz, Bundle args, boolean forResult) {
+	protected void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
 		startActivityWith(clazz, 0, args, forResult);	
 	}
 	
@@ -206,7 +222,7 @@ public abstract class BaseActivity extends Activity {
 	 * @param id Never be less than 0 or equal 0.
 	 * @param args
 	 */
-	protected void startActivityWith(Class clazz, Object id, Bundle args, boolean forResult) {
+	protected void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
 		Intent intent = new Intent(context, clazz);
 		if(id instanceof Integer) {
 			intent.putExtra(INTENT_DATA_OPTION_KEY, (Integer)id);
@@ -227,13 +243,13 @@ public abstract class BaseActivity extends Activity {
 		}
 	}
 	
-	protected void startActivityWith(Class clazz, DataList data) {
+	protected void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra(INTENT_DATA_LIST_KEY, data);
 		startActivity(intent);
 	}
 	
-	protected void startActivityWith(Class clazz, Map data) {
+	protected void startActivityWith(Class<? extends Activity> clazz, Map<?,?> data) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra("TEST", 999);
 		intent.putExtra(INTENT_DATA_ROW_KEY, new DataRow(data));
@@ -384,6 +400,10 @@ public abstract class BaseActivity extends Activity {
 	protected void showListSelectDialog(String title, String[] items, DialogCallback callback) {
 		simpleDialog.showListSelectDialog(title, items, callback);
 	}
+	
+	protected void showListSelectDialog(String title, Map items, DialogCallback callback) {
+		simpleDialog.showListSelectDialog(title, items, callback);
+	}
 
 	public void dismissDialogOnTop() {
 		simpleDialog.dismissDialogOnTop();
@@ -441,6 +461,22 @@ public abstract class BaseActivity extends Activity {
 		return (TextView)this.findViewById(resId);
 	}
 	
+	/**
+	 * 设置指定资源ID的TextView的文本为指定文本资源ID
+	 * @param resId TextView的资源ID
+	 * @param strResId 需要设置文本的资源ID
+	 * @return
+	 */
+	protected TextView setTextViewText(int resId, int strResId) {
+		return this.setTextViewText(resId, rs.getString(strResId));
+	}
+	
+	/**
+	 * 设置指定资源ID的TextView的文本
+	 * @param resId
+	 * @param str
+	 * @return
+	 */
 	protected TextView setTextViewText(int resId, String str) {
 		TextView tv = this.getTextView(resId);
 		if (tv != null) {

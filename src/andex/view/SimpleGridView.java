@@ -51,7 +51,7 @@ public class SimpleGridView extends SimpleCompositeView{
 		protected ListAdapter getAdapter(Context context) {
 			return new GridViewIconAdapter(context, data, keys);
 		}
-		
+
 	}
 	
 	/**
@@ -116,9 +116,10 @@ public class SimpleGridView extends SimpleCompositeView{
 			
 			// Description
 			int resDesc = layoutResId == 0 ? R.id.cgi_tv_label : itemResIds[1];
-			TextView txtView = (TextView) layout.findViewById(resDesc);
+			TextView tvDesc = (TextView) layout.findViewById(resDesc);
 			Object desc = row.get(keys[1]);
-			txtView.setText(new String((desc == null ? "" : desc.toString()).getBytes()));
+			tvDesc.setTextSize(18);
+			tvDesc.setText(new String((desc == null ? "" : desc.toString()).getBytes()));
 			return layout;
 		}
 

@@ -1,12 +1,14 @@
 package andex.view;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 import org.andex.R;
 
-import andex.Utils;
 import andex.Callback.CallbackAdapter;
+import andex.Utils;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -83,7 +85,7 @@ public class SimpleDialog {
 	 * @param callback
 	 */
 	public void showConfirmDialog(String msg, String[] buttonsTitle, final DialogCallback callback) {
-		Log.d("androidx", "showConfirmDialog()");
+		Log.d("andex", "showConfirmDialog()");
 		
 		String tagPositive = null;
 		String tagNegative = null;
@@ -117,7 +119,7 @@ public class SimpleDialog {
 		AlertDialog confirmDialog = dBuilder.create();
 		confirmDialog.setTitle(rs.getString(R.string.common_dialog_confirm_title));
 		confirmDialog.show();
-		Log.d("androidx", "  show");
+		Log.d("andex", "  show");
 		dialogStack.push(confirmDialog);
 	}
 
@@ -339,9 +341,9 @@ public class SimpleDialog {
 		infoDialog.show();
 		dialogStack.push(infoDialog);
 	}
-
+	
 	/**
-	 * 显示一个列表对话框，比如“对话框式弹出菜单“。不自动关闭对话框，需要调用者手动关闭。
+	 * 显示一个列表对话框。点选某一项后不自动关闭对话框，需要调用者手动关闭。
 	 * 
 	 * @param title
 	 * @param items
@@ -350,10 +352,10 @@ public class SimpleDialog {
 	 */
 	public void showListSelectDialog(final String title, final String[] items, final DialogCallback callback) {
 		if(items == null || items.length == 0) {
-			Log.w("androidsx", "Invalid items");
+			Log.w("andex", "Invalid items");
 		}
-		View fileActionView = LayoutInflater.from(context).inflate(R.layout.ax_dialog_list_select, null);
-		ListView listSelect = (ListView) fileActionView.findViewById(R.id.cdl_list);
+		View selectView = LayoutInflater.from(context).inflate(R.layout.ax_dialog_list_select, null);
+		ListView listSelect = (ListView) selectView.findViewById(R.id.cdl_list);
 		listSelect.setAdapter(new ArrayAdapter(context, android.R.layout.simple_list_item_1, items));
 		listSelect.setOnItemClickListener(new OnItemClickListener() {
 
@@ -366,7 +368,7 @@ public class SimpleDialog {
 		AlertDialog.Builder dBuilder = new Builder(context);
 		dBuilder.setTitle(title);
 		dBuilder.setIcon(android.R.drawable.ic_menu_more);
-		dBuilder.setView(fileActionView);
+		dBuilder.setView(selectView);
 		dBuilder.setNegativeButton(tagCancel, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -498,14 +500,14 @@ public class SimpleDialog {
 	 */
 	public void dismissDialogOnTop() {
 		if(dialogStack == null || dialogStack.isEmpty()) {
-			Log.d("androidx", "No dialog on the top");
+			Log.d("andex", "No dialog on the top");
 			return;
 		}
 		AlertDialog dlg = dialogStack.pop();
 		if (dlg == null)
-			Log.d("androidx", "No dialog on the top");
+			Log.d("andex", "No dialog on the top");
 		else{
-			Log.d("androidx", "Dismiss top dialog");
+			Log.d("andex", "Dismiss top dialog");
 			dlg.dismiss();			
 		}
 	}

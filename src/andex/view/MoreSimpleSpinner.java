@@ -72,7 +72,7 @@ public class MoreSimpleSpinner extends SimpleSpinner{
 		}
 		spinner = (Spinner) activity.findViewById(resId);
 		if (spinner == null) {
-			Log.w("androidx", "Failed to load Spinner: " + activity.getResources().getResourceEntryName(resId)
+			Log.w("andex", "Failed to load Spinner: " + activity.getResources().getResourceEntryName(resId)
 					+ " from Activity " + activity.getClass().getName());
 			return null;
 		}

@@ -216,7 +216,7 @@ public abstract class SimpleCompositeView {
 	 * Render to display all data for this view.
 	 */
 	public void render() {
-		Log.d("androidx", "render()");
+		Log.d("andex", "render()");
 		if (this.alv == null) {
 			throw new RuntimeException("The composite view was not init correctly.");
 		}
@@ -237,7 +237,7 @@ public abstract class SimpleCompositeView {
 		this.alv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long itemid) {
-				Log.d("androidx", "  Item at position " + pos + " was clicked");
+				Log.d("andex", "  Item at position " + pos + " was clicked");
 				handleClickEvent(pos, handler);
 			}
 		});
@@ -251,7 +251,7 @@ public abstract class SimpleCompositeView {
 		this.alv.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long itemid) {
-				Log.d("androidx", "  Item at position " + pos + " was long clicked");
+				Log.d("andex", "  Item at position " + pos + " was long clicked");
 				handleClickEvent(pos, handler);
 				return false;
 			}
@@ -268,11 +268,11 @@ public abstract class SimpleCompositeView {
 		}
 		Object bizid = item.get(idkey);
 		if (bizid == null) {
-			Log.d("androidx", "  No business ID there, callback without anything");
+			Log.d("andex", "  No business ID there, callback without anything");
 			handler.invoke();
 		}
 		else {
-			Log.d("androidx", "  Select business ID " + bizid + "[" + bizid.getClass() + "]");
+			Log.d("andex", "  Select business ID " + bizid + "[" + bizid.getClass() + "]");
 			handler.invoke(bizid);
 			handler.invoke(bizid, item.get(keys[0]), item.get(keys[1]));
 		}

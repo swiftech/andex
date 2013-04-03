@@ -23,7 +23,7 @@ import android.widget.TextView;
  * The ListView with SimpleAdapter is not simple actually, so this SimpleListView
  * is born to make it really simple.
  * 
- * I you want to create list view with one icon, inherit me and 
+ * If you want to create list view with one icon, inherit me and 
  * override getAdapter() method with SimpleIconListViewAdapter returned.
  * @author 
  *

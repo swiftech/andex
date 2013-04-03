@@ -57,10 +57,10 @@ public class SimpleSpinner {
 		}
 		this.spinner = spinner;
 		if (data == null || data.length == 0) {
-			Log.w("androidx", "Nothing to init for Spinner");
+			Log.w("andex", "Nothing to init for Spinner");
 			return spinner;
 		}
-		Log.d("androidx", "Init Spinner with " + data.length + " items");
+		Log.d("andex", "Init Spinner with " + data.length + " items");
 		ArrayAdapter adapter = new ArrayAdapter(ctx, android.R.layout.simple_spinner_item, data);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
