@@ -414,13 +414,30 @@ public class BaseDataSource {
 		prepareToConnect();
 		try {
 			int rows = db.delete(tbName, "ID=?", new String[]{"" + pkID});
-			Log.i("db", "" + rows  + " rows deleted.");
+			Log.i("db", "" + rows  + " rows in " + tbName + " deleted.");
 			return (rows > 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 //		} finally {
 //			this.disconnect();
+		}
+	}
+	
+	/**
+	 * 删除表中所有记录
+	 * @param tbName
+	 * @return
+	 */
+	public boolean deleteAllRows(String tbName) {
+		prepareToConnect();
+		try {
+			int rows = db.delete(tbName, null, null);
+			Log.i("db", "all " + rows  + " rows in " + tbName + " deleted.");
+			return (rows > 0);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 	

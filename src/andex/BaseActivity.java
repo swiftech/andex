@@ -322,6 +322,9 @@ public abstract class BaseActivity extends Activity {
 			return null;
 		}
 		Bundle bundle = (Bundle)extras.get(INTENT_DATA_ARGS_KEY);
+		if(bundle == null) {
+			return null;
+		}
 		return bundle.get(argName);
 	}
 	
