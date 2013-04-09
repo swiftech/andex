@@ -198,7 +198,19 @@ public class AndroidUtils {
 	 */
 	public static void saveGlobalSetting(Context ctx, String name, Object value) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		setting.edit().putString(name, value.toString()).commit();
+		if(value instanceof String) {
+			setting.edit().putString(name, value.toString()).commit();
+		}
+		else if(value instanceof Boolean) {
+			setting.edit().putBoolean(name, (Boolean)value).commit();
+		}
+		else if(value instanceof Integer) {
+			setting.edit().putInt(name, (Integer)value).commit();
+		}
+		else if(value instanceof Long) {
+			setting.edit().putLong(name, (Long)value).commit();
+		}
+		
 	}
 
 	/**
@@ -235,6 +247,16 @@ public class AndroidUtils {
 		}
 		else {
 			return setting.getString(name, null).trim();
+		}
+	}
+	
+	public static boolean getGlobalSettingBoolean(Context ctx, String name) {
+		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
+		try {
+			return setting.getBoolean(name, false);
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 

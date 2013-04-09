@@ -1,6 +1,7 @@
 package andex.service;
 
 import android.os.Binder;
+import android.os.Handler;
 
 /**
  * Base class for any service binder.
@@ -10,8 +11,17 @@ import android.os.Binder;
 public class BaseServiceBinder extends Binder {
 	
 	protected BaseService service;
+	protected Handler handler;
 	
+	
+	
+	public BaseServiceBinder() {
+		super();
+		handler = new Handler();
+	}
+
 	public BaseServiceBinder(BaseService service) {
+		this();
 		this.service = service;
 	}
 	
@@ -26,4 +36,5 @@ public class BaseServiceBinder extends Binder {
 	public void restartService() {
 		service.restartService();
 	}
+	
 }

@@ -1,8 +1,6 @@
 package andex.view;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 
 import org.andex.R;
@@ -142,12 +140,14 @@ public class SimpleDialog {
 	
 	
 	/**
+	 * 显示一个进度对话框，显示一个取消按钮。
 	 * Show un-interrupted progress dialog with message.
 	 * 
 	 * @param msg
-	 * @param callback
+	 * @param timeout 超时时间，单位是秒，超过这个时间后callback.onNegative()会被调用
+	 * @param callback 只有在取消时callback.onNegative()会被调用
 	 */
-	public void showProgressDialog(String msg, final DialogCallback callback) {
+	public void showProgressDialog(String msg, final long timeout, final DialogCallback callback) {
 		final View progressView = LayoutInflater.from(context).inflate(R.layout.ax_progress_dialog, null);
 		TextView textView = (TextView) progressView.findViewById(R.id.axpd_msg);
 		textView.setText(msg);
@@ -168,6 +168,20 @@ public class SimpleDialog {
 		progressDialog.setTitle(rs.getString(R.string.common_dialog_progress_title));
 		progressDialog.show();
 		dialogStack.push(progressDialog);
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(timeout * 1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} finally{
+					dismissDialogOnTop();
+					callback.onNegative("timeout");
+				}
+			}
+		}).start();
 	}
 
 	/**

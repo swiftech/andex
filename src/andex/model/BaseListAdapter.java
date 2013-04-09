@@ -33,7 +33,6 @@ public abstract class BaseListAdapter implements ListAdapter{
 		this.context = context;
 		inflater = LayoutInflater.from(context);
 		this.context = context;
-//		this.resources = context.getResources();
 	}
 	
 	public BaseListAdapter(Context context, List<Map<String, ?>> data, String[] keys, int layoutResId,  int[] itemResIds) {

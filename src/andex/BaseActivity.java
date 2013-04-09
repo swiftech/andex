@@ -339,8 +339,8 @@ public abstract class BaseActivity extends Activity {
 		simpleDialog.showConfirmDialog(msg, callback);
 	}
 
-	protected void showProgressDialog(String msg, DialogCallback callback) {
-		simpleDialog.showProgressDialog(msg, callback);
+	protected void showProgressDialog(String msg, long timeout, DialogCallback callback) {
+		simpleDialog.showProgressDialog(msg, timeout, callback);
 	}
 
 	/**
@@ -599,54 +599,123 @@ public abstract class BaseActivity extends Activity {
 		return resource;
 	}
 	
-	/**
-	 * Make views disabled by resource ids.
-	 * @param ids
-	 */
-	protected void disableViews(int... ids) {
-		for(int i=0;i<ids.length;i++) {
-			findViewById(ids[i]).setEnabled(false);
+	protected void showViews(int... ids) {
+		for (int i = 0; i < ids.length; i++) {
+			if (findViewById(ids[i]) == null) {
+				continue;
+			}
+			findViewById(ids[i]).setVisibility(View.VISIBLE);
+		}
+	}
+
+	protected void showViews(View... views) {
+		for (int i = 0; i < views.length; i++) {
+			if (views[i] == null) {
+				continue;
+			}
+			views[i].setVisibility(View.VISIBLE);
+		}
+	}
+
+	protected void hideViews(int... ids) {
+		for (int i = 0; i < ids.length; i++) {
+			if (findViewById(ids[i]) == null) {
+				continue;
+			}
+			findViewById(ids[i]).setVisibility(View.INVISIBLE);
+		}
+	}
+
+	protected void hideViews(View... views) {
+		for (int i = 0; i < views.length; i++) {
+			if (views[i] == null) {
+				continue;
+			}
+			views[i].setVisibility(View.INVISIBLE);
+		}
+	}
+	
+	protected void unblockViews(int... ids) {
+		for (int i = 0; i < ids.length; i++) {
+			if (findViewById(ids[i]) == null) {
+				continue;
+			}
+			findViewById(ids[i]).setVisibility(View.GONE);
+		}
+	}
+	
+	protected void unblockViews(View... views) {
+		for (int i = 0; i < views.length; i++) {
+			if (views[i] == null) {
+				continue;
+			}
+			views[i].setVisibility(View.GONE);
 		}
 	}
 	
 	/**
+	 * Make views disabled by resource ids.
+	 * 
+	 * @param ids
+	 */
+	protected void disableViews(int... ids) {
+		for (int i = 0; i < ids.length; i++) {
+			if (findViewById(ids[i]) == null) {
+				continue;
+			}
+			findViewById(ids[i]).setEnabled(false);
+		}
+	}
+
+	/**
 	 * Make views disabled.
+	 * 
 	 * @param views
 	 */
 	protected void disableViews(View... views) {
-		for(int i=0;i<views.length;i++) {
+		for (int i = 0; i < views.length; i++) {
+			if (views[i] == null) {
+				continue;
+			}
 			views[i].setEnabled(false);
 		}
 	}
 	
 	/**
 	 * Make views enabled by resource ids.
+	 * 
 	 * @param ids
 	 */
 	protected void enableViews(int... ids) {
-		for(int i=0;i<ids.length;i++) {
+		for (int i = 0; i < ids.length; i++) {
+			if (findViewById(ids[i]) == null) {
+				continue;
+			}
 			findViewById(ids[i]).setEnabled(true);
 		}
 	}
-	
+
 	/**
 	 * Make view enabled.
+	 * 
 	 * @param views
 	 */
 	protected void enableViews(View... views) {
-		for(int i=0;i<views.length;i++) {
+		for (int i = 0; i < views.length; i++) {
+			if (views[i] == null) {
+				continue;
+			}
 			views[i].setEnabled(true);
 		}
 	}
-	
 
 	/**
-	 * Show progress bar if long time operation will be performed.
+	 * Show progress bar if long time operation will be performed. 
 	 * resource "pgb_wait" is required
 	 */
 	protected void beforeLoadingData(int resId) {
 		ProgressBar wait = getProgressBar(resId);
-		if(wait == null) {
+		if (wait == null) {
 			warn("Not set waitting progress bar in XML layout file");
 			return;
 		}
@@ -672,7 +741,7 @@ public abstract class BaseActivity extends Activity {
 	protected View onViewClicked(int resId, final Callback handler) {
 		final View view = this.findViewById(resId);
 		if(view == null) {
-			Log.d("android", "No view found：" + rs.getResourceName(resId));
+			Log.w("andex", "No view found：" + rs.getResourceName(resId));
 			return view;
 		}
 		view.setOnClickListener(new OnClickListener() {
