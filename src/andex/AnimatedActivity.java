@@ -59,6 +59,7 @@ public class AnimatedActivity extends BaseActivity {
 		}
 		AnimationSet aset = new AnimationSet(true);
 
+		int sw = AndroidUtils.getScreenWidth(context);
 		int distanceTo = isLeftToRight ? -sw : sw;
 		int distanceFrom = isLeftToRight ? sw : -sw;
 

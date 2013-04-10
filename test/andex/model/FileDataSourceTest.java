@@ -7,6 +7,11 @@ import andex.model.BaseDataSource;
 import android.content.ContentValues;
 import android.test.AndroidTestCase;
 
+/**
+ * 测试文件数据库
+ * @author Administrator
+ *
+ */
 public class FileDataSourceTest extends AndroidTestCase {
 
 	public void testInsertData() {

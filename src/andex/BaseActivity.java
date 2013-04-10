@@ -103,9 +103,9 @@ public abstract class BaseActivity extends Activity {
 	protected String tagSave = "Save";
 	protected String tagClose = "Close";
 	
-	protected DisplayMetrics dm;
-	protected int sw;
-	protected int sh;
+//	protected DisplayMetrics dm;
+//	protected int sw;
+//	protected int sh;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -128,9 +128,9 @@ public abstract class BaseActivity extends Activity {
 		tagYes = rs.getString(android.R.string.yes);
 		tagNo = rs.getString(android.R.string.no);
 		
-		dm = context.getApplicationContext().getResources().getDisplayMetrics();
-		sw = dm.widthPixels;
-		sh = dm.heightPixels;
+//		dm = context.getApplicationContext().getResources().getDisplayMetrics();
+//		sw = dm.widthPixels;
+//		sh = dm.heightPixels;
 	}
 	
 	/**
@@ -599,6 +599,10 @@ public abstract class BaseActivity extends Activity {
 		return resource;
 	}
 	
+	/**
+	 * 显示多个视图组件
+	 * @param ids
+	 */
 	protected void showViews(int... ids) {
 		for (int i = 0; i < ids.length; i++) {
 			if (findViewById(ids[i]) == null) {
@@ -608,6 +612,10 @@ public abstract class BaseActivity extends Activity {
 		}
 	}
 
+	/**
+	 * 显示多个视图组件
+	 * @param views
+	 */
 	protected void showViews(View... views) {
 		for (int i = 0; i < views.length; i++) {
 			if (views[i] == null) {
@@ -617,6 +625,10 @@ public abstract class BaseActivity extends Activity {
 		}
 	}
 
+	/**
+	 * 隐藏多个视图组件
+	 * @param ids
+	 */
 	protected void hideViews(int... ids) {
 		for (int i = 0; i < ids.length; i++) {
 			if (findViewById(ids[i]) == null) {
@@ -626,6 +638,10 @@ public abstract class BaseActivity extends Activity {
 		}
 	}
 
+	/**
+	 * 隐藏多个视图组件
+	 * @param views
+	 */
 	protected void hideViews(View... views) {
 		for (int i = 0; i < views.length; i++) {
 			if (views[i] == null) {
@@ -635,6 +651,10 @@ public abstract class BaseActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * 暂时移除多个视图组件
+	 * @param ids
+	 */
 	protected void unblockViews(int... ids) {
 		for (int i = 0; i < ids.length; i++) {
 			if (findViewById(ids[i]) == null) {
@@ -644,6 +664,10 @@ public abstract class BaseActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * 暂时移多个视图组件
+	 * @param views
+	 */
 	protected void unblockViews(View... views) {
 		for (int i = 0; i < views.length; i++) {
 			if (views[i] == null) {
