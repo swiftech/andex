@@ -1,11 +1,11 @@
 andex
 =====
 
-extension for Android SDK
+Extension for Android SDK
 
 
 
-andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，有很多功能虽然很常见，但是Java语言的孱弱以及Adnroid SDK的繁琐都使得常规的代码都很冗长。旨在把这些冗余过度的常规过程省略掉，让你可以把时间和精力都花在有难度有挑战的事情上。
+andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，有很多功能虽然很常见，但是Java语言的孱弱以及Adnroid SDK的繁琐都使得常规的代码都很冗长。andex旨在把这些冗余过度的常规代码省略掉，让你可以把时间和精力都花在有难度有挑战的事情上。
 
 #使用方法#
 
@@ -24,31 +24,32 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 
 1. 获取视图组件更方便
 
-原来：
-
-```java
-		TextView tv = (TextView)findViewById(R.id.textView);
-```
-
-现在
-
-```java
-		TextView tv = getTextView(R.id.textView);
-```
+	原来：
+	
+	```java
+			TextView tv = (TextView)findViewById(R.id.textView);
+	```
+	
+	现在
+	
+	```java
+			TextView tv = getTextView(R.id.textView);
+	```
 
 以此类推，其他常用组件（包括Layout）也都可以通过getXXX的方式获取，看起来有点小儿科，不过这个操作实在太频繁了，使用andex至少避免了转型。
 
 
 
 20. TextView和EditText还可以直接设值，无需繁琐的操作
-原来：
 
-```java
-		TextView tv = (TextView)findViewById(R.id.textView);
-		tv.setText("Something to display");
-```
-
-现在：
+	原来：
+	
+	```java
+			TextView tv = (TextView)findViewById(R.id.textView);
+			tv.setText("Something to display");
+	```
+	
+	现在：
 
 ```java
 		setTextViewText(R.id.textView, "Something to display");
@@ -56,14 +57,14 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 
 30. 批量disable或者enable多个视图组件
 
-```java
-		// 直接
-		disableViews(view0, view1, view2, ...);
-		enableViews(view0, view1, view2, ...);
-		// 通过资源ID
-		disableViews(R.id.view0, R.id.view1, R.id.view2, ...);
-		enableViews(R.id.view0, R.id.view1, R.id.view2, ...);
-```
+	```java
+			// 直接
+			disableViews(view0, view1, view2, ...);
+			enableViews(view0, view1, view2, ...);
+			// 通过资源ID
+			disableViews(R.id.view0, R.id.view1, R.id.view2, ...);
+			enableViews(R.id.view0, R.id.view1, R.id.view2, ...);
+	```
 
 31. 批量show, hide或者移除多个视图组件
 
@@ -79,6 +80,7 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 ```
 
 40. 单击组件的操作特别多，因此需要简化
+
 原来：
 
 ```java
@@ -154,6 +156,7 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 ```
 
 20. 获取设备的IMEI
+
 ```java
 		AndroidUtils.getDeviceIMEI(context);
 ```
