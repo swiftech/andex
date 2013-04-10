@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.widget.ListAdapter;
 
 /**
- * 
+ * 列表适配器基类。
  * @author 
  *
  */
@@ -27,12 +27,20 @@ public abstract class BaseListAdapter implements ListAdapter{
 	// Label that displayed while no data for this View.
 //	protected String defaultLabel = "";
 	
+	/**
+	 * 基本的ListAdapter实现，注入Context和初始化了Inflater
+	 * @param context
+	 */
+	public BaseListAdapter(Context context) {
+		super();
+		this.context = context;
+		this.inflater = LayoutInflater.from(context);
+	}
+	
 	public BaseListAdapter(Context context, List<Map<String, ?>> data, String[] keys) {
+		this(context);
 		this.keys = keys;
 		this.data = data;
-		this.context = context;
-		inflater = LayoutInflater.from(context);
-		this.context = context;
 	}
 	
 	public BaseListAdapter(Context context, List<Map<String, ?>> data, String[] keys, int layoutResId,  int[] itemResIds) {

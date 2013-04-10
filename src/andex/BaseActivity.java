@@ -322,7 +322,14 @@ public abstract class BaseActivity extends Activity {
 	}
 	
 	protected Object getArgFromPreActivity(String argName) {
-		Bundle bundle = (Bundle)this.getIntent().getExtras().get(INTENT_DATA_ARGS_KEY);
+		Bundle extras = this.getIntent().getExtras();
+		if(extras == null) {
+			return null;
+		}
+		Bundle bundle = (Bundle)extras.get(INTENT_DATA_ARGS_KEY);
+		if(bundle == null) {
+			return null;
+		}
 		return bundle.get(argName);
 	}
 	
