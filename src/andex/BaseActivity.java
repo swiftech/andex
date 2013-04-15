@@ -33,6 +33,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
@@ -791,6 +792,24 @@ public abstract class BaseActivity extends Activity {
 		CheckBox ckb = getCheckBox(resId);
 		ckb.setOnCheckedChangeListener(listener);
 		return ckb;
+	}
+	
+	
+	protected CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
+		final CompoundButton view = (CompoundButton) this.findViewById(resId);
+		if(view == null) {
+			Log.w("andex", "No view found：" + rs.getResourceName(resId));
+			return view;
+		}
+		view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				view.setEnabled(false);
+				handler.invoke(isChecked);
+				view.setEnabled(true);
+			}
+		});
+		return view;
 	}
 
 //	boolean isClickSound = false;

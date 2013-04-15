@@ -26,6 +26,12 @@ public abstract class BaseService extends Service {
 	}
 
 	@Override
+	public void onStart(Intent intent, int startId) {
+		super.onStart(intent, startId);
+		Log.d("andex", "Service " + this.getClass().getName() + " start");
+	}
+
+	@Override
 	public IBinder onBind(Intent intent) {
 		return new BaseServiceBinder(this);
 	}
