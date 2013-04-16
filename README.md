@@ -5,17 +5,23 @@ Extension for Android SDK
 
 
 
-andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，有很多功能虽然很常见，但是Java语言的孱弱以及Adnroid SDK的繁琐都使得常规的代码都很冗长。andex旨在把这些冗余过度的常规代码省略掉，让你可以把时间和精力都花在有难度有挑战的事情上。
+andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，有很多功能虽然很常见，但是Java语言的孱弱以及Adnroid SDK的繁琐都使得常规的代码都很冗长。andex旨在把一些冗余的常规代码省略掉，让你可以把时间和精力都花在有难度有挑战的事情上。
 
 #使用方法#
 
-andex使用的方法很简单，只需要将您的Activity继承自andex的BaseActivity，您就可以获得大多数调用简便的扩展功能了。
+1. 将andex下载后解压缩到你的工作目录，在Eclipse中建立新的Android工程至andex目录，将工程设置为library。
 
-```java
-		public class MyActivity extends BaseActivity {
-		
-		}
-```
+2. 在你自己的工程中添加对andex工程的引用。
+
+3. 使用andex很简单，只需要将您的Activity继承自andex的BaseActivity，您就可以获得大多数调用简便的扩展功能了。
+
+	```java
+			public class MyActivity extends BaseActivity {
+			
+			}
+	```
+
+4. 最后运行Run as Android Application 即可调试你的程序了。
 
 
 ##API指南##
@@ -36,9 +42,9 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 				TextView tv = getTextView(R.id.textView);
 		```
 
-		以此类推，其他常用组件（包括Layout）也都可以通过getXXX的方式获取，看起来有点小儿科，不过这个操作实在太频繁了，使用andex至少避免了转型。
+		以此类推，其他常用组件（包括Layout）也都可以通过getXXX的方式获取，看起来有点小儿科，不过这个操作太频繁了，使用andex至少可以避免转型。
 
-	20. TextView和EditText还可以直接设值，无需繁琐的操作
+	2. TextView和EditText还可以直接设值，无需繁琐的操作
 	
 		原来：
 		
@@ -51,10 +57,11 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 	
 		```java
 				setTextViewText(R.id.textView, "Something to display");
+				setEditTextString(R.id.editText, "Something to display");
 		```
 
-	30. 批量disable或者enable多个视图组件
-	
+	3. 批量disable或者enable多个视图组件
+
 		```java
 				// 直接
 				disableViews(view0, view1, view2, ...);
@@ -64,7 +71,7 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 				enableViews(R.id.view0, R.id.view1, R.id.view2, ...);
 		```
 
-	31. 批量show, hide或者移除多个视图组件
+	4. 批量show, hide或者移除多个视图组件
 	
 		```java
 				// 直接
@@ -77,7 +84,7 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 				unblockViews(R.id.view0, R.id.view1, ...);
 		```
 
-	40. 单击组件的操作特别多，因此需要简化
+	5. 单击组件的操作特别多，因此需要简化
 	
 		原来：
 		
@@ -103,7 +110,7 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 				  });
 		```
 
-	5. 简化调试输出
+	6. 简化调试输出
 
 		原来：
 		
@@ -121,7 +128,7 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 				error("what you want to log")
 		```
 
-	6. 简化Toast显示
+	7. 简化Toast显示
 	
 		原来：
 		
@@ -133,9 +140,11 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 		现在：
 		
 		```java
+				// Activity中
 				showToast("Toast Message");
 				showToastShort("Toast Message");
-				// 或者
+				
+				// 在Service或者BroadcastReceiver中
 				AndroidUtils.showToast("Toast Message");
 				AndroidUtils.showToastShort("Toast Message");
 		```
@@ -146,17 +155,16 @@ andex使用的方法很简单，只需要将您的Activity继承自andex的BaseA
 
 ###工具方法###
 
-	1. 获取屏幕宽度和高度
+	1. 获取屏幕像素宽度和高度
 	
 		```java
-				AndroidUtils.getScreenWidth(context);
-				AndroidUtils.getScreenHeight(context);
+				int width = AndroidUtils.getScreenWidth(context);
+				int height = AndroidUtils.getScreenHeight(context);
 		```
 	
-	20. 获取设备的IMEI
+	2. 获取设备的IMEI
 	
 		```java
-				AndroidUtils.getDeviceIMEI(context);
+				String imei = AndroidUtils.getDeviceIMEI(context);
 		```
 
-		

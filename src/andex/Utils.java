@@ -121,5 +121,18 @@ public class Utils {
 		}
 		return str.concat(new String(pad));
 	}
+	
+	/**
+	 * 当前线程休眠一段时间
+	 * @param minutes
+	 */
+	public static void sleepFor(int minutes) {
+		try {
+			Thread.sleep(minutes);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 }

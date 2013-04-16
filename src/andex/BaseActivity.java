@@ -22,7 +22,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +31,8 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
@@ -818,19 +817,38 @@ public abstract class BaseActivity extends Activity {
 //		isClickSound = true;
 //	}
 	
+	/**
+	 * 调试输出
+	 * @param log
+	 */
 	protected void debug(Object log) {
 		if(log == null) log = "[null]";
 		Log.d("andex", log.toString());
 	}
 	
+	/**
+	 * 警告输出
+	 * @param log
+	 */
 	protected void warn(Object log) {
 		if(log == null) log = "[null]";
 		Log.w("andex", log.toString());		
 	}
 	
+	/**
+	 * 错误输出
+	 * @param log
+	 */
 	protected void error(Object log) {
 		if(log == null) log = "[null]";
 		Log.e("andex", log.toString());
+	}
+	
+	/**
+	 * 调试输出当前线程信息
+	 */
+	protected void debugThread() {
+		Log.d("andex", "Thread: " + Thread.currentThread().getId() + "-" + Thread.currentThread().getName());
 	}
 	
 	protected View inflatView(int viewId) {
