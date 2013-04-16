@@ -31,13 +31,13 @@ andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，�
 	1. 获取视图组件更方便
 
 		原来：
-		
+
 		```java
 				TextView tv = (TextView)findViewById(R.id.textView);
 		```
 
 		现在
-		
+
 		```java
 				TextView tv = getTextView(R.id.textView);
 		```
@@ -47,14 +47,14 @@ andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，�
 	2. TextView和EditText还可以直接设值，无需繁琐的操作
 	
 		原来：
-		
+
 		```java
 				TextView tv = (TextView)findViewById(R.id.textView);
 				tv.setText("Something to display");
 		```
 		
 		现在：
-	
+
 		```java
 				setTextViewText(R.id.textView, "Something to display");
 				setEditTextString(R.id.editText, "Something to display");
@@ -72,7 +72,7 @@ andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，�
 		```
 
 	4. 批量show, hide或者移除多个视图组件
-	
+
 		```java
 				// 直接
 				showViews(view0, view1, ...);
@@ -87,7 +87,7 @@ andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，�
 	5. 单击组件的操作特别多，因此需要简化
 	
 		原来：
-		
+
 		```java
 				View view = this.findViewById(R.id.view);
 				if(view != null) {
@@ -101,7 +101,7 @@ andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，�
 		```
 
 		现在：
-		
+
 		```java
 				  onViewClicked(R.id.button, new CallbackAdapter() {
 				    public void invoke(Object view) {
@@ -113,7 +113,7 @@ andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，�
 	6. 简化调试输出
 
 		原来：
-		
+
 		```java
 				Log.d("tag", "What you want to log");
 				Log.w("tag", "What you want to log");
@@ -121,7 +121,7 @@ andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，�
 		```
 
 		现在：
-		
+
 		```java
 				debug("what you want to log")
 				warn("what you want to log")
@@ -131,14 +131,14 @@ andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，�
 	7. 简化Toast显示
 	
 		原来：
-		
+
 		```java
 				Toast.makeText(context, "Toast Message", Toast.LENGTH_LONG).show();
 				Toast.makeText(context, "Toast Message", Toast.LENGTH_SHORT).show();
 		```
 
 		现在：
-		
+
 		```java
 				// Activity中
 				showToast("Toast Message");
@@ -156,14 +156,14 @@ andex是一个Android SDK的扩展框架。使用Android SDK开发的时候，�
 ###工具方法###
 
 	1. 获取屏幕像素宽度和高度
-	
+
 		```java
 				int width = AndroidUtils.getScreenWidth(context);
 				int height = AndroidUtils.getScreenHeight(context);
 		```
 	
 	2. 获取设备的IMEI
-	
+
 		```java
 				String imei = AndroidUtils.getDeviceIMEI(context);
 		```
