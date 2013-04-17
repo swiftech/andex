@@ -183,7 +183,7 @@ public class SimpleDialog {
 	 */
 	public AlertDialog showInputDialog(String title, String msg, int inputType, Object inputInit, final DialogCallback callback) {
 		View inputView = LayoutInflater.from(context).inflate(R.layout.ax_dialog_single_input, null);
-		final EditText etInput = (EditText) inputView.findViewById(R.id.editTxtInput);
+		final EditText etInput = (EditText) inputView.findViewById(R.id.et_single_input);
 		AlertDialog.Builder dBuilder = new Builder(context);
 		dBuilder.setView(inputView);
 		dBuilder.setIcon(android.R.drawable.ic_dialog_info);
