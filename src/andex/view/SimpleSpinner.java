@@ -33,7 +33,9 @@ public class SimpleSpinner {
 	}
 
 	/**
+	 * 用键-值对集合初始化Spinner
 	 * Init spinner with key-value data in Map.
+	 * 
 	 * @param spinner
 	 * @param map
 	 * @return
@@ -43,7 +45,9 @@ public class SimpleSpinner {
 	}
 
 	/**
+	 * 用户数组初始化Spinner。
 	 * Init spinner with data array.
+	 * 
 	 * @param spinner
 	 * @param data
 	 * @return
@@ -67,37 +71,48 @@ public class SimpleSpinner {
 		return spinner;
 	}
 
-	
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 */
 	public Object setSelection(Object item) {
 		return setSelection(spinner, item);
 	}
 
 	/**
 	 * Set spinner's selection directly by item object.
+	 * 
 	 * @deprecated
 	 * @param spinner
 	 * @param item
 	 */
-//	public SpinnerItem setSelection(Spinner spinner, SpinnerItem item) {
-//		if (spinner == null || item == null) {
-//			return null;
-//		}
-//		int n = spinner.getAdapter().getCount();
-//		for (int i = 0; i < n; i++) {
-//			Object value = spinner.getItemAtPosition(i);
-//			if (item.equals(value)) {
-//				spinner.setSelection(i);
-//				return item;
-//			}
-//		}
-//		return null;
-//	}
+	// public SpinnerItem setSelection(Spinner spinner, SpinnerItem item) {
+	// if (spinner == null || item == null) {
+	// return null;
+	// }
+	// int n = spinner.getAdapter().getCount();
+	// for (int i = 0; i < n; i++) {
+	// Object value = spinner.getItemAtPosition(i);
+	// if (item.equals(value)) {
+	// spinner.setSelection(i);
+	// return item;
+	// }
+	// }
+	// return null;
+	// }
 
+	/**
+	 * 
+	 * @param itemId
+	 * @return
+	 */
 	public Object setSelection(long itemId) {
 		return setSelection(spinner, itemId);
 	}
 
 	/**
+	 * 按照ID来选中Spinner项。
 	 * Set spinner's selection by item ID.
 	 * 
 	 * @param spinner
@@ -110,14 +125,14 @@ public class SimpleSpinner {
 		int n = spinner.getAdapter().getCount();
 		for (int i = 0; i < n; i++) {
 			Object value = spinner.getItemAtPosition(i);
-			if(value instanceof SpinnerItem) {
+			if (value instanceof SpinnerItem) {
 				SpinnerItem si = (SpinnerItem) value;
 				Log.d("", itemId + " -- " + si.getId());
-			if (itemId.equals(si.getId())) {
-				spinner.setSelection(i);
-				return si;
+				if (itemId.equals(si.getId())) {
+					spinner.setSelection(i);
+					return si;
+				}
 			}
-		}
 			else {
 				if (itemId.equals(value)) {
 					spinner.setSelection(i);
@@ -129,26 +144,30 @@ public class SimpleSpinner {
 	}
 
 	/**
+	 * 获取选中项的Key值。
 	 * Get key of selected item.
+	 * 
 	 * @return
 	 */
-	public Object getSelectedSpinnerKey() {
+	public Object getSelectedItemKey() {
 		SpinnerItem spitem = (SpinnerItem) spinner.getSelectedItem();
 		return spitem.getId();
 	}
 
 	/**
-	 * Convert key-value map too SpinnerItem list.
+	 * 
+	 * Convert key-value map to SpinnerItem list.
+	 * 
 	 * @param map
 	 * @return
 	 */
 	protected List<SpinnerItem> mapToList(Map map) {
 		final List<SpinnerItem> items = new ArrayList<SpinnerItem>();
-		Iterator<Long> it = map.keySet().iterator();
+		Iterator<Object> it = map.keySet().iterator();
 		while (it.hasNext()) {
 			Object key = it.next();
 			Object value = map.get(key);
-//			Log.d("", "" + value);
+			// Log.d("", "" + value);
 			items.add(new SpinnerItem(key, value));
 		}
 		return items;

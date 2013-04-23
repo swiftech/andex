@@ -1,8 +1,6 @@
 package andex.view;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 
 import org.andex.R;
@@ -243,7 +241,7 @@ public class SimpleDialog {
 		AlertDialog.Builder dBuilder = new Builder(context);
 		dBuilder.setView(inputView);
 		dBuilder.setIcon(android.R.drawable.ic_menu_more);
-		dBuilder.setMessage(msg);
+		if(!Utils.isEmpty(msg))dBuilder.setMessage(msg);
 		dBuilder.setPositiveButton(tagYes, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
