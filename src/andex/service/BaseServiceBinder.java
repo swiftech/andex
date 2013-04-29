@@ -11,12 +11,14 @@ import android.os.Handler;
 public class BaseServiceBinder extends Binder {
 	
 	protected BaseService service;
-	
-	
 	public Handler handler;
 	
-	public BaseServiceBinder(BaseService service) {
+	public BaseServiceBinder() {
 		this.handler = new Handler();
+	}
+	
+	public BaseServiceBinder(BaseService service) {
+		this();
 		this.service = service;
 	}
 	
