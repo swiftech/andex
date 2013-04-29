@@ -47,7 +47,7 @@ public abstract class SimpleCompositeView {
 	protected List<Map<String, ?>> data;
 	
 	// Label that displayed while no data for this View.
-	public String defaultLabel = "[Not set yet]";
+	public String defaultLabel = "[N/A]";
 	
 	// Adapter for data of view.
 	private ListAdapter adapter;
@@ -221,7 +221,7 @@ public abstract class SimpleCompositeView {
 			throw new RuntimeException("The composite view was not init correctly.");
 		}
 		if (data == null || data.isEmpty()) {
-			Log.d("SR", "  No data for ListView, show info");
+			Log.d("andex", "  No data for ListView, show info");
 			this.alv.setAdapter(new SimpleInfoListViewAdapter(ctx, defaultLabel));
 		}
 		else {

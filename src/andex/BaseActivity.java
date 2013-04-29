@@ -22,7 +22,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +31,7 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
@@ -103,9 +103,9 @@ public abstract class BaseActivity extends Activity {
 	protected String tagSave = "Save";
 	protected String tagClose = "Close";
 	
-	protected DisplayMetrics dm;
-	protected int sw;
-	protected int sh;
+//	protected DisplayMetrics dm;
+//	protected int sw;
+//	protected int sh;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -128,9 +128,9 @@ public abstract class BaseActivity extends Activity {
 		tagYes = rs.getString(android.R.string.yes);
 		tagNo = rs.getString(android.R.string.no);
 		
-		dm = context.getApplicationContext().getResources().getDisplayMetrics();
-		sw = dm.widthPixels;
-		sh = dm.heightPixels;
+//		dm = context.getApplicationContext().getResources().getDisplayMetrics();
+//		sw = dm.widthPixels;
+//		sh = dm.heightPixels;
 	}
 	
 	/**
@@ -274,18 +274,23 @@ public abstract class BaseActivity extends Activity {
 		finish();
 	}
 	
-	/**
-	 * Get ID from pre-activity
-	 * @return >0
-	 */
-	protected long getIdFromPreActivity() {
+	protected Object getIdObjectFromPreActivity() {
 		if (this.getIntent().getExtras() == null) {
 			return 0;
 		}
 		Object v = this.getIntent().getExtras().get(INTENT_DATA_ID_KEY);
 		if (v == null)
 			return 0;
-		return (Long) v;
+		return v;
+	}
+
+	/**
+	 * Get ID from pre-activity
+	 * 
+	 * @return >0
+	 */
+	protected long getIdFromPreActivity() {
+		return (Long) getIdObjectFromPreActivity();
 	}
 	
 	protected String getIdStrFromPreActivity() {
@@ -341,8 +346,8 @@ public abstract class BaseActivity extends Activity {
 		simpleDialog.showConfirmDialog(msg, callback);
 	}
 
-	protected void showProgressDialog(String msg, DialogCallback callback) {
-		simpleDialog.showProgressDialog(msg, callback);
+	protected void showProgressDialog(String msg, long timeout, DialogCallback callback) {
+		simpleDialog.showProgressDialog(msg, timeout, callback);
 	}
 
 	/**
@@ -602,53 +607,146 @@ public abstract class BaseActivity extends Activity {
 	}
 	
 	/**
-	 * Make views disabled by resource ids.
+	 * 显示多个视图组件
 	 * @param ids
 	 */
-	protected void disableViews(int... ids) {
-		for(int i=0;i<ids.length;i++) {
-			findViewById(ids[i]).setEnabled(false);
+	protected void showViews(int... ids) {
+		for (int i = 0; i < ids.length; i++) {
+			if (findViewById(ids[i]) == null) {
+				continue;
+			}
+			findViewById(ids[i]).setVisibility(View.VISIBLE);
+		}
+	}
+
+	/**
+	 * 显示多个视图组件
+	 * @param views
+	 */
+	protected void showViews(View... views) {
+		for (int i = 0; i < views.length; i++) {
+			if (views[i] == null) {
+				continue;
+			}
+			views[i].setVisibility(View.VISIBLE);
+		}
+	}
+
+	/**
+	 * 隐藏多个视图组件
+	 * @param ids
+	 */
+	protected void hideViews(int... ids) {
+		for (int i = 0; i < ids.length; i++) {
+			if (findViewById(ids[i]) == null) {
+				continue;
+			}
+			findViewById(ids[i]).setVisibility(View.INVISIBLE);
+		}
+	}
+
+	/**
+	 * 隐藏多个视图组件
+	 * @param views
+	 */
+	protected void hideViews(View... views) {
+		for (int i = 0; i < views.length; i++) {
+			if (views[i] == null) {
+				continue;
+			}
+			views[i].setVisibility(View.INVISIBLE);
 		}
 	}
 	
 	/**
+	 * 暂时移除多个视图组件
+	 * @param ids
+	 */
+	protected void unblockViews(int... ids) {
+		for (int i = 0; i < ids.length; i++) {
+			if (findViewById(ids[i]) == null) {
+				continue;
+			}
+			findViewById(ids[i]).setVisibility(View.GONE);
+		}
+	}
+	
+	/**
+	 * 暂时移多个视图组件
+	 * @param views
+	 */
+	protected void unblockViews(View... views) {
+		for (int i = 0; i < views.length; i++) {
+			if (views[i] == null) {
+				continue;
+			}
+			views[i].setVisibility(View.GONE);
+		}
+	}
+	
+	/**
+	 * Make views disabled by resource ids.
+	 * 
+	 * @param ids
+	 */
+	protected void disableViews(int... ids) {
+		for (int i = 0; i < ids.length; i++) {
+			if (findViewById(ids[i]) == null) {
+				continue;
+			}
+			findViewById(ids[i]).setEnabled(false);
+		}
+	}
+
+	/**
 	 * Make views disabled.
+	 * 
 	 * @param views
 	 */
 	protected void disableViews(View... views) {
-		for(int i=0;i<views.length;i++) {
+		for (int i = 0; i < views.length; i++) {
+			if (views[i] == null) {
+				continue;
+			}
 			views[i].setEnabled(false);
 		}
 	}
 	
 	/**
 	 * Make views enabled by resource ids.
+	 * 
 	 * @param ids
 	 */
 	protected void enableViews(int... ids) {
-		for(int i=0;i<ids.length;i++) {
+		for (int i = 0; i < ids.length; i++) {
+			if (findViewById(ids[i]) == null) {
+				continue;
+			}
 			findViewById(ids[i]).setEnabled(true);
 		}
 	}
-	
+
 	/**
 	 * Make view enabled.
+	 * 
 	 * @param views
 	 */
 	protected void enableViews(View... views) {
-		for(int i=0;i<views.length;i++) {
+		for (int i = 0; i < views.length; i++) {
+			if (views[i] == null) {
+				continue;
+			}
 			views[i].setEnabled(true);
 		}
 	}
-	
 
 	/**
-	 * Show progress bar if long time operation will be performed.
+	 * Show progress bar if long time operation will be performed. 
 	 * resource "pgb_wait" is required
 	 */
 	protected void beforeLoadingData(int resId) {
 		ProgressBar wait = getProgressBar(resId);
-		if(wait == null) {
+		if (wait == null) {
 			warn("Not set waitting progress bar in XML layout file");
 			return;
 		}
@@ -674,7 +772,7 @@ public abstract class BaseActivity extends Activity {
 	protected View onViewClicked(int resId, final Callback handler) {
 		final View view = this.findViewById(resId);
 		if(view == null) {
-			Log.d("android", "No view found：" + rs.getResourceName(resId));
+			Log.w("andex", "No view found：" + rs.getResourceName(resId));
 			return view;
 		}
 		view.setOnClickListener(new OnClickListener() {
@@ -694,6 +792,24 @@ public abstract class BaseActivity extends Activity {
 		ckb.setOnCheckedChangeListener(listener);
 		return ckb;
 	}
+	
+	
+	protected CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
+		final CompoundButton view = (CompoundButton) this.findViewById(resId);
+		if(view == null) {
+			Log.w("andex", "No view found：" + rs.getResourceName(resId));
+			return view;
+		}
+		view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				view.setEnabled(false);
+				handler.invoke(isChecked);
+				view.setEnabled(true);
+			}
+		});
+		return view;
+	}
 
 //	boolean isClickSound = false;
 //	
@@ -701,19 +817,38 @@ public abstract class BaseActivity extends Activity {
 //		isClickSound = true;
 //	}
 	
+	/**
+	 * 调试输出
+	 * @param log
+	 */
 	protected void debug(Object log) {
 		if(log == null) log = "[null]";
 		Log.d("andex", log.toString());
 	}
 	
+	/**
+	 * 警告输出
+	 * @param log
+	 */
 	protected void warn(Object log) {
 		if(log == null) log = "[null]";
 		Log.w("andex", log.toString());		
 	}
 	
+	/**
+	 * 错误输出
+	 * @param log
+	 */
 	protected void error(Object log) {
 		if(log == null) log = "[null]";
 		Log.e("andex", log.toString());
+	}
+	
+	/**
+	 * 调试输出当前线程信息
+	 */
+	protected void debugThread() {
+		Log.d("andex", "Thread: " + Thread.currentThread().getId() + "-" + Thread.currentThread().getName());
 	}
 	
 	protected View inflatView(int viewId) {

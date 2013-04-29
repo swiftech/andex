@@ -41,7 +41,7 @@ public class AndroidUtils {
 	 * @param ctx
 	 * @return
 	 */
-	public static String getIMEI(Context ctx) {
+	public static String getDeviceIMEI(Context ctx) {
 		TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
 		String imei = tm.getDeviceId();
 		return imei;
@@ -152,8 +152,8 @@ public class AndroidUtils {
 	 * @return
 	 */
 	public static int divideScreenHeight(Context ctx, int gridHeight, int skipHeight) {
-		Log.d("AndroidUtils", "Screen: " + AndroidUtils.getScreenWidth(ctx) + "X" + AndroidUtils.getScreenHeight(ctx));
-		int screenH = AndroidUtils.getScreenHeight(ctx);
+		Log.d("andex", "Screen: " + getScreenWidth(ctx) + "X" + getScreenHeight(ctx));
+		int screenH = getScreenHeight(ctx);
 		int contentHeight = screenH - skipHeight;
 		double spacing = ((contentHeight / 160.0) * (contentHeight / 160.0));
 		return (int) Math.round(contentHeight / (gridHeight + spacing));
@@ -170,20 +170,30 @@ public class AndroidUtils {
 	 * @return
 	 */
 	public static int divideScreenWidth(Context ctx, int gridWidth, int skipWidth, int gridHeight, int skipHeight, int spacing){
-		Log.d("AndroidUtils", "Screen: " + AndroidUtils.getScreenWidth(ctx) + "X" + AndroidUtils.getScreenHeight(ctx));
-		int result = (int) Math.round(AndroidUtils.getScreenWidth(ctx) / gridWidth)
-				* (int) Math.round((AndroidUtils.getScreenHeight(ctx) - skipHeight) / gridHeight);
+		Log.d("andex", "Screen: " + getScreenWidth(ctx) + "X" + getScreenHeight(ctx));
+		int result = (int) Math.round(getScreenWidth(ctx) / gridWidth)
+				* (int) Math.round((getScreenHeight(ctx) - skipHeight) / gridHeight);
 		
-		Log.d("AndroidUtils", "Cols: " + Math.round(AndroidUtils.getScreenWidth(ctx) / gridWidth) + ", Rows: "
-				+ (int) Math.round((AndroidUtils.getScreenHeight(ctx) - skipHeight) / gridHeight));
+		Log.d("andex", "Cols: " + Math.round(getScreenWidth(ctx) / gridWidth) + ", Rows: "
+				+ (int) Math.round((getScreenHeight(ctx) - skipHeight) / gridHeight));
 		return result;
 	}
 	
+	/**
+	 * 获取屏幕像素宽度
+	 * @param ctx
+	 * @return
+	 */
 	public static int getScreenWidth(Context ctx) {
 		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
 		return dm.widthPixels;
 	}
 	
+	/**
+	 * 获取屏幕像素高度
+	 * @param ctx
+	 * @return
+	 */
 	public static int getScreenHeight(Context ctx) {
 		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
 		return dm.heightPixels;
@@ -198,7 +208,19 @@ public class AndroidUtils {
 	 */
 	public static void saveGlobalSetting(Context ctx, String name, Object value) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		setting.edit().putString(name, value.toString()).commit();
+		if(value instanceof String) {
+			setting.edit().putString(name, value.toString()).commit();
+		}
+		else if(value instanceof Boolean) {
+			setting.edit().putBoolean(name, (Boolean)value).commit();
+		}
+		else if(value instanceof Integer) {
+			setting.edit().putInt(name, (Integer)value).commit();
+		}
+		else if(value instanceof Long) {
+			setting.edit().putLong(name, (Long)value).commit();
+		}
+		
 	}
 
 	/**
@@ -235,6 +257,16 @@ public class AndroidUtils {
 		}
 		else {
 			return setting.getString(name, null).trim();
+		}
+	}
+	
+	public static boolean getGlobalSettingBoolean(Context ctx, String name) {
+		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
+		try {
+			return setting.getBoolean(name, false);
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 

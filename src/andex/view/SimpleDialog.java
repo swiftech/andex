@@ -29,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 /**
+ * 各种常见模式的对话框，比如等待对话框、信息对话框，选项列表对话框、单个和多个输入对话框等。
  * Show all kinds of dialogs in a simple way.
  * 
  * @author 
@@ -53,6 +54,9 @@ public class SimpleDialog {
 	private Context context;
 	
 	private Resources rs;
+	
+	// 避免重复弹出对话框
+	private boolean isComposing = false;
 
 	public SimpleDialog(Context context) {
 		super();
@@ -61,13 +65,29 @@ public class SimpleDialog {
 		
 		tagOk = rs.getString(android.R.string.ok);
 		tagCancel = rs.getString(android.R.string.cancel);
-		tagClose = rs.getString(R.string.common_close);
 		tagYes = rs.getString(android.R.string.yes);
 		tagNo = rs.getString(android.R.string.no);
+		tagClose = rs.getString(R.string.common_close);
+	}
+	
+	/**
+	 * 正在生成对话框 TODO 要解决只避开相同（不是相同类型）对话框，允许不同对话框。
+	 * @return
+	 */
+	private boolean enterComposing() {
+		if(isComposing == true) {
+			return true;// TODO
+		}
+		isComposing = true;
+		return true;
+	}
+	
+	private void composingDone() {
+		isComposing = false;
 	}
 
 	/**
-	 * 
+	 * 显示确认对话框
 	 * @param msg
 	 * @param callback
 	 */
@@ -77,19 +97,23 @@ public class SimpleDialog {
 	}
 	
 	/**
+	 * 显示确认对话框（指定按钮显示内容
 	 * Show dialog with message to confirm something.
 	 * 
 	 * @param msg
+	 * @param buttonsTitle
 	 * @param callback
 	 */
 	public void showConfirmDialog(String msg, String[] buttonsTitle, final DialogCallback callback) {
-		Log.d("andex", "showConfirmDialog()");
+	
+		if(!enterComposing())return;
 		
+		Log.d("andex", "Confirm Dialog");		
 		String tagPositive = null;
 		String tagNegative = null;
 		if (buttonsTitle != null && buttonsTitle.length >= 2) {
 			tagPositive = Utils.isEmpty(buttonsTitle[0]) ? tagOk : buttonsTitle[0];
-			tagNegative = Utils.isEmpty(buttonsTitle[1]) ? tagOk : buttonsTitle[1];
+			tagNegative = Utils.isEmpty(buttonsTitle[1]) ? tagCancel : buttonsTitle[1];
 		}
 		
 		AlertDialog.Builder dBuilder = new Builder(context);
@@ -98,7 +122,7 @@ public class SimpleDialog {
 		dBuilder.setPositiveButton(tagPositive, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Log.d("Confirm Dialog", "OK clicked");
+				Log.d("andex", "Confirm Dialog OK clicked");
 				callback.onPositive(dialog);
 				dismissDialogOnTop();
 				callback.afterSelected();
@@ -107,7 +131,7 @@ public class SimpleDialog {
 		dBuilder.setNegativeButton(tagNegative, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Log.d("Confirm Dialog", "Calcel clicked");
+				Log.d("andex", "Confirm Dialog Calcel clicked");
 				callback.onNegative(dialog);
 				dismissDialogOnTop();
 				callback.afterSelected();
@@ -118,14 +142,17 @@ public class SimpleDialog {
 		confirmDialog.setTitle(rs.getString(R.string.common_dialog_confirm_title));
 		confirmDialog.show();
 		Log.d("andex", "  show");
+		composingDone();
 		dialogStack.push(confirmDialog);
 	}
 
 	/**
+	 * 显示进度对话框
 	 * Show progress dialog until dismissing by others.
 	 * @param msg
 	 */
 	public void showProgressDialog(String msg) {
+		if(!enterComposing())return;
 		final View progressView = LayoutInflater.from(context).inflate(R.layout.ax_progress_dialog, null);
 		TextView textView = (TextView) progressView.findViewById(R.id.axpd_msg);
 		textView.setText(msg);
@@ -135,17 +162,21 @@ public class SimpleDialog {
 		AlertDialog progressDialog = dBuilder.create();
 		progressDialog.setTitle(rs.getString(R.string.common_dialog_progress_title));
 		progressDialog.show();
+		composingDone();
 		dialogStack.push(progressDialog);		
 	}
 	
 	
 	/**
+	 * 显示一个进度对话框，显示一个取消按钮。
 	 * Show un-interrupted progress dialog with message.
 	 * 
 	 * @param msg
-	 * @param callback
+	 * @param timeout 超时时间，单位是秒，超过这个时间后callback.onNegative()会被调用
+	 * @param callback 只有在取消时callback.onNegative()会被调用
 	 */
-	public void showProgressDialog(String msg, final DialogCallback callback) {
+	public void showProgressDialog(String msg, final long timeout, final DialogCallback callback) {
+		if(!enterComposing())return;
 		final View progressView = LayoutInflater.from(context).inflate(R.layout.ax_progress_dialog, null);
 		TextView textView = (TextView) progressView.findViewById(R.id.axpd_msg);
 		textView.setText(msg);
@@ -165,10 +196,26 @@ public class SimpleDialog {
 		AlertDialog progressDialog = dBuilder.create();
 		progressDialog.setTitle(rs.getString(R.string.common_dialog_progress_title));
 		progressDialog.show();
+		composingDone();
 		dialogStack.push(progressDialog);
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(timeout * 1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} finally{
+					dismissDialogOnTop();
+					callback.onNegative("timeout");
+				}
+			}
+		}).start();
 	}
 
 	/**
+	 * 
 	 * Show dialog with single input.
 	 * 
 	 * @param title
@@ -180,6 +227,7 @@ public class SimpleDialog {
 	 * @return
 	 */
 	public AlertDialog showInputDialog(String title, String msg, int inputType, Object inputInit, final DialogCallback callback) {
+		if(!enterComposing())return null;
 		View inputView = LayoutInflater.from(context).inflate(R.layout.ax_dialog_single_input, null);
 		final EditText etInput = (EditText) inputView.findViewById(R.id.et_single_input);
 		AlertDialog.Builder dBuilder = new Builder(context);
@@ -207,6 +255,7 @@ public class SimpleDialog {
 		AlertDialog searchDialog = dBuilder.create();
 		searchDialog.setTitle(title);
 		searchDialog.show();
+		composingDone();
 		dialogStack.push(searchDialog);
 		return searchDialog;
 	}
@@ -223,6 +272,7 @@ public class SimpleDialog {
 	 */
 	public AlertDialog showRadioGroupDialog(String title, String msg, String[] labels, int checked,
 			final DialogCallback callback) {
+		if(!enterComposing())return null;
 		View inputView = LayoutInflater.from(context).inflate(R.layout.ax_dialog_radiogroup, null);
 		inputView.setBackgroundColor(dialogBgColor);
 		final RadioGroup radioGroup = (RadioGroup) inputView.findViewById(R.id.cdr_rg_selection);
@@ -260,6 +310,7 @@ public class SimpleDialog {
 		AlertDialog radioGroupDialog = dBuilder.create();
 		radioGroupDialog.setTitle(title);
 		radioGroupDialog.show();
+		composingDone();
 		dialogStack.push(radioGroupDialog);
 		return radioGroupDialog;
 	}
@@ -278,6 +329,7 @@ public class SimpleDialog {
 	 */
 	public AlertDialog showCheckBoxsDialog(String title, BaseAdapter checkboxListViewAdapter,
 			final DialogCallback callback) {
+		if(!enterComposing())return null;
 		View inputView = LayoutInflater.from(context).inflate(R.layout.ax_dialog_list_select, null);
 		final ListView listView = (ListView) inputView.findViewById(R.id.cdr_rg_selection);
 
@@ -304,6 +356,7 @@ public class SimpleDialog {
 		AlertDialog listSelectDialog = dBuilder.create();
 		listSelectDialog.setTitle(title);
 		listSelectDialog.show();
+		composingDone();
 		dialogStack.push(listSelectDialog);
 		return listSelectDialog;
 	}
@@ -322,6 +375,7 @@ public class SimpleDialog {
 	 * @param msg
 	 */
 	public void showInfoDialog(final String msg, final DialogCallback callback) {
+		if(!enterComposing())return;
 		AlertDialog.Builder dBuilder = new Builder(context);
 		dBuilder.setMessage(msg);
 		dBuilder.setPositiveButton(android.R.string.ok, new OnClickListener() {
@@ -337,6 +391,7 @@ public class SimpleDialog {
 		infoDialog.setTitle(android.R.string.dialog_alert_title);
 		infoDialog.setIcon(android.R.drawable.ic_menu_info_details);
 		infoDialog.show();
+		composingDone();
 		dialogStack.push(infoDialog);
 	}
 	
@@ -349,6 +404,7 @@ public class SimpleDialog {
 	 *            列表选中一项时调用，参数为选项位置。
 	 */
 	public void showListSelectDialog(final String title, final String[] items, final DialogCallback callback) {
+		if(!enterComposing())return;
 		if(items == null || items.length == 0) {
 			Log.w("andex", "Invalid items");
 		}
@@ -376,6 +432,7 @@ public class SimpleDialog {
 		});
 		AlertDialog listSelectDialog = dBuilder.create();
 		listSelectDialog.show();
+		composingDone();
 		dialogStack.push(listSelectDialog);
 	}
 	
@@ -386,6 +443,7 @@ public class SimpleDialog {
 	 * @param callback
 	 */
 	public void showListSelectDialog(final String title, final Map items, final DialogCallback callback) {
+		if(!enterComposing())return;
 		View layout = LayoutInflater.from(context).inflate(R.layout.ax_dialog_list_select, null);
 		ListView listSelect = (ListView) layout.findViewById(R.id.cdl_list);
 		SimpleListView slv = new SimpleListView(context, listSelect);
@@ -411,6 +469,7 @@ public class SimpleDialog {
 		});
 		AlertDialog listSelectDialog = dBuilder.create();
 		listSelectDialog.show();
+		composingDone();
 		dialogStack.push(listSelectDialog);
 	}
 	
@@ -424,6 +483,7 @@ public class SimpleDialog {
 	 */
 	public void showCustomizedDialog(final String title, int layoutResId, final int[] resIds, final Object[] init,
 			final DialogCallback callback) {
+		if(!enterComposing())return;
 		final View layout = LayoutInflater.from(context).inflate(layoutResId, null);
 
 		for (int i = 0; i < resIds.length; i++) {
@@ -490,10 +550,12 @@ public class SimpleDialog {
 		});
 		AlertDialog customDialog = dBuilder.create();
 		customDialog.show();
+		composingDone();
 		dialogStack.push(customDialog);
 	}
 	
 	/**
+	 * 
 	 * Dismiss latest dialog showed up.
 	 */
 	public void dismissDialogOnTop() {
