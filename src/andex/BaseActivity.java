@@ -185,6 +185,7 @@ public abstract class BaseActivity extends Activity {
 	}
 
 	/**
+	 * 启动Activity，附带选项ID，并监听返回。
 	 * Start activity with option ID that represent a selection from multi-options.
 	 * @param clazz
 	 * @param id
@@ -217,10 +218,12 @@ public abstract class BaseActivity extends Activity {
 	/**
 	 * Start activity with biz ID and arguments.
 	 * use getIdFromPreActivity() to retrieve ID.
+	 * use getOptionFromPreActivity() to retrieve Option ID.
 	 * use getArgsFromPreActivity() to retrieve arguments.
 	 * @param clazz
-	 * @param id Never be less than 0 or equal 0.
+	 * @param id Integer类型表示是选项，Long和String类型表示是ID，其他类型则为参数。
 	 * @param args
+	 * @param forResult
 	 */
 	protected void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
 		Intent intent = new Intent(context, clazz);
@@ -276,11 +279,11 @@ public abstract class BaseActivity extends Activity {
 	
 	protected Object getIdObjectFromPreActivity() {
 		if (this.getIntent().getExtras() == null) {
-			return 0;
+			return 0L; //需要转换成Long
 		}
 		Object v = this.getIntent().getExtras().get(INTENT_DATA_ID_KEY);
 		if (v == null)
-			return 0;
+			return 0L; //需要转换成Long
 		return v;
 	}
 
@@ -346,6 +349,10 @@ public abstract class BaseActivity extends Activity {
 		simpleDialog.showConfirmDialog(msg, callback);
 	}
 
+	protected void showProgressDialog(String msg, DialogCallback callback) {
+		simpleDialog.showProgressDialog(msg, 0, callback);
+	}
+	
 	protected void showProgressDialog(String msg, long timeout, DialogCallback callback) {
 		simpleDialog.showProgressDialog(msg, timeout, callback);
 	}

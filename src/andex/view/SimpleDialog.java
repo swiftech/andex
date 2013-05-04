@@ -172,7 +172,7 @@ public class SimpleDialog {
 	 * Show un-interrupted progress dialog with message.
 	 * 
 	 * @param msg
-	 * @param timeout 超时时间，单位是秒，超过这个时间后callback.onNegative()会被调用
+	 * @param timeout 超时时间，单位是秒，超过这个时间后对话框关闭，callback.onNegative()会被调用；设置为0表是永不超时直到调用者显示关闭对话框。
 	 * @param callback 只有在取消时callback.onNegative()会被调用
 	 */
 	public void showProgressDialog(String msg, final long timeout, final DialogCallback callback) {
@@ -187,7 +187,7 @@ public class SimpleDialog {
 		dBuilder.setNegativeButton(tagCancel, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Log.d("ProgressDialog", "Calcel clicked");
+				Log.d("andex", "Calcel clicked");
 				dismissDialogOnTop();
 				callback.onNegative(dialog);
 			}
@@ -198,20 +198,22 @@ public class SimpleDialog {
 		progressDialog.show();
 		composingDone();
 		dialogStack.push(progressDialog);
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(timeout * 1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} finally{
-					dismissDialogOnTop();
-					callback.onNegative("timeout");
+		if (timeout > 0) {
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(timeout * 1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} finally {
+						dismissDialogOnTop();
+						callback.onNegative("timeout");
+					}
 				}
-			}
-		}).start();
+			}).start();
+		}
 	}
 
 	/**
