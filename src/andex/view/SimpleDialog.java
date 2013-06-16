@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -166,6 +167,9 @@ public class SimpleDialog {
 		dialogStack.push(progressDialog);		
 	}
 	
+	public void showProgressDialog(String msg, DialogCallback callback) {
+		showProgressDialog(msg, 0, callback);
+	}	
 	
 	/**
 	 * 显示一个进度对话框，显示一个取消按钮。
@@ -215,7 +219,43 @@ public class SimpleDialog {
 			}).start();
 		}
 	}
-
+	
+	/**
+	 * Show dialog that allows any text to input.
+	 * @param title
+	 * @param msg
+	 * @param inputInit
+	 * @param callback
+	 * @return
+	 */
+	public AlertDialog showTextInputDialog(String title, String msg, String inputInit, DialogCallback callback) {
+		return showInputDialog(title, msg, InputType.TYPE_CLASS_TEXT, inputInit, callback);
+	}
+	
+	/**
+	 * Show dialog that only allows integer number to input.
+	 * @param title
+	 * @param msg
+	 * @param inputInit
+	 * @param callback
+	 * @return
+	 */
+	public AlertDialog showIntInputDialog(String title, String msg, String inputInit, DialogCallback callback) {
+		return showInputDialog(title, msg, InputType.TYPE_NUMBER_FLAG_SIGNED ,inputInit, callback);
+	}
+	
+	
+	/**
+	 * Show dialog that only allows float number to input.
+	 * @param title
+	 * @param msg
+	 * @param inputInit
+	 * @param callback
+	 * @return
+	 */
+	public AlertDialog showFloatInputDialog(String title, String msg, String inputInit, DialogCallback callback) {
+		return showInputDialog(title, msg, InputType.TYPE_NUMBER_FLAG_DECIMAL, inputInit, callback);
+	}
 	/**
 	 * 
 	 * Show dialog with single input.
@@ -333,7 +373,7 @@ public class SimpleDialog {
 			final DialogCallback callback) {
 		if(!enterComposing())return null;
 		View inputView = LayoutInflater.from(context).inflate(R.layout.ax_dialog_list_select, null);
-		final ListView listView = (ListView) inputView.findViewById(R.id.cdr_rg_selection);
+		final ListView listView = (ListView) inputView.findViewById(R.id.cdl_list);
 
 		listView.setAdapter(checkboxListViewAdapter);
 
@@ -449,6 +489,7 @@ public class SimpleDialog {
 		View layout = LayoutInflater.from(context).inflate(R.layout.ax_dialog_list_select, null);
 		ListView listSelect = (ListView) layout.findViewById(R.id.cdl_list);
 		SimpleListView slv = new SimpleListView(context, listSelect);
+		
 		slv.addAllItems(items);
 		slv.onItemClick(new CallbackAdapter() {
 			@Override

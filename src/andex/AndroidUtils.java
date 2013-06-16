@@ -18,6 +18,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.ContactsContract;
@@ -233,14 +234,22 @@ public class AndroidUtils {
 	 */
 	public static String getGlobalSetting(Context ctx, String name, Object defaultValue) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
+		if (defaultValue == null) {
+			throw new RuntimeException("No default value provided.");
+		}
 		if (setting == null) {
 			return defaultValue.toString();
 		}
-		if (setting.getString(name, defaultValue.toString()) == null) {
-			return null;
-		}
-		else {
-			return setting.getString(name, defaultValue.toString()).trim();
+		try {
+			if (setting.getString(name, defaultValue.toString()) == null) {
+				return null;
+			}
+			else {
+				return setting.getString(name, defaultValue.toString()).trim();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return defaultValue.toString();
 		}
 	}
 
@@ -252,11 +261,16 @@ public class AndroidUtils {
 	 */
 	public static String getGlobalSetting(Context ctx, String name) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		if(setting.getString(name, null) == null) {
-			return null;
-		}
-		else {
-			return setting.getString(name, null).trim();
+		try {
+			if(setting.getString(name, null) == null) {
+				return null;
+			}
+			else {
+				return setting.getString(name, null).trim();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
 		}
 	}
 	
@@ -412,4 +426,27 @@ public class AndroidUtils {
 		cursor.close();
 		return ret;
 	}
+	
+	
+	/**
+	 * 取出并处理嵌入式的字符资源，嵌入格式: {编号}
+	 * @param sentence
+	 * @param words 字符串值或者字符串资源ID可以混合使用
+	 * @return
+	 */
+	public static  String getNestedString(Context ctx, int sentence, Object... words){
+		Resources rs = ctx.getResources();
+		String resource = rs.getString(sentence);
+		for (int i = 0; i < words.length; i++) {
+			if(words[i] instanceof Integer) {
+				resource = resource.replace("{" + i + "}", rs.getString((Integer)words[i]));	
+			}
+//			else if(words[i] instanceof String) {
+			else{
+				resource = resource.replace("{" + i + "}", words[i].toString());
+			}
+		}
+		return resource;
+	}
+	
 }

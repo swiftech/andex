@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 /**
- * 
+ * 简化Spinner的操作
  * @author
  * 
  */
