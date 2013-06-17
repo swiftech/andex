@@ -26,22 +26,23 @@ public class AnimatedActivity extends BaseActivity {
 	protected int gestureThrottleVelocityY = 30;
 	
 
-	protected final GestureDetector gestureDetector = new GestureDetector(new SimpleOnGestureListener() {
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-			Log.d("Fling...", e1 + "__" + e2 + "__" + velocityX + "__" + velocityY);
-			if (velocityX > gestureThrottleVelocityX && velocityY < gestureThrottleVelocityY) {
-				Log.d(this.getClass().getSimpleName(), "Fling to right");
-				onGesture(tabsController.currentTabIndex, tabsController.nextTabIndex());
-			}
-
-			else if (velocityX < -gestureThrottleVelocityX && velocityY > -gestureThrottleVelocityY) {
-				Log.d(this.getClass().getSimpleName(), "Fling to left");
-				onGesture(tabsController.currentTabIndex, tabsController.previousTabIndex());
-			}
-			return super.onFling(e1, e2, velocityX, velocityY);
-		}
-	});
+	// TODO 要重新设计
+//	protected final GestureDetector gestureDetector = new GestureDetector(new SimpleOnGestureListener() {
+//		@Override
+//		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+//			Log.d("Fling...", e1 + "__" + e2 + "__" + velocityX + "__" + velocityY);
+//			if (velocityX > gestureThrottleVelocityX && velocityY < gestureThrottleVelocityY) {
+//				Log.d(this.getClass().getSimpleName(), "Fling to right");
+//				onGesture(tabsController.currentTabIndex, tabsController.nextTabIndex());
+//			}
+//
+//			else if (velocityX < -gestureThrottleVelocityX && velocityY > -gestureThrottleVelocityY) {
+//				Log.d(this.getClass().getSimpleName(), "Fling to left");
+//				onGesture(tabsController.currentTabIndex, tabsController.previousTabIndex());
+//			}
+//			return super.onFling(e1, e2, velocityX, velocityY);
+//		}
+//	});
 	
 	protected void onGesture(int oldTabIdx, int newTabIdx){
 		// DO NOTHING

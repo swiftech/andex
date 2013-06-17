@@ -3,14 +3,12 @@ package andex.model;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import andex.AndroidUtils;
 import andex.Utils;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -28,19 +26,6 @@ import android.util.Log;
  *
  */
 public class BaseDataSource {
-	
-	public static final String TABLE_NAME_USER_META = "USER_META";
-
-	public static final String SQL_CREATE_TABLE_USER_META = "create table "
-			+ TABLE_NAME_USER_META
-			+ " (ID integer not null PRIMARY KEY autoincrement, "
-			+ " META_NAME text not null UNIQUE, " 
-			+ " META_VALUE text not null, "
-			+ " DEFAULT_VALUE text, "
-			+ " MODIFY_TIME long not null, "
-			+ " EXT_DATA text)";
-	
-	private static final String USER_META_SCHEMA_VERSION = "SCHEMA.VERSION"; 
 
 	// Inject by setter
 	protected Context context;
@@ -134,131 +119,7 @@ public class BaseDataSource {
 			db.close();
 		}
 	}
-	
-	/**
-	 * Init tables by default: user meta infomation table.
-	 * Override me if more tables to be created.
-	 */
-	public boolean initTables() {
-		try {
-			createTable(SQL_CREATE_TABLE_USER_META);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
-	}
-	
-	public int getSchemaVersion() {
-		connect();
-		return this.getMetaInt(USER_META_SCHEMA_VERSION);
-	}
-	
-	public void setSchemaVersion(int version) {
-		connect();
-		this.setMeta(USER_META_SCHEMA_VERSION, version);
-	}
-	
-	/**
-	 * Get meta data by name. No need to open and close connection explicitly.
-	 * @param metaName
-	 * @return
-	 */
-	public String getMeta(String metaName) {
-		if (!db.isOpen()) {
-			this.connect();
-		}
-		try {
-			Cursor cursor = db.query(TABLE_NAME_USER_META, null, " META_NAME = ? ", new String[] { metaName }, null,
-					null, null);
-			if (cursor.moveToNext()) {
-				return cursor.getString(cursor.getColumnIndex("META_VALUE"));
-			}
-			else {
-				return null;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	/**
-	 * 取Long型值，如果小于0则返回默认值。
-	 * @param metaName
-	 * @param defaultValue
-	 * @return
-	 */
-	public long getMetaLong(String metaName, long defaultValue) {
-		long ret = getMetaLong(metaName);
-		if (ret < 0) {
-			return defaultValue;
-		}
-		else {
-			return ret;
-		}
-	}
 
-	public long getMetaLong(String metaName) {
-		String meta = getMeta(metaName);
-		if (Utils.isEmpty(meta)) {
-			return -1L;
-		}
-		try {
-			return Long.parseLong(meta);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			return -1L;
-		}
-	}
-	
-	public int getMetaInt(String metaName, int defaultValue) {
-		return (int)getMetaLong(metaName, defaultValue);
-	}
-	public int getMetaInt(String metaName) {
-		return (int)getMetaLong(metaName);
-	}
-	
-	/**
-	 * Set meta data by name. No need to open and close connection explicitly.
-	 * @param metaName
-	 * @param metaValue
-	 * @return
-	 */
-	public boolean setMeta(String metaName, Object metaValue) {
-		if(getMeta(metaName) == null) {
-			if (!db.isOpen()) {
-				this.connect();
-			}
-			try {
-				ContentValues values = new ContentValues();
-				values.put("META_NAME", metaName);
-				values.put("META_VALUE", metaValue.toString());
-				values.put("MODIFY_TIME", Calendar.getInstance().getTimeInMillis());
-				db.insert(TABLE_NAME_USER_META, null, values);
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return false;
-//			} finally {
-//				this.disconnect();
-			}
-		}
-		else {
-			if (!db.isOpen()) {
-				this.connect();
-			}
-			try {
-				db.execSQL("UPDATE " + TABLE_NAME_USER_META + " SET META_VALUE=? WHERE META_NAME=?", new String[]{metaValue.toString(), metaName});
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return false;
-//			} finally {
-//				this.disconnect();
-			}			
-		}
-		return true;
-	}
-	
 	/**
 	 * Create table by sql if not exist.
 	 * @param sql

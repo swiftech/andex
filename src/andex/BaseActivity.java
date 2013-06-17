@@ -2,13 +2,10 @@ package andex;
 
 import java.util.Map;
 
-import org.andex.R;
-
 import andex.model.DataList;
 import andex.model.DataRow;
 import andex.view.SimpleDialog;
 import andex.view.SimpleDialog.DialogCallback;
-import andex.view.TabsController;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -21,6 +18,7 @@ import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,7 +60,7 @@ import android.widget.ToggleButton;
  * @author 
  * 
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends FragmentActivity {
 
 	public static final String SYS_PROP_DEBUG_MODE = "andex.debug";
 	public static final String SYS_PROP_DB_VERSION = "andex.db.version";
@@ -93,16 +91,6 @@ public abstract class BaseActivity extends Activity {
 	// Simple Dialogs
 	protected SimpleDialog simpleDialog;
 	
-
-	protected TabsController tabsController;
-	
-	// == 字符串资源 ==
-	protected String tagOk = "OK";
-	protected String tagCancel = "Cancel";
-	protected String tagYes = "Yes";
-	protected String tagNo = "No";
-	protected String tagSave = "Save";
-	protected String tagClose = "Close";
 	
 //	protected DisplayMetrics dm;
 //	protected int sw;
@@ -121,13 +109,9 @@ public abstract class BaseActivity extends Activity {
 		// 没设置参数的情况为true，只有明确设置不是debug模式的情况才是false。
 		debugMode = !"false".equals(System.getProperty(SYS_PROP_DEBUG_MODE));
 		
+		i18n.init(context);
+		
 		rs = this.getResources();
-
-		tagOk = rs.getString(android.R.string.ok);
-		tagCancel = rs.getString(android.R.string.cancel);
-		tagClose = rs.getString(R.string.common_close);
-		tagYes = rs.getString(android.R.string.yes);
-		tagNo = rs.getString(android.R.string.no);
 		
 //		dm = context.getApplicationContext().getResources().getDisplayMetrics();
 //		sw = dm.widthPixels;
@@ -438,7 +422,7 @@ public abstract class BaseActivity extends Activity {
 	 * @param resId
 	 * @return
 	 */
-	protected LinearLayout getLinearyLayout(int resId) {
+	protected LinearLayout getLinearLayout(int resId) {
 		return (LinearLayout)this.findViewById(resId);
 	}
 	
@@ -498,6 +482,18 @@ public abstract class BaseActivity extends Activity {
 			tv.setText(str);
 		}
 		return tv;
+	}
+	
+	/**
+	 * 设置指定资源ID的Button的文本
+	 * @param resId
+	 * @param str
+	 * @return
+	 */
+	protected Button setButtonText(int resId, String str) {
+		Button btn = getButton(resId);
+		btn.setText(str);
+		return btn;
 	}
 	
 	/**
@@ -605,17 +601,7 @@ public abstract class BaseActivity extends Activity {
 	 * @return
 	 */
 	protected String getNestedString(int sentence, Object... words){
-		String resource = rs.getString(sentence);
-		for (int i = 0; i < words.length; i++) {
-			if(words[i] instanceof Integer) {
-				resource = resource.replace("{" + i + "}", rs.getString((Integer)words[i]));	
-			}
-//			else if(words[i] instanceof String) {
-			else{
-				resource = resource.replace("{" + i + "}", words[i].toString());
-			}
-		}
-		return resource;
+		return AndroidUtils.getNestedString(context, sentence, words);
 	}
 	
 	/**

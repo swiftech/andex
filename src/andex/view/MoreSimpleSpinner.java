@@ -60,6 +60,7 @@ public class MoreSimpleSpinner extends SimpleSpinner{
 	}
 
 	/**
+	 * 用无ID的数组初始化Spinner
 	 * Init spinner with data array which has no ID.
 	 * 
 	 * @param resId
