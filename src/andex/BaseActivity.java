@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -590,6 +591,10 @@ public abstract class BaseActivity extends Activity {
 	
 	protected Gallery getGallery(int resId) {
 		return (Gallery)this.findViewById(resId);
+	}
+	
+	protected WebView getWebView(int resId) {
+		return (WebView) this.findViewById(resId);
 	}
 
 	

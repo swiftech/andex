@@ -208,19 +208,19 @@ public class AndroidUtils {
 	 */
 	public static void saveGlobalSetting(Context ctx, String name, Object value) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		if(value instanceof String) {
+
+		if (value instanceof Boolean) {
+			setting.edit().putBoolean(name, (Boolean) value).commit();
+		}
+		else if (value instanceof Integer) {
+			setting.edit().putInt(name, (Integer) value).commit();
+		}
+		else if (value instanceof Long) {
+			setting.edit().putLong(name, (Long) value).commit();
+		}
+		else {
 			setting.edit().putString(name, value.toString()).commit();
 		}
-		else if(value instanceof Boolean) {
-			setting.edit().putBoolean(name, (Boolean)value).commit();
-		}
-		else if(value instanceof Integer) {
-			setting.edit().putInt(name, (Integer)value).commit();
-		}
-		else if(value instanceof Long) {
-			setting.edit().putLong(name, (Long)value).commit();
-		}
-		
 	}
 
 	/**
