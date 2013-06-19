@@ -8,7 +8,9 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import android.util.Log;
 
@@ -98,9 +100,9 @@ public class NetworkUtils {
 				// Skip loopback
 				if(ia.isSiteLocalAddress() && !"127.0.0.1".equals(ia.getHostAddress())) {
 					// Prefer 192.* and 10.*
-					if(ia.getHostAddress().startsWith("192") || ia.getHostAddress().startsWith("10")) {
+//					if(ia.getHostAddress().startsWith("192") || ia.getHostAddress().startsWith("10")) {
 						appropriateIpAddress = ia.getHostAddress();
-					}
+//					}
 				}
 			}
 		}
@@ -108,6 +110,36 @@ public class NetworkUtils {
 			appropriateIpAddress = "127.0.0.1";
 		}
 		return appropriateIpAddress;
+	}
+	
+	public static String[] getAllLocalIPAddress() {
+		List<String> ret = new ArrayList();
+		Enumeration<NetworkInterface> enu = null;
+		try {
+			enu = NetworkInterface.getNetworkInterfaces();
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+		if(enu == null) {
+			System.out.println("No network interface found in this machine.");
+			return null;
+		}
+		String appropriateIpAddress = null;
+		while(enu.hasMoreElements()) {
+			NetworkInterface ni = enu.nextElement();
+			Enumeration<InetAddress> addresses = ni.getInetAddresses();
+			while(addresses.hasMoreElements()) {
+				InetAddress ia = addresses.nextElement();
+				// Skip loopback
+				if(ia.isSiteLocalAddress() && !"127.0.0.1".equals(ia.getHostAddress())) {
+					// Prefer 192.* and 10.*
+//					if(ia.getHostAddress().startsWith("192") || ia.getHostAddress().startsWith("10")) {
+						ret.add(ia.getHostAddress());
+//					}
+				}
+			}
+		}
+		return (String[])ret.toArray();
 	}
 	
 }
