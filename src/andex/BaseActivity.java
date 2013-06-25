@@ -19,9 +19,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -123,6 +125,10 @@ public abstract class BaseActivity extends FragmentActivity {
 	protected void setWindowFullscreenNoTitle() {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	}
+	
+	protected FragmentTransaction beginFragmentTransaction() {
+		return this.getSupportFragmentManager().beginTransaction();
 	}
 
 	/**
@@ -586,6 +592,10 @@ public abstract class BaseActivity extends FragmentActivity {
 	
 	protected Gallery getGallery(int resId) {
 		return (Gallery)this.findViewById(resId);
+	}
+	
+	protected SurfaceView getSurfaceView(int resId) {
+		return (SurfaceView)this.findViewById(resId);
 	}
 
 	
