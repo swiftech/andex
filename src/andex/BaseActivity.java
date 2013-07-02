@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -81,6 +82,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	protected Context context;
 	
 	// DEBUG模式（默认） changed by setting system arguments "andex.debug"
+	// @deprecated
 	protected boolean debugMode = true; 
 
 	// Resources from context.
@@ -108,7 +110,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		simpleDialog = new SimpleDialog(context);
 		
 		// 没设置参数的情况为true，只有明确设置不是debug模式的情况才是false。
-		debugMode = !"false".equals(System.getProperty(SYS_PROP_DEBUG_MODE));
+		Constants.debugMode = !"false".equals(System.getProperty(SYS_PROP_DEBUG_MODE));
 		
 		i18n.init(context);
 		
@@ -594,6 +596,10 @@ public abstract class BaseActivity extends FragmentActivity {
 		return (Gallery)this.findViewById(resId);
 	}
 	
+	protected WebView getWebView(int resId) {
+		return (WebView) this.findViewById(resId);
+	}
+
 	protected SurfaceView getSurfaceView(int resId) {
 		return (SurfaceView)this.findViewById(resId);
 	}

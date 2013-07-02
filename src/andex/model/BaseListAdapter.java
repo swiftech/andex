@@ -51,7 +51,7 @@ public abstract class BaseListAdapter implements ListAdapter{
 
 	@Override
 	public int getCount() {
-		return data.size();
+		return data == null ? 0 : data.size();
 	}
 	
 	@Override
