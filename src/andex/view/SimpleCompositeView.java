@@ -218,7 +218,7 @@ public abstract class SimpleCompositeView {
 	public void render() {
 		Log.d("andex", "render()");
 		if (this.alv == null) {
-			throw new RuntimeException("The composite view was not init correctly.");
+			throw new RuntimeException("The composite view was not init correctly, the abstract list view object is Null");
 		}
 		if (data == null || data.isEmpty()) {
 			Log.d("andex", "  No data for ListView, show info");
