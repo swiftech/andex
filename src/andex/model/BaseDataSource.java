@@ -1,14 +1,10 @@
 package andex.model;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import andex.AndroidUtils;
-import andex.Utils;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -18,10 +14,11 @@ import android.util.Log;
 /**
  * Access SQLite database from local file system(usually SDCard) or system storage.
  * Extend me to do more works on database.
- *   1. Override initTables() method to create database schema.
- *   2. Override getDB() if you want to provide other ways to SQLite database like system built-in.
- *   3. Call connect() before invoking any database operation method.
- *   4. Don't forget init table schema before everything.
+ * <pre>
+ *   Override getDB() if you want to provide other ways to SQLite database like system built-in.
+ *   Call connect() before invoking any database operation method.
+ *   Don't forget init table schema before everything.
+ * </pre>
  * @author 
  *
  */
@@ -30,7 +27,6 @@ public class BaseDataSource {
 	// Inject by setter
 	protected Context context;
 	
-	protected String dbFilePath;
 	protected String dbName;
 	
 	protected SQLiteDatabase db ;
@@ -48,56 +44,21 @@ public class BaseDataSource {
 	 * @param filePath Path of DB file if SDCard available, set null or empty to force use internal storage.
 	 * @param dbName Database name
 	 */
-	public BaseDataSource(String filePath, String dbName) {
+	public BaseDataSource(String dbName) {
 		super();
-		this.dbFilePath = filePath;
 		this.dbName = dbName;
 	}	
 	
 	protected SQLiteDatabase getDB() {
-		Log.d("db", "Try to get Database instance");
-		// 如果有SDCARD則存在SD卡上面
-		if(!Utils.isEmpty(dbFilePath) && AndroidUtils.isSDCardAvailable()) {
-			Log.d("db", "Access database from SD card");
-			File dbFile = null;
-			dbFile = new File(dbFilePath + dbName + ".db");
-			if (!dbFile.exists()) {
-				Log.i("db", "Database file " + dbFilePath + " does not exist, cureate a new file.");
-				try {
-					if (!dbFile.getParentFile().exists()) {
-						if (dbFile.getParentFile().mkdirs() == false) {
-							Log.e("db", "Failed to create db directory : " + dbFile.getParent());
-							return null;
-						}
-						else {
-							Log.i("db", "Black list db directory created: " + dbFile.getParent());
-						}
-					}
-					if(dbFile.createNewFile() == false) {
-						Log.d("db", "Failed to create db file: " + dbFile);
-						return null;
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-					return null;
-				}
-			}
-			SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
-			if(!db.isOpen()) {
-				throw new RuntimeException("Failed to open database from: " + dbFilePath);
-			}
-			return db;
+
+		Log.d("db", "Access database from system storage");
+		// 没有则存系统的数据库。
+		if (context == null) {
+			Log.e("andex.db", "System Context didn't set properly.");
+			return null;
 		}
-		else {
-			Log.d("db", "Access database from system storage");
-			// 没有则存系统的数据库。
-			if(context == null) {
-				Log.e("andex.db", "System Context didn't set properly.");
-				return null;
-			}
-			DefaultSQLiteOpenHelper dbHelper = new DefaultSQLiteOpenHelper(context, "andex");
-			return dbHelper.getWritableDatabase();
-		}
+		DefaultSQLiteOpenHelper dbHelper = new DefaultSQLiteOpenHelper(context, "andex");
+		return dbHelper.getWritableDatabase();
 	}
 
 	

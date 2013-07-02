@@ -20,7 +20,7 @@ public class i18n {
 		tagOk = rs.getString(android.R.string.ok);
 		tagCancel = rs.getString(android.R.string.cancel);
 		tagClose = rs.getString(R.string.common_close);
-		tagYes = rs.getString(android.R.string.yes);
-		tagNo = rs.getString(android.R.string.no);
+		tagYes = rs.getString(R.string.common_yes);
+		tagNo = rs.getString(R.string.common_no);
 	}
 }

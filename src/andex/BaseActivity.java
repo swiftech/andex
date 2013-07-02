@@ -19,9 +19,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -80,6 +82,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	protected Context context;
 	
 	// DEBUG模式（默认） changed by setting system arguments "andex.debug"
+	// @deprecated
 	protected boolean debugMode = true; 
 
 	// Resources from context.
@@ -107,7 +110,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		simpleDialog = new SimpleDialog(context);
 		
 		// 没设置参数的情况为true，只有明确设置不是debug模式的情况才是false。
-		debugMode = !"false".equals(System.getProperty(SYS_PROP_DEBUG_MODE));
+		Constants.debugMode = !"false".equals(System.getProperty(SYS_PROP_DEBUG_MODE));
 		
 		i18n.init(context);
 		
@@ -124,6 +127,10 @@ public abstract class BaseActivity extends FragmentActivity {
 	protected void setWindowFullscreenNoTitle() {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	}
+	
+	protected FragmentTransaction beginFragmentTransaction() {
+		return this.getSupportFragmentManager().beginTransaction();
 	}
 
 	/**
@@ -591,6 +598,10 @@ public abstract class BaseActivity extends FragmentActivity {
 	
 	protected WebView getWebView(int resId) {
 		return (WebView) this.findViewById(resId);
+	}
+
+	protected SurfaceView getSurfaceView(int resId) {
+		return (SurfaceView)this.findViewById(resId);
 	}
 
 	
