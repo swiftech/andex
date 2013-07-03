@@ -26,7 +26,7 @@ public class BaseDataSource {
 
 	// Inject by setter
 	protected Context context;
-	
+
 	protected String dbName;
 	
 	protected SQLiteDatabase db ;
@@ -50,7 +50,6 @@ public class BaseDataSource {
 	}	
 	
 	protected SQLiteDatabase getDB() {
-
 		Log.d("db", "Access database from system storage");
 		// 没有则存系统的数据库。
 		if (context == null) {
@@ -63,7 +62,7 @@ public class BaseDataSource {
 
 	
 	/**
-	 * Connect to DB file, create it if not exist.
+	 * Connect to DB, create it if not exist.
 	 */
 	public void connect() {
 		if(db != null && db.isOpen()) {
@@ -137,6 +136,13 @@ public class BaseDataSource {
 		return false;
 	}
 	
+	/**
+	 * Find unique data row.
+	 * @param tableName
+	 * @param uniqueColName
+	 * @param value
+	 * @return
+	 */
 	public Map findUnique(String tableName, String uniqueColName, Object value) {
 		List<Map> data = findAll(tableName, uniqueColName + "=" + value);
 		if(data == null || data.size() == 0) {
@@ -145,10 +151,21 @@ public class BaseDataSource {
 		return data.get(0);
 	}
 	
+	/**
+	 * Find all data rows in a table.
+	 * @param tableName
+	 * @return
+	 */
 	public List<Map> findAll(String tableName) {
 		return findAll(tableName, null,  null);
 	}
 	
+	/**
+	 * Find filtered data rows in a table.
+	 * @param tableName
+	 * @param whereClause
+	 * @return
+	 */
 	public List<Map> findAll(String tableName, String whereClause) {
 		return findAll(tableName, whereClause,  null);
 	}

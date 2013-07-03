@@ -10,7 +10,9 @@ import andex.model.DataList;
 import andex.model.DataRow;
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -26,16 +28,42 @@ public class SimpleSpinner2 {
 	protected Context ctx;
 
 	protected Activity activity;
+	
+	protected View view;
 
 	protected Spinner spinner;
 
+	/**
+	 * 初始化包含在Activity中的Spinner
+	 * @param act
+	 * @param ctx
+	 * @param resID
+	 */
 	public SimpleSpinner2(Activity act, Context ctx, int resID) {
 		super();
 		this.activity = act;
 		this.ctx = ctx;
 		this.spinner = (Spinner) act.findViewById(resID);
 	}
+	
+	/**
+	 * 初始化包含在View中的Spinner
+	 * @param act
+	 * @param ctx
+	 * @param resID
+	 */
+	public SimpleSpinner2(View view, Context ctx, int resID) {
+		super();
+		this.view = view;
+		this.ctx = ctx;
+		this.spinner = (Spinner) view.findViewById(resID);
+	}
 
+	/**
+	 * 不管Spinner位于何处，直接制定Spinner对象进行初始化。
+	 * @param ctx
+	 * @param spinner
+	 */
 	public SimpleSpinner2(Context ctx, Spinner spinner) {
 		super();
 		this.ctx = ctx;
@@ -70,7 +98,7 @@ public class SimpleSpinner2 {
 			throw new RuntimeException("No context specified for this Spinner");
 		}
 		if (spinner == null) {
-			throw new RuntimeException("No spinner found");
+			throw new RuntimeException("No Spinner specified");
 		}
 		if (data == null || data.length == 0) {
 			Log.w("andex", "Nothing to init for Spinner");
