@@ -99,6 +99,10 @@ public class Utils {
 	public static String stringifyDate(Calendar date) {
 		return TIME_FORMATTER_DATA.format(date.getTime());
 	}
+	
+	public static String stringifyDate(Date date) {
+		return TIME_FORMATTER_DATA.format(date);
+	}
 
 	public static String stringifyTime(Date time) {
 		return TIME_FORMATTER_TIME.format(time);

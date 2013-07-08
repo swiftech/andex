@@ -434,15 +434,18 @@ public class AndroidUtils {
 	 * @param words 字符串值或者字符串资源ID可以混合使用
 	 * @return
 	 */
-	public static  String getNestedString(Context ctx, int sentence, Object... words){
+	public static String getNestedString(Context ctx, int sentence, Object... words) {
 		Resources rs = ctx.getResources();
 		String resource = rs.getString(sentence);
+		if (Utils.isEmpty(resource)) {
+			return "";
+		}
 		for (int i = 0; i < words.length; i++) {
-			if(words[i] instanceof Integer) {
-				resource = resource.replace("{" + i + "}", rs.getString((Integer)words[i]));	
+			if (words[i] instanceof Integer) {
+				resource = resource.replace("{" + i + "}", rs.getString((Integer) words[i]));
 			}
-//			else if(words[i] instanceof String) {
-			else{
+			// else if(words[i] instanceof String) {
+			else {
 				resource = resource.replace("{" + i + "}", words[i].toString());
 			}
 		}

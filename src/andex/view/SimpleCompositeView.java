@@ -222,10 +222,10 @@ public abstract class SimpleCompositeView {
 		}
 		if (data == null || data.isEmpty()) {
 			Log.d("andex", "  No data for ListView, show info");
-			this.alv.setAdapter(new SimpleInfoListViewAdapter(ctx, defaultLabel));
+			((AdapterView)this.alv).setAdapter(new SimpleInfoListViewAdapter(ctx, defaultLabel));
 		}
 		else {
-			this.alv.setAdapter(adapter);
+			((AdapterView)this.alv).setAdapter(adapter);
 		}
 	}
 	

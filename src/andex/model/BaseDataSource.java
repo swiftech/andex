@@ -22,12 +22,16 @@ import android.util.Log;
  * @author 
  *
  */
-public class BaseDataSource {
+public abstract class BaseDataSource {
 
 	// Inject by setter
 	protected Context context;
 
 	protected String dbName;
+	
+//	protected int schemaVersion;
+	
+	DefaultSQLiteOpenHelper dbHelper;
 	
 	protected SQLiteDatabase db ;
 
@@ -38,15 +42,25 @@ public class BaseDataSource {
 	
 	// 是否自动关闭连接，默认是true；如果启用事务则设为false，所有方法实现时根据这个标识来决定是否在操作结束时关闭连接。
 	protected boolean isAutoDisconnect = true;
-
+	
 	/**
 	 * 
-	 * @param filePath Path of DB file if SDCard available, set null or empty to force use internal storage.
-	 * @param dbName Database name
+	 * @param dbName
 	 */
 	public BaseDataSource(String dbName) {
 		super();
 		this.dbName = dbName;
+	}
+	
+	/**
+	 * 
+	 * @param dbName Database name
+	 */
+	public BaseDataSource(String dbName, int schemaVersion) {
+		super();
+		this.dbName = dbName;
+//		this.schemaVersion = schemaVersion;
+		dbHelper = getDbHelper();
 	}	
 	
 	protected SQLiteDatabase getDB() {
@@ -56,8 +70,16 @@ public class BaseDataSource {
 			Log.e("andex.db", "System Context didn't set properly.");
 			return null;
 		}
-		DefaultSQLiteOpenHelper dbHelper = new DefaultSQLiteOpenHelper(context, "andex");
+//		DefaultSQLiteOpenHelper dbHelper = getDbHelper();
 		return dbHelper.getWritableDatabase();
+	}
+	
+	/**
+	 * Inject new implemented db helper here.
+	 * @return
+	 */
+	protected DefaultSQLiteOpenHelper getDbHelper() {
+		return  new DefaultSQLiteOpenHelper(context, this.dbName);
 	}
 
 	
