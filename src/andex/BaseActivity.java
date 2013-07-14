@@ -753,7 +753,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	 * Show progress bar if long time operation will be performed. 
 	 * resource "pgb_wait" is required
 	 */
-	protected void beforeLoadingData(int resId) {
+	public void beforeLoadingData(int resId) {
 		ProgressBar wait = getProgressBar(resId);
 		if (wait == null) {
 			warn("Not set waitting progress bar in XML layout file");
@@ -766,7 +766,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	 * Hide progress bar after long time operation.
 	 * resource "pgb_wait" is required 
 	 */
-	protected void afterLoadingData(int resId) {
+	public void afterLoadingData(int resId) {
 		ProgressBar wait = getProgressBar(resId);
 		if(wait == null) return;
 		wait.setVisibility(View.INVISIBLE);

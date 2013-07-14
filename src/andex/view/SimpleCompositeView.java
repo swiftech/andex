@@ -72,6 +72,10 @@ public abstract class SimpleCompositeView {
 	 * @return
 	 */
 	protected abstract ListAdapter getAdapter(Context context);
+	
+	public SimpleCompositeView addItem(Object id) {
+		return addItem(id, 0, null);
+	}
 
 	/**
 	 * Add new list item, title and description.
@@ -143,9 +147,14 @@ public abstract class SimpleCompositeView {
 			m.put(idkey, id);
 		}
 		m.put(statekey, state);
-		if(values.length > 0)m.put(keys[0], values[0]);
-		if(values.length > 1)m.put(keys[1], values[1]);
-		if(values.length > 2)m.put(keys[2], values[2]);
+		if (values != null) {
+			if (values.length > 0)
+				m.put(keys[0], values[0]);
+			if (values.length > 1)
+				m.put(keys[1], values[1]);
+			if (values.length > 2)
+				m.put(keys[2], values[2]);
+		}
 		data.add(m);
 		return this;
 	}

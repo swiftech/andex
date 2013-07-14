@@ -283,6 +283,16 @@ public class AndroidUtils {
 			return false;
 		}
 	}
+	
+	public static int getGlobalSettingInt(Context ctx, String name) {
+		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
+		try {
+			return setting.getInt(name, 0);
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 
 	/**
 	 * 
