@@ -83,6 +83,9 @@ public class SimpleDialog {
 		return true;
 	}
 	
+	/**
+	 * 完成对话框的建立。
+	 */
 	private void composingDone() {
 		isComposing = false;
 	}
@@ -107,9 +110,10 @@ public class SimpleDialog {
 	 */
 	public void showConfirmDialog(String msg, String[] buttonsTitle, final DialogCallback callback) {
 	
-		if(!enterComposing())return;
-		
-		Log.d("andex", "Confirm Dialog");		
+		if (!enterComposing())
+			return;
+
+		Log.d("andex", "Confirm Dialog");
 		String tagPositive = null;
 		String tagNegative = null;
 		if (buttonsTitle != null && buttonsTitle.length >= 2) {
@@ -142,7 +146,7 @@ public class SimpleDialog {
 		AlertDialog confirmDialog = dBuilder.create();
 		confirmDialog.setTitle(rs.getString(R.string.common_dialog_confirm_title));
 		confirmDialog.show();
-		Log.d("andex", "  show");
+		Log.d("andex", "  shown");
 		composingDone();
 		dialogStack.push(confirmDialog);
 	}

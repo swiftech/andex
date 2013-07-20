@@ -67,13 +67,6 @@ public abstract class BaseActivity extends FragmentActivity {
 	public static final String SYS_PROP_DEBUG_MODE = "andex.debug";
 	public static final String SYS_PROP_DB_VERSION = "andex.db.version";
 	
-	// Key of data in intent extra bundle.
-	protected final String INTENT_DATA_ID_KEY = "INTENT_DATA_ID";
-	protected final String INTENT_DATA_OPTION_KEY = "INTENT_DATA_OPTION_KEY"; 
-	protected final String INTENT_DATA_ARGS_KEY = "INTENT_DATA_ARGS";
-	protected final String INTENT_DATA_LIST_KEY = "INTENT_DATA_LIST";
-	protected final String INTENT_DATA_ROW_KEY = "INTENT_DATA_ROW";
-	
 	//
 	protected final int REQUEST_CODE_DEFAULT = 1000;
 	
@@ -210,7 +203,6 @@ public abstract class BaseActivity extends FragmentActivity {
 	/**
 	 * Start activity with biz ID and arguments.
 	 * use getIdFromPreActivity() to retrieve ID.
-	 * use getOptionFromPreActivity() to retrieve Option ID.
 	 * use getArgsFromPreActivity() to retrieve arguments.
 	 * @param clazz
 	 * @param id Integer类型表示是选项，Long和String类型表示是ID，其他类型则为参数。
@@ -220,16 +212,16 @@ public abstract class BaseActivity extends FragmentActivity {
 	protected void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
 		Intent intent = new Intent(context, clazz);
 		if(id instanceof Integer) {
-			intent.putExtra(INTENT_DATA_OPTION_KEY, (Integer)id);
+			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Integer)id);
 		}
 		else if(id instanceof Long) {
-			intent.putExtra(INTENT_DATA_ID_KEY, (Long)id);
+			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Long)id);
 		}
 		else if(id instanceof String){
-			intent.putExtra(INTENT_DATA_ID_KEY, (String)id);
+			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (String)id);
 		}
 		if (args != null)
-			intent.putExtra(INTENT_DATA_ARGS_KEY, args);
+			intent.putExtra(Constants.INTENT_DATA_ARGS_KEY, args);
 		if(forResult) {
 			startActivityForResult(intent, REQUEST_CODE_DEFAULT);
 		}
@@ -240,19 +232,19 @@ public abstract class BaseActivity extends FragmentActivity {
 	
 	protected void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
 		Intent intent = new Intent(context, clazz);
-		intent.putExtra(INTENT_DATA_LIST_KEY, data);
+		intent.putExtra(Constants.INTENT_DATA_LIST_KEY, data);
 		startActivity(intent);
 	}
 	
 	protected void startActivityWith(Class<? extends Activity> clazz, Map<?,?> data) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra("TEST", 999);
-		intent.putExtra(INTENT_DATA_ROW_KEY, new DataRow(data));
+		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, new DataRow(data));
 		startActivity(intent);
 	}
 	
 	protected void finishWithId(long id) {
-		getIntent().getExtras().putLong(INTENT_DATA_ID_KEY, id);
+		getIntent().getExtras().putLong(Constants.INTENT_DATA_ID_KEY, id);
 		finish();
 	}
 	
@@ -263,17 +255,25 @@ public abstract class BaseActivity extends FragmentActivity {
 	protected void finishWithData(DataRow row, Bundle args){
 		Intent intent = new Intent();
 //		debug("finishWithData() " + row.getClass());
-		intent.putExtra(INTENT_DATA_ROW_KEY, row);
-		intent.putExtra(INTENT_DATA_ARGS_KEY, args);
+		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, row);
+		intent.putExtra(Constants.INTENT_DATA_ARGS_KEY, args);
 		setResult(RESULT_OK, intent);
 		finish();
 	}
 	
+	/**
+	 * @deprecated to getIdObjectFromPrevious
+	 * @return
+	 */
 	protected Object getIdObjectFromPreActivity() {
+		return getIdObjectFromPrevious();		
+	}
+	
+	protected Object getIdObjectFromPrevious() {
 		if (this.getIntent().getExtras() == null) {
 			return 0L; //需要转换成Long
 		}
-		Object v = this.getIntent().getExtras().get(INTENT_DATA_ID_KEY);
+		Object v = this.getIntent().getExtras().get(Constants.INTENT_DATA_ID_KEY);
 		if (v == null)
 			return 0L; //需要转换成Long
 		return v;
@@ -281,18 +281,26 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	/**
 	 * Get ID from pre-activity
-	 * 
+	 * @deprecated to getLongIdFromPrevious()
 	 * @return >0
 	 */
 	protected long getIdFromPreActivity() {
-		return (Long) getIdObjectFromPreActivity();
+		return (Long) getIdObjectFromPrevious();
+	}
+	
+	protected long getLongIdFromPrevious() {
+		return (Long) getIdObjectFromPrevious();
+	}
+	
+	protected int getIntIdFromPrevious() {
+		return (Integer) getIdObjectFromPrevious();
 	}
 	
 	protected String getIdStrFromPreActivity() {
 		if (this.getIntent().getExtras() == null) {
 			return "";
 		}
-		Object v = this.getIntent().getExtras().get(INTENT_DATA_ID_KEY);
+		Object v = this.getIntent().getExtras().get(Constants.INTENT_DATA_ID_KEY);
 		if (v == null)
 			return "";
 		return (String) v;
@@ -302,15 +310,15 @@ public abstract class BaseActivity extends FragmentActivity {
 	 * 
 	 * @return
 	 */
-	protected int getOptionFromPreActivity() {
-		if (this.getIntent().getExtras() == null) {
-			return 0;
-		}
-		Object v = this.getIntent().getExtras().get(INTENT_DATA_OPTION_KEY);
-		if (v == null)
-			return 0;
-		return (Integer) v;
-	}
+//	protected int getOptionFromPreActivity() {
+//		if (this.getIntent().getExtras() == null) {
+//			return 0;
+//		}
+//		Object v = this.getIntent().getExtras().get(Constants.INTENT_DATA_OPTION_KEY);
+//		if (v == null)
+//			return 0;
+//		return (Integer) v;
+//	}
 	
 	protected String getArgStrFromPreActivity(String argName) {
 		return (String)(getArgFromPreActivity(argName));
@@ -321,7 +329,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		if(extras == null) {
 			return null;
 		}
-		Bundle bundle = (Bundle)extras.get(INTENT_DATA_ARGS_KEY);
+		Bundle bundle = (Bundle)extras.get(Constants.INTENT_DATA_ARGS_KEY);
 		if(bundle == null) {
 			return null;
 		}
@@ -333,7 +341,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 	
 	protected DataRow getDataRowFromPreviousActivity() {
-		return (DataRow)this.getIntent().getSerializableExtra(INTENT_DATA_ROW_KEY);
+		return (DataRow)this.getIntent().getSerializableExtra(Constants.INTENT_DATA_ROW_KEY);
 //		throw new UnsupportedOperationException();
 	}
 
