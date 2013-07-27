@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
+import android.util.Log;
+
 public class Flog {
 	
 	private static FileOutputStream fos;
@@ -37,6 +39,10 @@ public class Flog {
 				e.printStackTrace();
 			}
 		}
+		else {
+			Log.w("", "Flog输出流错误");
+		}
+		Log.d("andex", msg + "");
 	}
 	
 	public static void i(Object msg) {
@@ -49,6 +55,26 @@ public class Flog {
 				e.printStackTrace();
 			}
 		}
+		else {
+			Log.w("", "Flog输出流错误");
+		}
+		Log.i("andex", msg + "");
+	}
+	
+	public static void w(Object msg) {
+		if(fos != null) {
+			try {
+				String wmsg = String.format("%s W %s \r\n", Utils.stringifyDate(Calendar.getInstance()), msg);
+				fos.write(wmsg.getBytes());
+				fos.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			Log.w("", "Flog输出流错误");
+		}
+		Log.w("andex", msg + "");
 	}
 	
 	public static void closeFile() {

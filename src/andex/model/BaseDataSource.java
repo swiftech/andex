@@ -40,7 +40,7 @@ public abstract class BaseDataSource {
 	protected final String SQL_FIND_ALL = "select * from ${tableName}";
 	
 	
-	// 是否自动关闭连接，默认是true；如果启用事务则设为false，所有方法实现时根据这个标识来决定是否在操作结束时关闭连接。
+	/** 是否自动关闭连接，默认是true；如果启用事务则设为false，所有方法实现时根据这个标识来决定是否在操作结束时关闭连接。*/
 	protected boolean isAutoDisconnect = true;
 	
 	/**
@@ -198,8 +198,8 @@ public abstract class BaseDataSource {
 	 * @param orderBy
 	 * @return 一个List，每一项表示一条记录，每项用Map表示，key为字段名，value为字段值。
 	 */
-	public List<Map> findAll(String tableName, String whereClause,  String orderByClause) {
-		if(db == null) {
+	public List<Map> findAll(String tableName, String whereClause, String orderByClause) {
+		if (db == null) {
 			Log.e("db", "Database instance is not correctly initilized.");
 			return null;
 		}
@@ -212,10 +212,11 @@ public abstract class BaseDataSource {
 			e.printStackTrace();
 			return new ArrayList();
 		} finally {
-			if(isAutoDisconnect) this.disconnect();
+			if (isAutoDisconnect)
+				this.disconnect();
 		}
 	}
-	
+
 	public List<Map> find(String sql) {
 		connect();
 		Cursor cursor = db.rawQuery(sql, null);

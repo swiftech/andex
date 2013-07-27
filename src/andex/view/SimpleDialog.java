@@ -128,7 +128,8 @@ public class SimpleDialog {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				Log.d("andex", "Confirm Dialog OK clicked");
-				callback.onPositive(dialog);
+				callback.onPositive();
+				callback.onPositive(dialog); // deprecated
 				dismissDialogOnTop();
 				callback.afterSelected();
 			}
@@ -137,7 +138,8 @@ public class SimpleDialog {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				Log.d("andex", "Confirm Dialog Calcel clicked");
-				callback.onNegative(dialog);
+				callback.onNegative();
+				callback.onNegative(dialog); // deprecated
 				dismissDialogOnTop();
 				callback.afterSelected();
 			}
@@ -661,6 +663,11 @@ public class SimpleDialog {
 		 * @param values
 		 */
 		public void onPositive(T... values) {};
+		
+		/**
+		 * 
+		 */
+		public void onNegative(){};
 
 		/**
 		 * Negative button clicked.
