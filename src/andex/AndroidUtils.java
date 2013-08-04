@@ -274,6 +274,12 @@ public class AndroidUtils {
 		}
 	}
 	
+	/**
+	 * 获取bool类型的设置，如果异常返回false
+	 * @param ctx
+	 * @param name
+	 * @return
+	 */
 	public static boolean getGlobalSettingBoolean(Context ctx, String name) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
 		try {
@@ -281,6 +287,23 @@ public class AndroidUtils {
 		} catch (ClassCastException e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	/**
+	 * 获取bool类型的设置，如果异常返回指定的默认值。
+	 * @param ctx
+	 * @param name
+	 * @param defaultValue
+	 * @return
+	 */
+	public static boolean getGlobalSettingBoolean(Context ctx, String name, boolean defaultValue) {
+		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
+		try {
+			return setting.getBoolean(name, defaultValue);
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			return defaultValue;
 		}
 	}
 	

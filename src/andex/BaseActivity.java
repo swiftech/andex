@@ -466,6 +466,12 @@ public abstract class BaseActivity extends FragmentActivity {
 		return this.findViewById(id);
 	}
 	
+	protected View setViewBackground(int viewResId, int bgResId) {
+		View v = this.findViewById(viewResId);
+		v.setBackgroundResource(bgResId);
+		return v;
+	}
+	
 	/**
 	 * 
 	 * @param resId
