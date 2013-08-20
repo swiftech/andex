@@ -1,5 +1,6 @@
 package andex;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import andex.model.DataList;
@@ -76,7 +77,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	
 	// DEBUG模式（默认） changed by setting system arguments "andex.debug"
 	// @deprecated
-	protected boolean debugMode = true; 
+//	protected boolean debugMode = true; 
 
 	// Resources from context.
 	protected Resources rs;
@@ -191,6 +192,34 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 	
 	/**
+	 * 启动一个Activity，无ID，附带一对键值参数。
+	 * 在新Activity中用getArgFromPreActivity()方法获取参数值。
+	 * @param clazz
+	 * @param key
+	 * @param value
+	 * @param forResult
+	 */
+	protected void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult) {
+		startActivityWith(clazz, -1L, key, value, forResult);
+	}
+	
+
+	/**
+	 * 启动一个Activity，附带ID和一对键值参数。
+	 * 在新Activity中用getArgFromPreActivity()方法获取参数值。
+	 * @param clazz
+	 * @param id
+	 * @param key
+	 * @param value
+	 * @param forResult
+	 */
+	protected void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value, boolean forResult) {
+		Bundle args = new Bundle();
+		args.putSerializable(key, value);
+		startActivityWith(clazz, id, args, forResult);	
+	}
+	
+	/**
 	 * Start activity with arguments.
 	 * @param clazz
 	 * @param args
@@ -243,16 +272,16 @@ public abstract class BaseActivity extends FragmentActivity {
 		startActivity(intent);
 	}
 	
-	protected void finishWithId(long id) {
+	public void finishWithId(long id) {
 		getIntent().getExtras().putLong(Constants.INTENT_DATA_ID_KEY, id);
 		finish();
 	}
 	
-	protected void finishWithData(DataRow row){
+	public void finishWithData(DataRow row){
 		finishWithData(row, null);
 	}
 	
-	protected void finishWithData(DataRow row, Bundle args){
+	public void finishWithData(DataRow row, Bundle args){
 		Intent intent = new Intent();
 //		debug("finishWithData() " + row.getClass());
 		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, row);
@@ -320,10 +349,38 @@ public abstract class BaseActivity extends FragmentActivity {
 //		return (Integer) v;
 //	}
 	
+	/**
+	 * 
+	 * @param argName
+	 * @return
+	 */
+	protected int getArgIntFromPreActivity(String argName) {
+		Object o = getArgFromPreActivity(argName);
+		if (o == null) {
+			throw new RuntimeException(String.format("参数值%s不存在", argName));
+		}
+		return (Integer) o;
+	}
+
+	/**
+	 * 根据Key从前一个Activity获得字符串类型的参数值。
+	 * 
+	 * @param argName
+	 * @return
+	 */
 	protected String getArgStrFromPreActivity(String argName) {
-		return (String)(getArgFromPreActivity(argName));
+		Object o = getArgFromPreActivity(argName);
+		if (o == null) {
+			throw new RuntimeException(String.format("参数值%s不存在", argName));
+		}
+		return (String) o;
 	}
 	
+	/**
+	 * 根据Key从前一个Activity获得参数值。
+	 * @param argName
+	 * @return
+	 */
 	protected Object getArgFromPreActivity(String argName) {
 		Bundle extras = this.getIntent().getExtras();
 		if(extras == null) {

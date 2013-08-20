@@ -137,7 +137,7 @@ public class SimpleDialog {
 		dBuilder.setNegativeButton(tagNegative, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Log.d("andex", "Confirm Dialog Calcel clicked");
+				Log.d("andex", "'Calcel' clicked for confirmation dialog ");
 				callback.onNegative();
 				callback.onNegative(dialog); // deprecated
 				dismissDialogOnTop();

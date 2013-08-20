@@ -36,7 +36,7 @@ public abstract class SimpleCompositeView {
 	}
 	
 	protected Context ctx;
-	protected AbsListView alv;
+	protected AbsListView absListView;
 	protected String idkey = "k_id";
 	protected String statekey = "k_state";
 	
@@ -54,7 +54,7 @@ public abstract class SimpleCompositeView {
 
 	public SimpleCompositeView(Context context, AbsListView alv) {
 		this.ctx = context;
-		this.alv = alv;
+		this.absListView = alv;
 		data = new ArrayList();
 		adapter = getAdapter(context);
 	}
@@ -226,15 +226,15 @@ public abstract class SimpleCompositeView {
 	 */
 	public void render() {
 		Log.d("andex", "render()");
-		if (this.alv == null) {
+		if (this.absListView == null) {
 			throw new RuntimeException("The composite view was not init correctly, the abstract list view object is Null");
 		}
 		if (data == null || data.isEmpty()) {
 			Log.d("andex", "  No data for ListView, show info");
-			((AdapterView)this.alv).setAdapter(new SimpleInfoListViewAdapter(ctx, defaultLabel));
+			((AdapterView)this.absListView).setAdapter(new SimpleInfoListViewAdapter(ctx, defaultLabel));
 		}
 		else {
-			((AdapterView)this.alv).setAdapter(adapter);
+			((AdapterView)this.absListView).setAdapter(adapter);
 		}
 	}
 	
@@ -243,10 +243,11 @@ public abstract class SimpleCompositeView {
 	 * @param handler Invoked with ID and displayed contents if ID exists.
 	 */
 	public void onItemClick(final Callback handler) {
-		this.alv.setOnItemClickListener(new OnItemClickListener() {
+		this.absListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long itemid) {
+			public void onItemClick(AdapterView<?> parent, View view, int pos, long itemid) {
 				Log.d("andex", "  Item at position " + pos + " was clicked");
+				view.setSelected(true); // TODO
 				handleClickEvent(pos, handler);
 			}
 		});
@@ -257,9 +258,9 @@ public abstract class SimpleCompositeView {
 	 * @param handler Invoked with ID and displayed contents if ID exists.
 	 */
 	public void onItemLongClick(final Callback handler) {
-		this.alv.setOnItemLongClickListener(new OnItemLongClickListener() {
+		this.absListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long itemid) {
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long itemid) {
 				Log.d("andex", "  Item at position " + pos + " was long clicked");
 				handleClickEvent(pos, handler);
 				return false;
