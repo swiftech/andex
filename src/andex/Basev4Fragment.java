@@ -48,7 +48,6 @@ import android.widget.ToggleButton;
  */
 @SuppressLint("ValidFragment")
 public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
-
 	
 	//
 	protected final int REQUEST_CODE_DEFAULT = 1000;
@@ -599,8 +598,6 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 		}
 		return args.getLong(Constants.FRAGMENT_DATA_ID_KEY);
 	}
-	
-
 	
 	/**
 	 * 结束当前的Fragment
