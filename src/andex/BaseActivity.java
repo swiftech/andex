@@ -272,6 +272,48 @@ public abstract class BaseActivity extends FragmentActivity {
 		startActivity(intent);
 	}
 	
+	
+	/**
+	 * 在资源ID指定的位置显示Fragment
+	 * @param frag
+	 * @param resId
+	 */
+	protected void showFragment(Basev4Fragment frag, int resId) {
+		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+		ft.replace(resId, frag);
+		ft.commit();		
+	}
+	
+	/**
+	 * 在资源ID指定的位置显示Fragment，附带一对键值参数。
+	 * @param frag
+	 * @param resId
+	 * @param argKey
+	 * @param argValue
+	 */
+	protected void showFragment(Basev4Fragment frag, int resId, String argKey, Serializable argValue) {
+		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+		Bundle args = new Bundle();
+		args.putSerializable(argKey, argValue);
+		frag.setArguments(args);
+		ft.replace(resId, frag);
+		ft.commit();		
+	}
+	
+	/**
+	 * 在资源ID指定的位置显示Fragment，附带Bundle参数。
+	 * @param frag
+	 * @param resId
+	 * @param args
+	 */
+	protected void showFragment(Basev4Fragment frag, int resId, Bundle args) {
+		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+		frag.setArguments(args);
+		ft.replace(resId, frag);
+		ft.commit();		
+	}
+	
+	
 	public void finishWithId(long id) {
 		getIntent().getExtras().putLong(Constants.INTENT_DATA_ID_KEY, id);
 		finish();
