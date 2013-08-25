@@ -1,5 +1,6 @@
 package andex;
 
+import andex.model.DataRow;
 import andex.view.SimpleDialog;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -503,7 +504,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param forResult
 	 */
 	protected void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
-		startActivityWith(clazz, 0, args, forResult);
+		startActivityWith(clazz, 0L, args, forResult);
 	}
 	
 	/**
@@ -526,7 +527,9 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 		else if(id instanceof String){
 			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (String)id);
 		}
+		
 		if (args != null)
+//			intent.getExtras().putAll(args); // 直接将参数导入
 			intent.putExtra(Constants.INTENT_DATA_ARGS_KEY, args);
 		if(forResult) {
 			startActivityForResult(intent, REQUEST_CODE_DEFAULT);
@@ -599,6 +602,23 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 		return args.getLong(Constants.FRAGMENT_DATA_ID_KEY);
 	}
 	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	protected int getOptionFromPrevious() {
+		Bundle args  = getArguments();
+		if (args == null) {
+			return 0;
+		}
+		Object v = args.get(Constants.FRAGMENT_DATA_OPTION_KEY);
+		if (v == null)
+			return 0;
+		return (Integer) v;
+	}
+
+	
 	/**
 	 * 结束当前的Fragment
 	 */
@@ -611,7 +631,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	/**
 	 * 结束当前Fragment中的业务逻辑，
 	 */
-	protected void finishWithData(Object data) {
+	protected void finishWithData(DataRow data) {
 		if (previousFragment != null) {
 			previousFragment.onFragmentResult(data);
 		}
@@ -622,7 +642,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 当从一个Fragment返回时调用，并且附带数据（可以为NULL）。
 	 * @param data
 	 */
-	protected void onFragmentResult(Object data) {
+	protected void onFragmentResult(DataRow data) {
 		// NOTHING NEED TO DO FOR NOW.
 	}
 

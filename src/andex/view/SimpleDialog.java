@@ -624,7 +624,7 @@ public class SimpleDialog {
 	
 	/**
 	 * Use this to init complex dialog item like Spinner.
-	 * @author yuxing
+	 * @author
 	 *
 	 */
 	public static class CustomDialogInit {

@@ -3,6 +3,7 @@ package andex;
 import java.io.Serializable;
 import java.util.Map;
 
+import andex.Callback.CallbackAdapter;
 import andex.model.DataList;
 import andex.model.DataRow;
 import andex.view.SimpleDialog;
@@ -304,7 +305,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	 * 在资源ID指定的位置显示Fragment，附带Bundle参数。
 	 * @param frag
 	 * @param resId
-	 * @param args
+	 * @param args 启动Fragment附带的参数列表，用getArguments()获取。
 	 */
 	protected void showFragment(Basev4Fragment frag, int resId, Bundle args) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
@@ -318,6 +319,9 @@ public abstract class BaseActivity extends FragmentActivity {
 		getIntent().getExtras().putLong(Constants.INTENT_DATA_ID_KEY, id);
 		finish();
 	}
+	
+//	public void finishWithData(Object data) {
+//	}
 	
 	public void finishWithData(DataRow row){
 		finishWithData(row, null);
@@ -367,7 +371,11 @@ public abstract class BaseActivity extends FragmentActivity {
 		return (Integer) getIdObjectFromPrevious();
 	}
 	
-	protected String getIdStrFromPreActivity() {
+	/**
+	 * 
+	 * @return
+	 */
+	protected String getIdStrFromIntent() {
 		if (this.getIntent().getExtras() == null) {
 			return "";
 		}
@@ -379,25 +387,11 @@ public abstract class BaseActivity extends FragmentActivity {
 	
 	/**
 	 * 
-	 * @return
-	 */
-//	protected int getOptionFromPreActivity() {
-//		if (this.getIntent().getExtras() == null) {
-//			return 0;
-//		}
-//		Object v = this.getIntent().getExtras().get(Constants.INTENT_DATA_OPTION_KEY);
-//		if (v == null)
-//			return 0;
-//		return (Integer) v;
-//	}
-	
-	/**
-	 * 
 	 * @param argName
 	 * @return
 	 */
-	protected int getArgIntFromPreActivity(String argName) {
-		Object o = getArgFromPreActivity(argName);
+	protected int getArgIntFromIntent(String argName) {
+		Object o = getArgFromIntent(argName);
 		if (o == null) {
 			throw new RuntimeException(String.format("参数值%s不存在", argName));
 		}
@@ -405,25 +399,27 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 	/**
-	 * 根据Key从前一个Activity获得字符串类型的参数值。
+	 * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
 	 * 
 	 * @param argName
 	 * @return
 	 */
-	protected String getArgStrFromPreActivity(String argName) {
-		Object o = getArgFromPreActivity(argName);
+	protected String getArgStrFromIntent(String argName) {
+		Object o = getArgFromIntent(argName);
 		if (o == null) {
-			throw new RuntimeException(String.format("参数值%s不存在", argName));
+			Log.d("andex", String.format("参数值%s不存在", argName));
+			return null;
+//			throw new RuntimeException(String.format("参数值%s不存在", argName));
 		}
 		return (String) o;
 	}
 	
 	/**
-	 * 根据Key从前一个Activity获得参数值。
+	 * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
 	 * @param argName
 	 * @return
 	 */
-	protected Object getArgFromPreActivity(String argName) {
+	protected Object getArgFromIntent(String argName) {
 		Bundle extras = this.getIntent().getExtras();
 		if(extras == null) {
 			return null;
@@ -435,11 +431,12 @@ public abstract class BaseActivity extends FragmentActivity {
 		return bundle.get(argName);
 	}
 	
-	protected DataList getDataListFromPreviousActivity() {
+	
+	protected DataList getDataListFromIntent() {
 		throw new UnsupportedOperationException();
 	}
 	
-	protected DataRow getDataRowFromPreviousActivity() {
+	protected DataRow getDataRowFromIntent() {
 		return (DataRow)this.getIntent().getSerializableExtra(Constants.INTENT_DATA_ROW_KEY);
 //		throw new UnsupportedOperationException();
 	}
@@ -995,4 +992,15 @@ public abstract class BaseActivity extends FragmentActivity {
 		view.setBackgroundDrawable(bdHead);
 	}
 
+
+	/** Prepared callback that just finish current activity */
+	protected CallbackAdapter callbackFinish = new CallbackAdapter(){
+
+		@Override
+		public void invoke() {
+			super.invoke();
+			finish();
+		}
+		
+	};
 }
