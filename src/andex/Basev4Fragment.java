@@ -20,6 +20,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
@@ -412,6 +414,9 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @return
 	 */
 	protected View getViewByName(String name) {
+		if (this.getActivity() == null) {
+			return null;
+		}
 		int id = rs.getIdentifier(name, "id", this.getActivity().getPackageName());
 		if(id == 0) {
 			return null;
@@ -437,6 +442,23 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 				view.setEnabled(false);
 				handler.invoke();
 				handler.invoke(v);
+				view.setEnabled(true);
+			}
+		});
+		return view;
+	}
+	
+	protected CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
+		final CompoundButton view = (CompoundButton) fragmentView.findViewById(resId);
+		if(view == null) {
+			Log.w("andex", "No view found：" + rs.getResourceName(resId));
+			return view;
+		}
+		view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				view.setEnabled(false);
+				handler.invoke(isChecked);
 				view.setEnabled(true);
 			}
 		});
