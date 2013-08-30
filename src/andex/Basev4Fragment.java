@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -604,7 +605,13 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 */
 	protected void startFragmentWithArgs(Basev4Fragment fragment, int resId, Bundle bundle, boolean forResult) {
 		fragment.setArguments(bundle);
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		
+		FragmentManager fm = getFragmentManager();
+		if (fm == null) {
+			Log.w("andex", "Failed to get Fragment manager");
+			return;
+		}
+		FragmentTransaction ft = fm.beginTransaction();
 		ft.replace(resId, fragment);
 		ft.commit();
 		if (forResult) {
