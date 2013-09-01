@@ -523,7 +523,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	/**
 	 * Start activity with arguments.
 	 * @param clazz
-	 * @param args
+	 * @param args {@link Constants.INTENT_DATA_ARGS_KEY} 
 	 * @param forResult
 	 */
 	protected void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
@@ -536,7 +536,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * use getArgsFromPreActivity() to retrieve arguments.
 	 * @param clazz
 	 * @param id Integer类型表示是选项，Long和String类型表示是ID，其他类型则为参数。
-	 * @param args
+	 * @param args {@link Constants.INTENT_DATA_ARGS_KEY}
 	 * @param forResult
 	 */
 	protected void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {

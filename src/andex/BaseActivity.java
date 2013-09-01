@@ -1,6 +1,7 @@
 package andex;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Map;
 
 import andex.Callback.CallbackAdapter;
@@ -427,6 +428,12 @@ public abstract class BaseActivity extends FragmentActivity {
 		Bundle bundle = (Bundle)extras.get(Constants.INTENT_DATA_ARGS_KEY);
 		if(bundle == null) {
 			return null;
+		}
+		if (Constants.debugMode) {
+			for (Iterator it = bundle.keySet().iterator(); it.hasNext();) {
+				Object key = it.next();
+				Log.d("andex", String.format("  ARG: %s = %s", key, bundle.get(key.toString())));
+			}
 		}
 		return bundle.get(argName);
 	}
