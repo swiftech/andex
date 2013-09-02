@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import andex.Constants;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -64,7 +65,7 @@ public abstract class BaseDataSource {
 	}	
 	
 	protected SQLiteDatabase getDB() {
-		Log.d("db", "Access database from system storage");
+		Log.i("andex.db", "Access database from system storage");
 		// 没有则存系统的数据库。
 		if (context == null) {
 			Log.e("andex.db", "System Context didn't set properly.");
@@ -108,15 +109,15 @@ public abstract class BaseDataSource {
 	 */
 	public boolean createTable(String sql) {
 		if(db == null || !db.isOpen()) {
-			Log.e("db", "Database instance is not correctly initilized.");
+			Log.e("andex.db", "Database instance is not correctly initilized.");
 			return false;
 		}
 		try {
 			db.execSQL(sql);
-			Log.i("db", "Table created: " + sql);
+			Log.i("andex.db", "Table created: " + sql);
 		} catch (SQLException e) {
 //			e.printStackTrace();
-			Log.w("db", e.getLocalizedMessage());
+			Log.w("andex.db", e.getLocalizedMessage());
 			return false;
 		} finally {
 //			db.close();
@@ -126,7 +127,7 @@ public abstract class BaseDataSource {
 	
 	public void dropTable(String tableName) {
 		if (db == null || !db.isOpen()) {
-			Log.e("db", "Database instance is not correctly initilized.");
+			Log.e("andex.db", "Database instance is not correctly initilized.");
 			return;
 		}
 		try {
@@ -134,14 +135,16 @@ public abstract class BaseDataSource {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			Log.i("db", "Table " + tableName + " has been droped");
+			Log.i("andex.db", "Table " + tableName + " has been droped");
 			this.disconnect();
 		}
 	}
 	
 	public boolean isExists(String tableName, String uniqueCol, String colValue) {
 		String sql = "select * from " + tableName + " where " + uniqueCol + "='" + colValue + "'";
-//		Log.d("db", "SQL:" + sql);
+		if (Constants.debugMode) {
+//		Log.d("andex.db", "SQL:" + sql);
+		}
 		Cursor cur = null;
 		try {
 			cur = db.rawQuery(sql, null);
@@ -200,11 +203,11 @@ public abstract class BaseDataSource {
 	 */
 	public List<Map> findAll(String tableName, String whereClause, String orderByClause) {
 		if (db == null) {
-			Log.e("db", "Database instance is not correctly initilized.");
+			Log.e("andex.db", "Database instance is not correctly initilized.");
 			return null;
 		}
 		connect();
-		Log.d("db", "Find all in table " + tableName);
+		Log.d("andex.db", "Find all in table " + tableName);
 		Cursor cursor = db.query(tableName, null, whereClause, null, null, null, orderByClause);
 		try {
 			return cursorToMapList(cursor);
@@ -234,7 +237,7 @@ public abstract class BaseDataSource {
 		List<Map> result = new ArrayList();
 		int n = 0;
 		for(;cursor.moveToNext();) {
-//			Log.d("db", "Row" + n++);
+//			Log.d("andex.db", "Row" + n++);
 			int count = cursor.getColumnCount();
 			Map row = new HashMap();
 			for (int i = 0; i < count; i++) {
@@ -248,7 +251,7 @@ public abstract class BaseDataSource {
 			}
 			result.add(row);
 		}
-		Log.d("db", "Result with " + result.size() + " records.");
+		Log.d("andex.db", "Result with " + result.size() + " records.");
 		return result;
 	}
 	
@@ -276,7 +279,7 @@ public abstract class BaseDataSource {
 		prepareToConnect();
 		try {
 			int rows = db.delete(tbName, "ID=?", new String[]{"" + pkID});
-			Log.i("db", "" + rows  + " rows in " + tbName + " deleted.");
+			Log.i("andex.db", "" + rows  + " rows in " + tbName + " deleted.");
 			return (rows > 0);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -295,7 +298,7 @@ public abstract class BaseDataSource {
 		prepareToConnect();
 		try {
 			int rows = db.delete(tbName, null, null);
-			Log.i("db", "all " + rows  + " rows in " + tbName + " deleted.");
+			Log.i("andex.db", "all " + rows  + " rows in " + tbName + " deleted.");
 			return (rows > 0);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -307,7 +310,7 @@ public abstract class BaseDataSource {
 	// @deprecated?
 	protected void prepareToConnect() {
 //		if(db == null) {
-//			Log.e("db", "Database instance is not correctly initilized.");
+//			Log.e("andex.db", "Database instance is not correctly initilized.");
 //			throw new RuntimeException("Database instance is not correctly initilized.");
 //		}
 		if(db == null || !db.isOpen()) {
