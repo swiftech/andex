@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Resources;
+import android.content.res.Resources.NotFoundException;
 import android.graphics.Color;
 import android.text.InputType;
 import android.util.Log;
@@ -64,11 +65,15 @@ public class SimpleDialog {
 		this.context = context;
 		this.rs = context.getResources();
 		
-		tagOk = rs.getString(android.R.string.ok);
-		tagCancel = rs.getString(android.R.string.cancel);
-		tagYes = rs.getString(android.R.string.yes);
-		tagNo = rs.getString(android.R.string.no);
-		tagClose = rs.getString(R.string.common_close);
+		try {
+			tagOk = rs.getString(android.R.string.ok);
+			tagCancel = rs.getString(android.R.string.cancel);
+			tagYes = rs.getString(android.R.string.yes);
+			tagNo = rs.getString(android.R.string.no);
+			tagClose = rs.getString(R.string.common_close);
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -101,14 +106,25 @@ public class SimpleDialog {
 	}
 	
 	/**
-	 * 显示确认对话框（指定按钮显示内容
-	 * Show dialog with message to confirm something.
+	 * 显示确认对话框（指定按钮显示内容）
 	 * 
 	 * @param msg
 	 * @param buttonsTitle
 	 * @param callback
 	 */
 	public void showConfirmDialog(String msg, String[] buttonsTitle, final DialogCallback callback) {
+		String title = rs.getString(R.string.common_dialog_confirm_title);
+		showConfirmDialog(title, msg, buttonsTitle, callback);
+	}
+	
+	/**
+	 * 显示确认对话框（指定标题、消息和按钮显示内容）
+	 * @param title
+	 * @param msg
+	 * @param buttonsTitle
+	 * @param callback
+	 */
+	public void showConfirmDialog(String title, String msg, String[] buttonsTitle, final DialogCallback callback) {
 	
 		if (!enterComposing())
 			return;
@@ -146,7 +162,7 @@ public class SimpleDialog {
 		});
 
 		AlertDialog confirmDialog = dBuilder.create();
-		confirmDialog.setTitle(rs.getString(R.string.common_dialog_confirm_title));
+		confirmDialog.setTitle(title);
 		confirmDialog.show();
 		Log.d("andex", "  shown");
 		composingDone();

@@ -73,15 +73,19 @@ public abstract class SimpleCompositeView {
 	 */
 	protected abstract ListAdapter getAdapter(Context context);
 	
+	/**
+	 * 添加一个空（null）项
+	 * @param id
+	 * @return
+	 */
 	public SimpleCompositeView addItem(Object id) {
 		return addItem(id, 0, null);
 	}
 
 	/**
-	 * Add new list item, title and description.
-	 * 
-	 * @param values
-	 *            Must with 2 elements in it.
+	 * 添加一个列表项。
+	 * @param values 至少有两个值，分别表示title和description.
+	 *            
 	 * @return
 	 */
 	public SimpleCompositeView addItem(Object[] values) {
@@ -210,6 +214,35 @@ public abstract class SimpleCompositeView {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Map<String, ?> getItem(Object id) {
+		if (id == null) {
+			return null;
+		}
+		for (int i = 0; i < data.size(); i++) {
+			if (data.get(i).get(idkey) == id) {
+				return data.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public int indexOf(Object id) {
+		if (id == null) {
+			return -1;
+		}
+		for (int i = 0; i < data.size(); i++) {
+			if (data.get(i).get(idkey) == id) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	/**
