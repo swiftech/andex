@@ -233,6 +233,10 @@ public abstract class SimpleCompositeView {
 		return null;
 	}
 	
+//	public View getItemView() {
+//		this.absListView.getchi
+//	}
+	
 	public int indexOf(Object id) {
 		if (id == null) {
 			return -1;
