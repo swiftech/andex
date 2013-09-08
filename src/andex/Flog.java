@@ -95,14 +95,22 @@ public class Flog {
 	}
 	
 	public static void e(Exception ex) {
+		
+	}
+	public static void e(String msg, Exception ex) {
 		if(fos != null) {
 			try {
-				String emsg = String.format("%s E %s \r\n", Utils.stringifyTime(Calendar.getInstance()), ex.getMessage());
+				
+				fos.write(String.format("%s E %s \r\n", Utils.stringifyTime(Calendar.getInstance()), msg.getBytes())
+						.getBytes());
+				
+				String emsg = String.format("%s E %s \r\n", Utils.stringifyTime(Calendar.getInstance()),
+						ex.getMessage());
 				fos.write(emsg.getBytes());
 				
 				StackTraceElement[] trace = ex.getStackTrace();
 				for (int i = 0; i < trace.length; i++) {
-					String traceMsg = String.format("    %s", trace[i].toString());
+					String traceMsg = String.format("    %s \r\n", trace[i].toString());
 					fos.write(traceMsg.getBytes());
 				}
 				fos.flush();

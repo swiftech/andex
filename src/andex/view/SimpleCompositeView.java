@@ -40,7 +40,7 @@ public abstract class SimpleCompositeView {
 	protected String idkey = "k_id";
 	protected String statekey = "k_state";
 	
-	// keys to extract text line 1 and text line 2 for each ListView item. 
+	// keys to extract text line 1 and text line 2 for each item. 
 	protected String[] keys = new String[] { "k1", "k2", "k3"};
 	
 	// Data of rows with k1 and k2.

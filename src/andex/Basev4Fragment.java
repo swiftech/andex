@@ -26,7 +26,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
-import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -265,11 +264,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	protected ImageButton getImageButton(int resId) {
 		return (ImageButton) fragmentView.findViewById(resId);
 	}
-	
-	protected Gallery getGallery(int resId) {
-		return (Gallery)fragmentView.findViewById(resId);
-	}
-	
+
 	protected SurfaceView getSurfaceView(int resId) {
 		return (SurfaceView)fragmentView.findViewById(resId);
 	}
@@ -595,9 +590,21 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 			fragment.previousFragment = this;
 		}
 	}
+	
+	protected void startFragmentWith(Basev4Fragment fragment, int resId, long id, Bundle args, boolean forResult) {
+		args.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
+		fragment.setArguments(args);
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		ft.replace(resId, fragment);
+		ft.commit();
+		if (forResult) {
+			fragment.previousFragment = this;
+		}
+	}
 
 	/**
-	 * 在资源ID指定的位置显示Fragment，如果forResult为true的话，将会在调用finishWithData(Object)后回调前一个Fragment的onFragmentResult()方法
+	 * <p>在资源ID指定的位置显示Fragment，如果forResult为true的话，
+	 * 将会在调用finishWithData(Object)后回调前一个Fragment的onFragmentResult()方法
 	 * @param fragment
 	 * @param resId
 	 * @param bundle

@@ -98,6 +98,7 @@ public abstract class BaseDataSource {
 	 * 
 	 */
 	public void disconnect() {
+		Log.d("db", "Disconnection from db connection");
 		if (db != null && db.isOpen()) {
 			db.close();
 		}
