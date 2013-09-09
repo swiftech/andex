@@ -181,6 +181,16 @@ public class AndroidUtils {
 	}
 	
 	/**
+	 * 获得屏幕像素数量。
+	 * @param ctx
+	 * @return
+	 */
+	public static int getScreenPixels(Context ctx) {
+		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
+		return dm.widthPixels * dm.heightPixels;
+	}
+	
+	/**
 	 * 获取屏幕像素宽度
 	 * @param ctx
 	 * @return
