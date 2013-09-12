@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Iterator;
 
 import android.util.Log;
 
@@ -94,24 +93,30 @@ public class Flog {
 		Log.w("andex", msg + "");
 	}
 	
-	public static void e(Exception ex) {
-		
+	
+	public static void e(String msg) {
+		e(msg, null);
 	}
+	
+	public static void e(Exception ex) {
+		e(ex.getLocalizedMessage(), ex);
+	}
+	
 	public static void e(String msg, Exception ex) {
 		if(fos != null) {
 			try {
-				
 				fos.write(String.format("%s E %s \r\n", Utils.stringifyTime(Calendar.getInstance()), msg.getBytes())
 						.getBytes());
 				
-				String emsg = String.format("%s E %s \r\n", Utils.stringifyTime(Calendar.getInstance()),
-						ex.getMessage());
-				fos.write(emsg.getBytes());
-				
-				StackTraceElement[] trace = ex.getStackTrace();
-				for (int i = 0; i < trace.length; i++) {
-					String traceMsg = String.format("    %s \r\n", trace[i].toString());
-					fos.write(traceMsg.getBytes());
+				if (ex != null) {
+					String emsg = String.format("%s E %s \r\n", Utils.stringifyTime(Calendar.getInstance()),
+							ex.getMessage());
+					fos.write(emsg.getBytes());
+					StackTraceElement[] trace = ex.getStackTrace();
+					for (int i = 0; i < trace.length; i++) {
+						String traceMsg = String.format("    %s \r\n", trace[i].toString());
+						fos.write(traceMsg.getBytes());
+					}
 				}
 				fos.flush();
 			} catch (IOException e) {
