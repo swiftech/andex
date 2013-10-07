@@ -1,5 +1,7 @@
 package andex;
 
+import java.io.Serializable;
+
 import andex.model.DataRow;
 import andex.view.SimpleDialog;
 import android.annotation.SuppressLint;
@@ -215,6 +217,10 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	
 	protected Spinner getSpinner(int resId) {
 		return (Spinner)fragmentView.findViewById(resId);
+	}
+	
+	protected ViewGroup getViewGroup(int resId) {
+		return (ViewGroup)fragmentView.findViewById(resId);
 	}
 	
 	protected GridView getGridView(int resId) {
@@ -580,8 +586,22 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param forResult
 	 */
 	protected void startFragmentWithId(Basev4Fragment fragment, int resId, long id, boolean forResult) {
+//		Bundle bundle = new Bundle();
+//		bundle.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
+//		fragment.setArguments(bundle);
+//		FragmentTransaction ft = getFragmentManager().beginTransaction();
+//		ft.replace(resId, fragment);
+//		ft.commit();
+//		if (forResult) {
+//			fragment.previousFragment = this;
+//		}
+		
+		startFragmentWith(fragment, resId, Constants.FRAGMENT_DATA_ID_KEY, id, forResult);
+	}
+	
+	protected void startFragmentWith(Basev4Fragment fragment, int resId, String key, Serializable value, boolean forResult) {
 		Bundle bundle = new Bundle();
-		bundle.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
+		bundle.putSerializable(key, value);
 		fragment.setArguments(bundle);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.replace(resId, fragment);
@@ -590,6 +610,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 			fragment.previousFragment = this;
 		}
 	}
+	
 	
 	protected void startFragmentWith(Basev4Fragment fragment, int resId, long id, Bundle args, boolean forResult) {
 		args.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
@@ -640,7 +661,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	
 	
 	/**
-	 * 
+	 * 从前面（Fragment）获得默认的选项参数值（用Constants.FRAGMENT_DATA_OPTION_KEY标识）
 	 * @return
 	 */
 	protected int getOptionFromPrevious() {

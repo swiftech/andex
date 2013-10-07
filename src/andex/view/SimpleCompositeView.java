@@ -10,6 +10,7 @@ import andex.Callback;
 import andex.Utils;
 import andex.view.SimpleListView.SimpleInfoListViewAdapter;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
@@ -176,6 +177,24 @@ public abstract class SimpleCompositeView {
 			Log.d("", k + "=" + v);
 			if (v != null) {
 				addItem(k, v, v);
+			}
+		}
+		return this;
+	}
+	
+	/**
+	 * Add all Bundle entries, key as id and title, value as description.
+	 * @param bundle
+	 * @return
+	 */
+	public SimpleCompositeView addAllItems(Bundle bundle) {
+		Iterator it = bundle.keySet().iterator();
+		while (it.hasNext()) {
+			Object k = it.next();
+			Object v = bundle.get(k.toString());
+			Log.d("", k + "=" + v);
+			if (v != null) {
+				addItem(k, k, v);
 			}
 		}
 		return this;

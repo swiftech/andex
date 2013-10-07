@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -279,11 +280,13 @@ public abstract class BaseActivity extends FragmentActivity {
 	 * 在资源ID指定的位置显示Fragment
 	 * @param frag
 	 * @param resId
+	 * @return
 	 */
-	protected void showFragment(Basev4Fragment frag, int resId) {
+	protected Basev4Fragment showFragment(Basev4Fragment frag, int resId) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 		ft.replace(resId, frag);
-		ft.commit();		
+		ft.commit();
+		return frag;
 	}
 	
 	/**
@@ -292,14 +295,16 @@ public abstract class BaseActivity extends FragmentActivity {
 	 * @param resId
 	 * @param argKey
 	 * @param argValue
+	 * @return 
 	 */
-	protected void showFragment(Basev4Fragment frag, int resId, String argKey, Serializable argValue) {
+	protected Basev4Fragment showFragment(Basev4Fragment frag, int resId, String argKey, Serializable argValue) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 		Bundle args = new Bundle();
 		args.putSerializable(argKey, argValue);
 		frag.setArguments(args);
 		ft.replace(resId, frag);
-		ft.commit();		
+		ft.commit();
+		return frag;
 	}
 	
 	/**
@@ -308,11 +313,12 @@ public abstract class BaseActivity extends FragmentActivity {
 	 * @param resId
 	 * @param args 启动Fragment附带的参数列表，用getArguments()获取。
 	 */
-	protected void showFragment(Basev4Fragment frag, int resId, Bundle args) {
+	protected Basev4Fragment showFragment(Basev4Fragment frag, int resId, Bundle args) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 		frag.setArguments(args);
 		ft.replace(resId, frag);
-		ft.commit();		
+		ft.commit();
+		return frag;
 	}
 	
 	
@@ -659,6 +665,10 @@ public abstract class BaseActivity extends FragmentActivity {
 	
 	protected Spinner getSpinner(int resId) {
 		return (Spinner)this.findViewById(resId);
+	}
+	
+	protected ViewGroup getViewGroup(int resId) {
+		return (ViewGroup)this.findViewById(resId);
 	}
 	
 	protected GridView getGridView(int resId) {

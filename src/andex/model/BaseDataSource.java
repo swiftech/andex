@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
- * Access SQLite database from local file system(usually SDCard) or system storage.
+ * <p>Access SQLite database from local file system(usually SDCard) or system storage.
  * Extend me to do more works on database.
  * <pre>
  *   Override getDB() if you want to provide other ways to SQLite database like system built-in.
@@ -24,6 +24,8 @@ import android.util.Log;
  *
  */
 public abstract class BaseDataSource {
+
+	private static final String ERR_DB_NOT_CONNECTED = "Database instance is not correctly initilized.";
 
 	// Inject by setter
 	protected Context context;
@@ -64,6 +66,10 @@ public abstract class BaseDataSource {
 		dbHelper = getDbHelper();
 	}	
 	
+	/**
+	 * 
+	 * @return
+	 */
 	protected SQLiteDatabase getDB() {
 		Log.i("andex.db", "Access database from system storage");
 		// 没有则存系统的数据库。
@@ -76,11 +82,12 @@ public abstract class BaseDataSource {
 	}
 	
 	/**
+	 * 
 	 * Inject new implemented db helper here.
 	 * @return
 	 */
 	protected DefaultSQLiteOpenHelper getDbHelper() {
-		return  new DefaultSQLiteOpenHelper(context, this.dbName);
+		return new DefaultSQLiteOpenHelper(context, this.dbName);
 	}
 
 	
@@ -110,7 +117,7 @@ public abstract class BaseDataSource {
 	 */
 	public boolean createTable(String sql) {
 		if(db == null || !db.isOpen()) {
-			Log.e("andex.db", "Database instance is not correctly initilized.");
+			Log.e("andex.db", ERR_DB_NOT_CONNECTED);
 			return false;
 		}
 		try {
@@ -126,9 +133,13 @@ public abstract class BaseDataSource {
 		return true;
 	}
 	
+	/**
+	 * 废弃一个表。
+	 * @param tableName
+	 */
 	public void dropTable(String tableName) {
 		if (db == null || !db.isOpen()) {
-			Log.e("andex.db", "Database instance is not correctly initilized.");
+			Log.e("andex.db", ERR_DB_NOT_CONNECTED);
 			return;
 		}
 		try {
@@ -141,6 +152,13 @@ public abstract class BaseDataSource {
 		}
 	}
 	
+	/**
+	 * 检测一个记录是否存在。
+	 * @param tableName 表
+	 * @param uniqueCol 唯一标识记录的字段名
+	 * @param colValue 欲检测的字段值
+	 * @return
+	 */
 	public boolean isExists(String tableName, String uniqueCol, String colValue) {
 		String sql = "select * from " + tableName + " where " + uniqueCol + "='" + colValue + "'";
 		if (Constants.debugMode) {
@@ -163,6 +181,7 @@ public abstract class BaseDataSource {
 	}
 	
 	/**
+	 * 查询一条记录。
 	 * Find unique data row.
 	 * @param tableName
 	 * @param uniqueColName
@@ -178,6 +197,7 @@ public abstract class BaseDataSource {
 	}
 	
 	/**
+	 * 查询表中所有记录。
 	 * Find all data rows in a table.
 	 * @param tableName
 	 * @return
@@ -187,6 +207,7 @@ public abstract class BaseDataSource {
 	}
 	
 	/**
+	 * 按照Where条件查询记录。
 	 * Find filtered data rows in a table.
 	 * @param tableName
 	 * @param whereClause
@@ -204,7 +225,7 @@ public abstract class BaseDataSource {
 	 */
 	public List<Map> findAll(String tableName, String whereClause, String orderByClause) {
 		if (db == null) {
-			Log.e("andex.db", "Database instance is not correctly initilized.");
+			Log.e("andex.db", ERR_DB_NOT_CONNECTED);
 			return null;
 		}
 		connect();
@@ -221,6 +242,11 @@ public abstract class BaseDataSource {
 		}
 	}
 
+	/**
+	 * SQL语句查询记录。
+	 * @param sql
+	 * @return
+	 */
 	public List<Map> find(String sql) {
 		connect();
 		Cursor cursor = db.rawQuery(sql, null);

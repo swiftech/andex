@@ -1,6 +1,7 @@
 package andex;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -448,9 +449,42 @@ public class AndroidUtils {
 		return sdcard.exists() && sdcard.canWrite();
 	}
 
+	/**
+	 * 获取联系人数量
+	 * @param context
+	 * @return
+	 */
+	public static int getContactsCount(Context context) {
+		ContentResolver cr = context.getContentResolver();
+		Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+		return cursor.getCount();
+	}
+	
+	/**
+	 * 获取所有联系人的姓名。
+	 * @param context
+	 * @return
+	 */
+	public static List<String> getAllContactsNames(Context context) {
+		List<String> ret = new ArrayList<String>();
+		ContentResolver cr = context.getContentResolver();
+		String[] projection = new String[]{PhoneLookup.DISPLAY_NAME};
+		Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, projection, null, null, null);
+		if (cursor == null) {
+			return ret;
+		}
+		while (cursor.moveToNext()) {
+			String name = cursor.getString(cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME));
+			if (!Utils.isEmpty(name)) {
+				ret.add(name);
+			}
+		}
+		return ret;
+	}
 
 	/**
-	 * Read contacts names from device storage.
+	 * 从设备中获取所有拥有电话号码的联系人姓名。
+	 * Read contacts names with phone number from device storage.
 	 * @param context
 	 * @return Map with phone number to contact name.
 	 */
@@ -467,8 +501,9 @@ public class AndroidUtils {
 			Log.d("", "" + contact);
 
 			String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+			// 第一个参数是确定查询电话号，第三个参数是查询具体某个人的过滤器
 			Cursor phoneNums = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-			ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = "	+ contactId, null, null);// 第一个参数是确定查询电话号，第三个参数是查询具体某个人的过滤�
+					ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
 
 			while (phoneNums.moveToNext()) {
 				String phoneNum = phoneNums.getString(phoneNums.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
