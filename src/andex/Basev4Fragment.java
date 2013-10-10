@@ -110,7 +110,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Object view = inflater.inflate(layoutResourceId, null);
+		// 此处如果不指定container，可能会出现子布局无法扩张到整个区域的问题
+		Object view = inflater.inflate(layoutResourceId, container, false);
 		if(view == null) {
 			throw new RuntimeException("可能是没有设置layoutResourceId");
 		}
