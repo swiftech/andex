@@ -129,6 +129,17 @@ public abstract class SimpleCompositeView {
 	}
 	
 	/**
+	 * title和desc都是资源ID。
+	 * @param id
+	 * @param title
+	 * @param desc
+	 * @return
+	 */
+	public SimpleCompositeView addItem(Object id, int title, int desc) {
+		return addItem(id, 0, title, desc);
+	}
+	
+	/**
 	 * Add new item with title, description, state.
 	 * @param title
 	 * @param desc
