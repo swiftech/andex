@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 
 /**
  * 
@@ -29,6 +31,8 @@ public class BaseDialogFragment<T extends FragmentActivity> extends DialogFragme
 
 	protected View fragmentView;
 	
+	protected int layoutResourceId;
+	
 	// Simple Dialogs
 	protected SimpleDialog simpleDialog;
 	
@@ -42,8 +46,7 @@ public class BaseDialogFragment<T extends FragmentActivity> extends DialogFragme
 		this.context = (Context) this.getActivity();
 		this.rs = context.getResources();
 		
-		simpleDialog = new SimpleDialog(context);
-
+		this.simpleDialog = new SimpleDialog(context);
 	}
 	
 	protected void noTitleNoFrame() {
@@ -53,7 +56,30 @@ public class BaseDialogFragment<T extends FragmentActivity> extends DialogFragme
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return super.onCreateView(inflater, container, savedInstanceState);
+		Object view = inflater.inflate(layoutResourceId, container, false);
+		if(view == null) {
+			throw new RuntimeException("可能是没有设置layoutResourceId");
+		}
+		fragmentView = (View)view;
+		return fragmentView;
+	}
+	
+	public View onViewClicked(int resId, final Callback handler) {
+		final View view = fragmentView.findViewById(resId);
+		if(view == null) {
+			Log.w("andex", "No view found：" + rs.getResourceName(resId));
+			return view;
+		}
+		view.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				view.setEnabled(false);
+				handler.invoke();
+				handler.invoke(v);
+				view.setEnabled(true);
+			}
+		});
+		return view;
 	}
 	
 	/**
@@ -69,6 +95,8 @@ public class BaseDialogFragment<T extends FragmentActivity> extends DialogFragme
 //			Log.w("", "No dialog fragment to dismiss");
 //		}
 //	}
+	
+	
 	
 	protected String getNestedString(int sentence, Object... words){
 		return AndroidUtils.getNestedString(context, sentence, words);

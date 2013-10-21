@@ -1,11 +1,16 @@
 package andex;
 
 import java.io.Serializable;
+import java.util.Map;
 
+import andex.model.DataList;
 import andex.model.DataRow;
 import andex.view.SimpleDialog;
+import andex.view.SimpleDialog.DialogCallback;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -15,16 +20,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
@@ -52,38 +61,38 @@ import android.widget.ToggleButton;
  *
  */
 @SuppressLint("ValidFragment")
-public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
+public class Basev4Fragment<T extends FragmentActivity> extends Fragment implements Extendable{
 	
 	//
-	protected final int REQUEST_CODE_DEFAULT = 1000;
+	public final int REQUEST_CODE_DEFAULT = 1000;
 	
 	// 当前Fragment的引用
-	protected Fragment thisFragment;
+	public Fragment thisFragment;
 	
 	// 前一个Fragment（即调用startFragment()方法跳至当前Fragment的）
-	protected Basev4Fragment previousFragment;
+	public Basev4Fragment previousFragment;
 	
 	// 当前Fragment所属的Activity
-	protected T parentActivity;
+	public T parentActivity;
 	
 	
-	protected Context context;
+	public Context context;
 
 	// Resources from context.
-	protected Resources rs;
+	public Resources rs;
 	
 	// Handler UI update
-	protected final Handler handler = new Handler();
+	public final Handler handler = new Handler();
 
 	
 	// Simple Dialogs
-	protected SimpleDialog simpleDialog;
+	public SimpleDialog simpleDialog;
 	
 	// View of Fragment
-	protected View fragmentView;
+	public View fragmentView;
 	
 	// Resource id for this fragment view.
-	protected int layoutResourceId = 0;
+	public int layoutResourceId = 0;
 	
 	public Basev4Fragment() {
 		super();
@@ -125,19 +134,23 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param resId
 	 * @return
 	 */
-	protected LinearLayout getLinearLayout(int resId) {
+	@Override
+	public LinearLayout getLinearLayout(int resId) {
 		return (LinearLayout) fragmentView.findViewById(resId);
 	}
 
-	protected RelativeLayout getRelativeLayout(int resId) {
+	@Override
+	public RelativeLayout getRelativeLayout(int resId) {
 		return (RelativeLayout) fragmentView.findViewById(resId);
 	}
 
-	protected FrameLayout getFrameLayout(int resId) {
+	@Override
+	public FrameLayout getFrameLayout(int resId) {
 		return (FrameLayout) fragmentView.findViewById(resId);
 	}
 
-	protected TableLayout getTableLayout(int resId) {
+	@Override
+	public TableLayout getTableLayout(int resId) {
 		return (TableLayout) fragmentView.findViewById(resId);
 	}
 
@@ -146,7 +159,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param resId
 	 * @return
 	 */
-	protected TextView getTextView(int resId) {
+	@Override
+	public TextView getTextView(int resId) {
 		return (TextView)fragmentView.findViewById(resId);
 	}
 	
@@ -156,7 +170,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param strResId 需要设置文本的资源ID
 	 * @return
 	 */
-	protected TextView setTextViewText(int resId, int strResId) {
+	@Override
+	public TextView setTextViewText(int resId, int strResId) {
 		return this.setTextViewText(resId, rs.getString(strResId));
 	}
 	
@@ -167,7 +182,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param str
 	 * @return
 	 */
-	protected TextView setTextViewText(int resId, String str) {
+	@Override
+	public TextView setTextViewText(int resId, String str) {
 		TextView tv = this.getTextView(resId);
 		if (tv != null) {
 			tv.setText(str);
@@ -181,7 +197,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param str
 	 * @return
 	 */
-	protected Button setButtonText(int resId, String str) {
+	@Override
+	public Button setButtonText(int resId, String str) {
 		Button btn = getButton(resId);
 		btn.setText(str);
 		return btn;
@@ -192,23 +209,28 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param resId
 	 * @return
 	 */
-	protected Button getButton(int resId) {
+	@Override
+	public Button getButton(int resId) {
 		return (Button)fragmentView.findViewById(resId);
 	}
 	
-	protected CheckBox getCheckBox(int resId) {
+	@Override
+	public CheckBox getCheckBox(int resId) {
 		return (CheckBox)fragmentView.findViewById(resId);
 	}
 	
-	protected EditText getEditText(int resId) {
+	@Override
+	public EditText getEditText(int resId) {
 		return (EditText)fragmentView.findViewById(resId);
 	}
 	
-	protected String getEditTextString(int resId) {
+	@Override
+	public String getEditTextString(int resId) {
 		return getEditText(resId).getText().toString();
 	}
 	
-	protected EditText setEditTextString(int resId, String str) {
+	@Override
+	public EditText setEditTextString(int resId, String str) {
 		EditText et = getEditText(resId);
 		if (et != null) {
 			et.setText(str);
@@ -216,64 +238,94 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 		return et;
 	}
 	
-	protected Spinner getSpinner(int resId) {
+	@Override
+	public Spinner getSpinner(int resId) {
 		return (Spinner)fragmentView.findViewById(resId);
 	}
 	
-	protected ViewGroup getViewGroup(int resId) {
+	@Override
+	public ViewGroup getViewGroup(int resId) {
 		return (ViewGroup)fragmentView.findViewById(resId);
 	}
 	
-	protected GridView getGridView(int resId) {
+	@Override
+	public AbsListView getAbsListView(int resId) {
+		return (AbsListView)fragmentView.findViewById(resId);
+	}
+	
+	@Override
+	public GridView getGridView(int resId) {
 		return (GridView)fragmentView.findViewById(resId);
 	}
 	
-	protected ListView getListView(int resId) {
+	@Override
+	public ListView getListView(int resId) {
 		return (ListView)fragmentView.findViewById(resId);
 	}
 	
-	protected ProgressBar getProgressBar(int resId) {
+	@Override
+	public ProgressBar getProgressBar(int resId) {
 		return (ProgressBar)fragmentView.findViewById(resId);
 	}
 	
-	protected RadioButton getRadioButton(int resId) {
+	@Override
+	public RadioButton getRadioButton(int resId) {
 		return (RadioButton)fragmentView.findViewById(resId);
 	}
 	
-	protected RadioGroup getRadioGroup(int resId) {
+	@Override
+	public RadioGroup getRadioGroup(int resId) {
 		return (RadioGroup) fragmentView.findViewById(resId);
 	}
 	
-	protected SeekBar getSeekBar(int resId) {
+	@Override
+	public SeekBar getSeekBar(int resId) {
 		return (SeekBar) fragmentView.findViewById(resId);
 	}
 	
-	protected ToggleButton getToggleButton(int resId) {
+	@Override
+	public ToggleButton getToggleButton(int resId) {
 		return (ToggleButton)fragmentView.findViewById(resId);
 	}
 	
-	protected RatingBar getRatingBar(int resId) {
+	@Override
+	public RatingBar getRatingBar(int resId) {
 		return (RatingBar) fragmentView.findViewById(resId);
 	}
 	
-	protected ExpandableListView getExpandableListView(int resId) {
+	@Override
+	public ExpandableListView getExpandableListView(int resId) {
 		return (ExpandableListView)fragmentView.findViewById(resId);
 	}
 	
-	protected ScrollView getScrollView(int resId) {
+	@Override
+	public ScrollView getScrollView(int resId) {
 		return (ScrollView)fragmentView.findViewById(resId);
 	}
 	
-	protected ImageView getImageView(int resId) {
+	@Override
+	public ImageView getImageView(int resId) {
 		return (ImageView)fragmentView.findViewById(resId);
 	}
 	
-	protected ImageButton getImageButton(int resId) {
+	@Override
+	public ImageButton getImageButton(int resId) {
 		return (ImageButton) fragmentView.findViewById(resId);
 	}
 
-	protected SurfaceView getSurfaceView(int resId) {
+	@Override
+	public WebView getWebView(int resId) {
+		return (WebView) fragmentView.findViewById(resId);
+	}
+	
+	@Override
+	public SurfaceView getSurfaceView(int resId) {
 		return (SurfaceView)fragmentView.findViewById(resId);
+	}
+	
+	@Override
+	public String getNestedString(int sentence, Object... words){
+		return AndroidUtils.getNestedString(context, sentence, words);
 	}
 	
 	/**
@@ -281,7 +333,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 
 	 * @param ids
 	 */
-	protected void disableViews(int... ids) {
+	@Override
+	public void disableViews(int... ids) {
 		for (int i = 0; i < ids.length; i++) {
 			if (fragmentView.findViewById(ids[i]) == null) {
 				continue;
@@ -295,7 +348,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 
 	 * @param views
 	 */
-	protected void disableViews(View... views) {
+	@Override
+	public void disableViews(View... views) {
 		for (int i = 0; i < views.length; i++) {
 			if (views[i] == null) {
 				continue;
@@ -309,7 +363,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 
 	 * @param ids
 	 */
-	protected void enableViews(int... ids) {
+	@Override
+	public void enableViews(int... ids) {
 		for (int i = 0; i < ids.length; i++) {
 			if (fragmentView.findViewById(ids[i]) == null) {
 				continue;
@@ -323,7 +378,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 
 	 * @param views
 	 */
-	protected void enableViews(View... views) {
+	@Override
+	public void enableViews(View... views) {
 		for (int i = 0; i < views.length; i++) {
 			if (views[i] == null) {
 				continue;
@@ -336,7 +392,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 显示多个视图组件
 	 * @param ids
 	 */
-	protected void showViews(int... ids) {
+	@Override
+	public void showViews(int... ids) {
 		for (int i = 0; i < ids.length; i++) {
 			if (fragmentView.findViewById(ids[i]) == null) {
 				continue;
@@ -349,7 +406,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 显示多个视图组件
 	 * @param views
 	 */
-	protected void showViews(View... views) {
+	@Override
+	public void showViews(View... views) {
 		for (int i = 0; i < views.length; i++) {
 			if (views[i] == null) {
 				continue;
@@ -362,7 +420,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 隐藏多个视图组件
 	 * @param ids
 	 */
-	protected void hideViews(int... ids) {
+	@Override
+	public void hideViews(int... ids) {
 		for (int i = 0; i < ids.length; i++) {
 			if (fragmentView.findViewById(ids[i]) == null) {
 				continue;
@@ -375,7 +434,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 隐藏多个视图组件
 	 * @param views
 	 */
-	protected void hideViews(View... views) {
+	@Override
+	public void hideViews(View... views) {
 		for (int i = 0; i < views.length; i++) {
 			if (views[i] == null) {
 				continue;
@@ -388,7 +448,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 暂时移除多个视图组件
 	 * @param ids
 	 */
-	protected void unblockViews(int... ids) {
+	@Override
+	public void unblockViews(int... ids) {
 		for (int i = 0; i < ids.length; i++) {
 			if (fragmentView.findViewById(ids[i]) == null) {
 				continue;
@@ -401,7 +462,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 暂时移多个视图组件
 	 * @param views
 	 */
-	protected void unblockViews(View... views) {
+	@Override
+	public void unblockViews(View... views) {
 		for (int i = 0; i < views.length; i++) {
 			if (views[i] == null) {
 				continue;
@@ -416,7 +478,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param name
 	 * @return
 	 */
-	protected View getViewByName(String name) {
+	@Override
+	public View getViewByName(String name) {
 		if (this.getActivity() == null) {
 			return null;
 		}
@@ -427,13 +490,20 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 		return fragmentView.findViewById(id);
 	}
 	
+	@Override
+	public View setViewBackground(int viewResId, int bgResId) {
+		View v = fragmentView.findViewById(viewResId);
+		v.setBackgroundResource(bgResId);
+		return v;
+	}
 	
 	/**
 	 * Simple handle click event for any View component.
 	 * @param resId
 	 * @param handler
 	 */
-	protected View onViewClicked(int resId, final Callback handler) {
+	@Override
+	public View onViewClicked(int resId, final Callback handler) {
 		final View view = fragmentView.findViewById(resId);
 		if(view == null) {
 			Log.w("andex", "No view found：" + rs.getResourceName(resId));
@@ -451,7 +521,15 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 		return view;
 	}
 	
-	protected CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
+	@Override
+	public CheckBox onCheckBoxChecked(int resId, final OnCheckedChangeListener listener) {
+		CheckBox ckb = getCheckBox(resId);
+		ckb.setOnCheckedChangeListener(listener);
+		return ckb;
+	}
+	
+	@Override
+	public CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
 		final CompoundButton view = (CompoundButton) fragmentView.findViewById(resId);
 		if(view == null) {
 			Log.w("andex", "No view found：" + rs.getResourceName(resId));
@@ -472,10 +550,25 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	/**
 	 * 隐藏当前的Fragment
 	 */
-	protected void hide() {
+	public void hide() {
 		FragmentTransaction ft = this.getFragmentManager().beginTransaction();
 		ft.hide(this);
 		ft.commit();
+	}
+	
+	@Override
+	public void startActivityByName(String actName) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		ComponentName cn = new ComponentName(this.getClass().getPackage().getName(), actName);
+		intent.setComponent(cn);
+		startActivity(intent);
+	}
+
+	@Override
+	public void startActivityWithoutTrace(Class<? extends Activity> clazz) {
+		Intent intent = new Intent(context, clazz);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
 	}
 	
 	
@@ -483,8 +576,35 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 按照Activity的Class启动
 	 * @param clazz
 	 */
-	protected void startActivity(Class<? extends Activity> clazz) {
+	@Override
+	public void startActivity(Class<? extends Activity> clazz) {
 		startActivity(clazz, false);
+	}
+	
+
+	@Override
+	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value,
+			boolean forResult) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	/**
@@ -492,7 +612,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param clazz
 	 * @param forResult
 	 */
-	protected void startActivity(Class<? extends Activity> clazz, boolean forResult) {
+	@Override
+	public void startActivity(Class<? extends Activity> clazz, boolean forResult) {
 		if(forResult) {
 			startActivityForResult(new Intent(context, clazz), REQUEST_CODE_DEFAULT);
 		}
@@ -508,7 +629,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param id
 	 * @param forResult
 	 */
-	protected void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult) {
+	@Override
+	public void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult) {
 		startActivityWith(clazz, id, null, forResult);	
 	}
 	
@@ -518,7 +640,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param clazz
 	 * @param id
 	 */
-	protected void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult) {
+	@Override
+	public void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult) {
 		startActivityWith(clazz, id, null, forResult);	
 	}
 	
@@ -528,7 +651,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param args {@link Constants.INTENT_DATA_ARGS_KEY} 
 	 * @param forResult
 	 */
-	protected void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
+	@Override
+	public void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
 		startActivityWith(clazz, 0L, args, forResult);
 	}
 	
@@ -541,7 +665,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param args {@link Constants.INTENT_DATA_ARGS_KEY}
 	 * @param forResult
 	 */
-	protected void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
+	@Override
+	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
 		Intent intent = new Intent(context, clazz);
 		if(id instanceof Integer) {
 			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Integer)id);
@@ -570,7 +695,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param resId
 	 * @param forResult
 	 */
-	protected void startFragment(Basev4Fragment fragment, int resId, boolean forResult) {
+	public void startFragment(Basev4Fragment fragment, int resId, boolean forResult) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.replace(resId, fragment);
 		ft.commit();
@@ -586,7 +711,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param id
 	 * @param forResult
 	 */
-	protected void startFragmentWithId(Basev4Fragment fragment, int resId, long id, boolean forResult) {
+	public void startFragmentWithId(Basev4Fragment fragment, int resId, long id, boolean forResult) {
 //		Bundle bundle = new Bundle();
 //		bundle.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
 //		fragment.setArguments(bundle);
@@ -600,7 +725,15 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 		startFragmentWith(fragment, resId, Constants.FRAGMENT_DATA_ID_KEY, id, forResult);
 	}
 	
-	protected void startFragmentWith(Basev4Fragment fragment, int resId, String key, Serializable value, boolean forResult) {
+	/**
+	 * 
+	 * @param fragment
+	 * @param resId
+	 * @param key
+	 * @param value
+	 * @param forResult
+	 */
+	public void startFragmentWith(Basev4Fragment fragment, int resId, String key, Serializable value, boolean forResult) {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(key, value);
 		fragment.setArguments(bundle);
@@ -613,7 +746,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	}
 	
 	
-	protected void startFragmentWith(Basev4Fragment fragment, int resId, long id, Bundle args, boolean forResult) {
+	public void startFragmentWith(Basev4Fragment fragment, int resId, long id, Bundle args, boolean forResult) {
 		args.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
 		fragment.setArguments(args);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -632,7 +765,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param bundle
 	 * @param forResult
 	 */
-	protected void startFragmentWithArgs(Basev4Fragment fragment, int resId, Bundle bundle, boolean forResult) {
+	public void startFragmentWithArgs(Basev4Fragment fragment, int resId, Bundle bundle, boolean forResult) {
 		fragment.setArguments(bundle);
 		
 		FragmentManager fm = getFragmentManager();
@@ -652,7 +785,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 从前一个调用该Fragment的地方获得传递过来的Long类型的ID。
 	 * @return
 	 */
-	protected long getLongIdFromPrevious() {
+	@Override
+	public long getLongIdFromPrevious() {
 		Bundle args  = getArguments();
 		if(args == null || args.size() == 0) {
 			return 0;
@@ -665,7 +799,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * 从前面（Fragment）获得默认的选项参数值（用Constants.FRAGMENT_DATA_OPTION_KEY标识）
 	 * @return
 	 */
-	protected int getOptionFromPrevious() {
+	public int getOptionFromPrevious() {
 		Bundle args  = getArguments();
 		if (args == null) {
 			return 0;
@@ -676,24 +810,130 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 		return (Integer) v;
 	}
 
+	@Override
+	public int getArgIntFromIntent(String argName) {
+		// TODO
+		return 0;
+	}
+	
+	@Override
+	public String getArgStrFromIntent(String argName) {
+		// TODO
+		return null;
+	}
+	
+	@Override
+	public Object getArgFromIntent(String argName) {
+		// TODO
+		return null;
+	}
+	
+
+	@Override
+	public void showConfirmDialog(String msg, DialogCallback callback) {
+		simpleDialog.showConfirmDialog(msg, callback);
+	}
+
+	@Override
+	public void showProgressDialog(String msg, DialogCallback callback) {
+		simpleDialog.showProgressDialog(msg, 0, callback);
+	}
+
+	@Override
+	public void showProgressDialog(String msg, long timeout, DialogCallback callback) {
+		simpleDialog.showProgressDialog(msg, timeout, callback);
+	}
+
+	@Override
+	public AlertDialog showTextInputDialog(String title, String msg, String inputInit, DialogCallback callback) {
+		return simpleDialog.showInputDialog(title, msg, InputType.TYPE_CLASS_TEXT, inputInit, callback);
+	}
+
+	@Override
+	public AlertDialog showIntInputDialog(String title, String msg, String inputInit, DialogCallback callback) {
+		return simpleDialog.showInputDialog(title, msg, InputType.TYPE_NUMBER_FLAG_SIGNED ,inputInit, callback);
+	}
+
+	@Override
+	public AlertDialog showFloatInputDialog(String title, String msg, String inputInit, DialogCallback callback) {
+		return simpleDialog.showInputDialog(title, msg, InputType.TYPE_NUMBER_FLAG_DECIMAL, inputInit, callback);
+	}
+
+	@Override
+	public AlertDialog showRadioGroupDialog(String title, String msg, String[] labels, int checked,
+			final DialogCallback callback) {
+		return simpleDialog.showRadioGroupDialog(title, msg, labels, checked, callback);
+	}
+
+	@Override
+	public AlertDialog showCheckBoxsDialog(String title, BaseAdapter checkboxListViewAdapter, DialogCallback callback) {
+		return simpleDialog.showCheckBoxsDialog(title, checkboxListViewAdapter, callback);
+	}
+
+	@Override
+	public void showInfoDialog(int msgId) {
+		simpleDialog.showInfoDialog(rs.getString(msgId));
+	}	
+
+	@Override
+	public void showInfoDialog(String msg) {
+		simpleDialog.showInfoDialog(msg);
+	}
+
+	@Override
+	public void showInfoDialog(String msg, DialogCallback callback) {
+		simpleDialog.showInfoDialog(msg, callback);
+	}
+
+	@Override
+	public void showListSelectDialog(String title, String[] items, DialogCallback callback) {
+		simpleDialog.showListSelectDialog(title, items, callback);
+	}
+
+	@Override
+	public void showListSelectDialog(String title, Map items, DialogCallback callback) {
+		simpleDialog.showListSelectDialog(title, items, callback);
+	}
+
+	@Override
+	public void dismissDialogOnTop() {
+		simpleDialog.dismissDialogOnTop();
+	}
+
 	
 	/**
 	 * 结束当前的Fragment
 	 */
-	protected void finish() {
+	public void finish() {
 		FragmentTransaction ft = this.getFragmentManager().beginTransaction();
 		ft.remove(this);
 		ft.commit();
 	}
 	
 	/**
+	 * TODO 待测试
+	 */
+	@Override
+	public void finishWithId(long id) {
+		if (previousFragment != null) {
+			previousFragment.onFragmentResult((Long)id);
+		}
+		finish();
+	}
+	
+	/**
 	 * 结束当前Fragment中的业务逻辑，
 	 */
-	protected void finishWithData(DataRow data) {
+	@Override
+	public void finishWithData(DataRow data) {
 		if (previousFragment != null) {
 			previousFragment.onFragmentResult(data);
 		}
 		finish();
+	}
+	
+	public void finishWithData(DataRow row, Bundle args){
+		// TODO
 	}
 	
 	/**
@@ -701,9 +941,12 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 	 * @param data
 	 */
 	protected void onFragmentResult(DataRow data) {
-		// NOTHING NEED TO DO FOR NOW.
+		// NOTHING NEED TO DO FOR NOW, INHERIT ME.
 	}
-
+	
+	protected void onFragmentResult(Object data) {
+		// NOTHING NEED TO DO FOR NOW, INHERIT ME.
+	}
 	
 	/**
 	 * 调试输出
@@ -731,4 +974,5 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment {
 		if(log == null) log = "[null]";
 		Log.e("andex", log.toString());
 	}
+
 }

@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -35,7 +36,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
-import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -53,7 +53,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class BaseActionBarActivity extends ActionBarActivity implements Extendable {
+public class BaseActionBarActivity extends ActionBarActivity implements ActivityExtendable {
 
 	protected Activity thisActivity;
 
@@ -92,6 +92,10 @@ public class BaseActionBarActivity extends ActionBarActivity implements Extendab
 	 */
 	protected void setWindowFullscreenNoTitle() {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	}
+	
+	protected void setWindowFullscreen() {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
 
@@ -503,6 +507,11 @@ public class BaseActionBarActivity extends ActionBarActivity implements Extendab
 	public ViewGroup getViewGroup(int resId) {
 		return (ViewGroup)this.findViewById(resId);
 	}
+	
+	@Override
+	public AbsListView getAbsListView(int resId) {
+		return (AbsListView)this.findViewById(resId);
+	}
 
 	@Override
 	public GridView getGridView(int resId) {
@@ -562,11 +571,6 @@ public class BaseActionBarActivity extends ActionBarActivity implements Extendab
 	@Override
 	public ImageButton getImageButton(int resId) {
 		return (ImageButton) this.findViewById(resId);
-	}
-
-	@Override
-	public Gallery getGallery(int resId) {
-		return (Gallery)this.findViewById(resId);
 	}
 
 	@Override

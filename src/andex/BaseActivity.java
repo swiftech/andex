@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -41,7 +42,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
-import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -66,7 +66,10 @@ import android.widget.ToggleButton;
  * @author 
  * 
  */
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends FragmentActivity implements ActivityExtendable{
+	
+	//
+	protected final int REQUEST_CODE_DEFAULT = 1000;
 	
 	protected Activity thisActivity;
 
@@ -93,30 +96,34 @@ public abstract class BaseActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		thisActivity = this;
-		
+
 		context = this;
-		
+
 		simpleDialog = new SimpleDialog(context);
-		
+
 		// 没设置参数的情况为true，只有明确设置不是debug模式的情况才是false。
 		Constants.debugMode = !"false".equals(System.getProperty(Constants.SYS_PROP_DEBUG_MODE));
-		
+
 		i18n.init(context);
-		
+
 		rs = this.getResources();
 		
 //		dm = context.getApplicationContext().getResources().getDisplayMetrics();
 //		sw = dm.widthPixels;
 //		sh = dm.heightPixels;
 	}
-	
+
 	/**
 	 * 设置Activity为全屏无标题栏模式。
 	 */
 	protected void setWindowFullscreenNoTitle() {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	}
+	
+	protected void setWindowFullscreen() {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
 	
@@ -160,7 +167,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	 */
 	public void startActivity(Class<? extends Activity> clazz, boolean forResult) {
 		if(forResult) {
-			startActivityForResult(new Intent(context, clazz), Constants.REQUEST_CODE_DEFAULT);
+			startActivityForResult(new Intent(context, clazz), REQUEST_CODE_DEFAULT);
 		}
 		else {
 			startActivity(new Intent(context, clazz));
@@ -199,7 +206,6 @@ public abstract class BaseActivity extends FragmentActivity {
 	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult) {
 		startActivityWith(clazz, -1L, key, value, forResult);
 	}
-	
 
 	/**
 	 * 启动一个Activity，附带ID和一对键值参数。
@@ -249,20 +255,22 @@ public abstract class BaseActivity extends FragmentActivity {
 		if (args != null)
 			intent.putExtra(Constants.INTENT_DATA_ARGS_KEY, args);
 		if(forResult) {
-			startActivityForResult(intent, Constants.REQUEST_CODE_DEFAULT);
+			startActivityForResult(intent, REQUEST_CODE_DEFAULT);
 		}
 		else {
 			startActivity(intent);			
 		}
 	}
-	
+
+	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra(Constants.INTENT_DATA_LIST_KEY, data);
 		startActivity(intent);
 	}
-	
-	public void startActivityWith(Class<? extends Activity> clazz, Map<?,?> data) {
+
+	@Override
+	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra("TEST", 999);
 		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, new DataRow(data));
@@ -314,20 +322,17 @@ public abstract class BaseActivity extends FragmentActivity {
 		ft.commit();
 		return frag;
 	}
-	
-	
+
+	@Override
 	public void finishWithId(long id) {
 		getIntent().getExtras().putLong(Constants.INTENT_DATA_ID_KEY, id);
 		finish();
 	}
 	
-//	public void finishWithData(Object data) {
-//	}
-	
 	public void finishWithData(DataRow row){
 		finishWithData(row, null);
 	}
-	
+
 	public void finishWithData(DataRow row, Bundle args){
 		Intent intent = new Intent();
 //		debug("finishWithData() " + row.getClass());
@@ -335,14 +340,6 @@ public abstract class BaseActivity extends FragmentActivity {
 		intent.putExtra(Constants.INTENT_DATA_ARGS_KEY, args);
 		setResult(RESULT_OK, intent);
 		finish();
-	}
-	
-	/**
-	 * @deprecated to getIdObjectFromPrevious
-	 * @return
-	 */
-	public Object getIdObjectFromPreActivity() {
-		return getIdObjectFromPrevious();		
 	}
 	
 	public Object getIdObjectFromPrevious() {
@@ -354,28 +351,17 @@ public abstract class BaseActivity extends FragmentActivity {
 			return 0L; //需要转换成Long
 		return v;
 	}
-
-	/**
-	 * Get ID from pre-activity
-	 * @deprecated to getLongIdFromPrevious()
-	 * @return >0
-	 */
-	public long getIdFromPreActivity() {
-		return (Long) getIdObjectFromPrevious();
-	}
 	
 	public long getLongIdFromPrevious() {
 		return (Long) getIdObjectFromPrevious();
 	}
-	
+
+	@Override
 	public int getIntIdFromPrevious() {
 		return (Integer) getIdObjectFromPrevious();
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
+
+	@Override
 	public String getIdStrFromIntent() {
 		if (this.getIntent().getExtras() == null) {
 			return "";
@@ -385,12 +371,8 @@ public abstract class BaseActivity extends FragmentActivity {
 			return "";
 		return (String) v;
 	}
-	
-	/**
-	 * 
-	 * @param argName
-	 * @return
-	 */
+
+	@Override
 	public int getArgIntFromIntent(String argName) {
 		Object o = getArgFromIntent(argName);
 		if (o == null) {
@@ -437,21 +419,24 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 		return bundle.get(argName);
 	}
-	
-	
+
+	@Override
 	public DataList getDataListFromIntent() {
 		throw new UnsupportedOperationException();
 	}
-	
+
+	@Override
 	public DataRow getDataRowFromIntent() {
 		return (DataRow)this.getIntent().getSerializableExtra(Constants.INTENT_DATA_ROW_KEY);
 //		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void showConfirmDialog(String msg, DialogCallback callback) {
 		simpleDialog.showConfirmDialog(msg, callback);
 	}
 
+	@Override
 	public void showProgressDialog(String msg, DialogCallback callback) {
 		simpleDialog.showProgressDialog(msg, 0, callback);
 	}
@@ -496,6 +481,7 @@ public abstract class BaseActivity extends FragmentActivity {
 		return simpleDialog.showInputDialog(title, msg, InputType.TYPE_NUMBER_FLAG_DECIMAL, inputInit, callback);
 	}
 
+	@Override
 	public AlertDialog showRadioGroupDialog(String title, String msg, String[] labels, int checked,
 			final DialogCallback callback) {
 		return simpleDialog.showRadioGroupDialog(title, msg, labels, checked, callback);
@@ -505,7 +491,8 @@ public abstract class BaseActivity extends FragmentActivity {
 			final DialogCallback callback) {
 		return simpleDialog.showCheckBoxsDialog(title, checkboxListViewAdapter, callback);
 	}
-	
+
+	@Override
 	public void showInfoDialog(int msgId) {
 		simpleDialog.showInfoDialog(rs.getString(msgId));
 	}	
@@ -513,27 +500,33 @@ public abstract class BaseActivity extends FragmentActivity {
 	public void showInfoDialog(String msg) {
 		simpleDialog.showInfoDialog(msg);
 	}
-	
+
+	@Override
 	public void showInfoDialog(String msg, DialogCallback callback) {
 		simpleDialog.showInfoDialog(msg, callback);
 	}
 
+	@Override
 	public void showListSelectDialog(String title, String[] items, DialogCallback callback) {
 		simpleDialog.showListSelectDialog(title, items, callback);
 	}
-	
+
+	@Override
 	public void showListSelectDialog(String title, Map items, DialogCallback callback) {
 		simpleDialog.showListSelectDialog(title, items, callback);
 	}
 
+	@Override
 	public void dismissDialogOnTop() {
 		simpleDialog.dismissDialogOnTop();
 	}
 
+	@Override
 	public void showToast(String msg) {
 		AndroidUtils.showToast(context, msg);
 	}
-	
+
+	@Override
 	public void showToast(String msg, Object... params) {
 		// TODO
 		
@@ -547,15 +540,18 @@ public abstract class BaseActivity extends FragmentActivity {
 	public LinearLayout getLinearLayout(int resId) {
 		return (LinearLayout)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public RelativeLayout getRelativeLayout(int resId) {
 		return (RelativeLayout)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public FrameLayout getFrameLayout(int resId) {
 		return (FrameLayout)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public TableLayout getTableLayout(int resId) {
 		return (TableLayout)this.findViewById(resId);
 	}
@@ -572,7 +568,8 @@ public abstract class BaseActivity extends FragmentActivity {
 		}
 		return this.findViewById(id);
 	}
-	
+
+	@Override
 	public View setViewBackground(int viewResId, int bgResId) {
 		View v = this.findViewById(viewResId);
 		v.setBackgroundResource(bgResId);
@@ -664,80 +661,91 @@ public abstract class BaseActivity extends FragmentActivity {
 	public Spinner getSpinner(int resId) {
 		return (Spinner)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public ViewGroup getViewGroup(int resId) {
 		return (ViewGroup)this.findViewById(resId);
 	}
 	
+	@Override
+	public AbsListView getAbsListView(int resId) {
+		return (AbsListView)this.findViewById(resId);
+	}
+
+	@Override
 	public GridView getGridView(int resId) {
 		return (GridView)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public ListView getListView(int resId) {
 		return (ListView)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public ProgressBar getProgressBar(int resId) {
 		return (ProgressBar)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public RadioButton getRadioButton(int resId) {
 		return (RadioButton)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public RadioGroup getRadioGroup(int resId) {
 		return (RadioGroup) this.findViewById(resId);
 	}
-	
+
+	@Override
 	public SeekBar getSeekBar(int resId) {
 		return (SeekBar) this.findViewById(resId);
 	}
-	
+
+	@Override
 	public ToggleButton getToggleButton(int resId) {
 		return (ToggleButton)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public RatingBar getRatingBar(int resId) {
 		return (RatingBar) this.findViewById(resId);
 	}
-	
+
+	@Override
 	public ExpandableListView getExpandableListView(int resId) {
 		return (ExpandableListView)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public ScrollView getScrollView(int resId) {
 		return (ScrollView)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public ImageView getImageView(int resId) {
 		return (ImageView)this.findViewById(resId);
 	}
-	
+
+	@Override
 	public ImageButton getImageButton(int resId) {
 		return (ImageButton) this.findViewById(resId);
 	}
-	
-	public Gallery getGallery(int resId) {
-		return (Gallery)this.findViewById(resId);
-	}
-	
+
+	@Override
 	public WebView getWebView(int resId) {
 		return (WebView) this.findViewById(resId);
 	}
 
+	@Override
 	public SurfaceView getSurfaceView(int resId) {
 		return (SurfaceView)this.findViewById(resId);
 	}
 
-	
-	/**
-	 * 取出并处理嵌入式的字符资源，嵌入格式: {编号}
-	 * @param sentence
-	 * @param words 字符串值或者字符串资源ID可以混合使用
-	 * @return
-	 */
-	public String getNestedString(int sentence, Object... words){
-		return AndroidUtils.getNestedString(context, sentence, words);
+	@Override
+	public String getNestedString(int sentence, Object... words) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	/**
@@ -920,14 +928,15 @@ public abstract class BaseActivity extends FragmentActivity {
 		});
 		return view;
 	}
-	
+
+	@Override
 	public CheckBox onCheckBoxChecked(int resId, final OnCheckedChangeListener listener) {
 		CheckBox ckb = getCheckBox(resId);
 		ckb.setOnCheckedChangeListener(listener);
 		return ckb;
 	}
-	
-	
+
+	@Override
 	public CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
 		final CompoundButton view = (CompoundButton) this.findViewById(resId);
 		if(view == null) {

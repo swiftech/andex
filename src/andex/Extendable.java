@@ -18,10 +18,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
-import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -134,35 +134,6 @@ public interface Extendable {
 
 	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data);
 
-	/**
-	 * 在资源ID指定的位置显示Fragment
-	 * 
-	 * @param frag
-	 * @param resId
-	 * @return
-	 */
-	public Basev4Fragment showFragment(Basev4Fragment frag, int resId);
-
-	/**
-	 * 在资源ID指定的位置显示Fragment，附带一对键值参数。
-	 * 
-	 * @param frag
-	 * @param resId
-	 * @param argKey
-	 * @param argValue
-	 * @return
-	 */
-	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, String argKey, Serializable argValue);
-
-	/**
-	 * 在资源ID指定的位置显示Fragment，附带Bundle参数。
-	 * 
-	 * @param frag
-	 * @param resId
-	 * @param args
-	 *            启动Fragment附带的参数列表，用getArguments()获取。
-	 */
-	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, Bundle args);
 
 	public void finishWithId(long id);
 
@@ -170,20 +141,10 @@ public interface Extendable {
 
 	public void finishWithData(DataRow row, Bundle args);
 
-	public Object getIdObjectFromPrevious();
-
 	public long getLongIdFromPrevious();
 
-	public int getIntIdFromPrevious();
-
 	/**
-	 * 
-	 * @return
-	 */
-	public String getIdStrFromIntent();
-
-	/**
-	 * 
+	 * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
 	 * @param argName
 	 * @return
 	 */
@@ -205,9 +166,6 @@ public interface Extendable {
 	 */
 	public Object getArgFromIntent(String argName);
 
-	public DataList getDataListFromIntent();
-
-	public DataRow getDataRowFromIntent();
 
 	public void showConfirmDialog(String msg, DialogCallback callback);
 
@@ -266,9 +224,6 @@ public interface Extendable {
 
 	public void dismissDialogOnTop();
 
-	public void showToast(String msg);
-
-	public void showToast(String msg, Object... params);
 
 	/**
 	 * 获取LinearLayout
@@ -356,6 +311,8 @@ public interface Extendable {
 	public Spinner getSpinner(int resId);
 
 	public ViewGroup getViewGroup(int resId);
+	
+	public AbsListView getAbsListView(int resId);
 
 	public GridView getGridView(int resId);
 
@@ -380,8 +337,6 @@ public interface Extendable {
 	public ImageView getImageView(int resId);
 
 	public ImageButton getImageButton(int resId);
-
-	public Gallery getGallery(int resId);
 
 	public WebView getWebView(int resId);
 
@@ -467,15 +422,6 @@ public interface Extendable {
 	 */
 	public void enableViews(View... views);
 
-	/**
-	 * Show progress bar if long time operation will be performed. resource "pgb_wait" is required
-	 */
-	public void beforeLoadingData(int resId);
-
-	/**
-	 * Hide progress bar after long time operation. resource "pgb_wait" is required
-	 */
-	public void afterLoadingData(int resId);
 
 	/**
 	 * Simple handle click event for any View component.
