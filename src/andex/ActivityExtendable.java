@@ -52,6 +52,30 @@ public interface ActivityExtendable extends Extendable {
 	 * @return
 	 */
 	public String getIdStrFromIntent();
+	
+
+	/**
+	 * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
+	 * @param argName
+	 * @return
+	 */
+	public int getArgIntFromIntent(String argName);
+
+	/**
+	 * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
+	 * 
+	 * @param argName
+	 * @return
+	 */
+	public String getArgStrFromIntent(String argName);
+
+	/**
+	 * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
+	 * 
+	 * @param argName
+	 * @return
+	 */
+	public Object getArgFromIntent(String argName);
 
 	public DataList getDataListFromIntent();
 

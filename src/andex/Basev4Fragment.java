@@ -29,11 +29,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AbsListView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
@@ -809,25 +809,6 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 			return 0;
 		return (Integer) v;
 	}
-
-	@Override
-	public int getArgIntFromIntent(String argName) {
-		// TODO
-		return 0;
-	}
-	
-	@Override
-	public String getArgStrFromIntent(String argName) {
-		// TODO
-		return null;
-	}
-	
-	@Override
-	public Object getArgFromIntent(String argName) {
-		// TODO
-		return null;
-	}
-	
 
 	@Override
 	public void showConfirmDialog(String msg, DialogCallback callback) {
