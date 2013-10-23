@@ -39,7 +39,8 @@ public class AndroidUtils {
 //	private static final String GLOBAL_SETTING = "org.andex";
 	
 	/**
-	 * 获取设备的IMEI编号
+	 * 获取设备的IMEI编号。
+	 * 有些设备（比如Nexus 7）没有不能返回IMEI编号。
 	 * @param ctx
 	 * @return
 	 */
