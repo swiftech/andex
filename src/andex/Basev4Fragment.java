@@ -584,15 +584,15 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 
 	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult) {
-		// TODO Auto-generated method stub
-		
+		startActivityWith(clazz, -1L, key, value, forResult);
 	}
 
 	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value,
 			boolean forResult) {
-		// TODO Auto-generated method stub
-		
+		Bundle args = new Bundle();
+		args.putSerializable(key, value);
+		startActivityWith(clazz, id, args, forResult);	
 	}
 
 	@Override

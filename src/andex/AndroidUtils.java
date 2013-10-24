@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
+import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -390,6 +391,34 @@ public class AndroidUtils {
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 		notification.setLatestEventInfo(context, title, msg, contentIntent);
 		if(sticky) {
+			notification.flags = Notification.FLAG_ONGOING_EVENT;
+		}
+		notificationManager.notify(id, notification);
+	}
+	
+	/**
+	 * 新的Notification实现方式 TODO
+	 * @param context
+	 * @param id
+	 * @param icon
+	 * @param title
+	 * @param msg
+	 * @param activity
+	 * @param sticky
+	 */
+	public static void showNotificationV2(Context context, int id, int icon, String title, String msg, Class activity,
+			boolean sticky) {
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		
+		Intent notificationIntent = new Intent(context, activity);
+
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+		
+		Notification notification = new NotificationCompat.Builder(context).setContentTitle(title).setContentText(msg)
+				.setSmallIcon(icon).setContentIntent(contentIntent).build();
+		
+		if (sticky) {
 			notification.flags = Notification.FLAG_ONGOING_EVENT;
 		}
 		notificationManager.notify(id, notification);
