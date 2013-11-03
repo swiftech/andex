@@ -17,6 +17,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -583,6 +584,10 @@ public class BaseActionBarActivity extends ActionBarActivity implements Activity
 		return (SurfaceView)this.findViewById(resId);
 	}
 
+	public DrawerLayout getDrawerLayout(int resId) {
+		return (DrawerLayout)this.findViewById(resId);
+	}
+	
 	@Override
 	public String getNestedString(int sentence, Object... words) {
 		// TODO Auto-generated method stub

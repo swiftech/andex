@@ -9,6 +9,7 @@ import andex.view.SimpleDialog.DialogCallback;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -319,6 +320,8 @@ public interface Extendable {
 
 	public SurfaceView getSurfaceView(int resId);
 
+	public DrawerLayout getDrawerLayout(int resId);
+	
 	/**
 	 * 取出并处理嵌入式的字符资源，嵌入格式: {编号}
 	 * 

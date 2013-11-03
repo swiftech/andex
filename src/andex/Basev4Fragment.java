@@ -20,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -321,6 +322,11 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	@Override
 	public SurfaceView getSurfaceView(int resId) {
 		return (SurfaceView)fragmentView.findViewById(resId);
+	}
+	
+	@Override
+	public DrawerLayout getDrawerLayout(int resId) {
+		return (DrawerLayout)fragmentView.findViewById(resId);
 	}
 	
 	@Override
@@ -698,6 +704,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	public void startFragment(Basev4Fragment fragment, int resId, boolean forResult) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.replace(resId, fragment);
+		ft.addToBackStack(null);
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;
@@ -739,6 +746,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		fragment.setArguments(bundle);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.replace(resId, fragment);
+		ft.addToBackStack(null);
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;
@@ -751,6 +759,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		fragment.setArguments(args);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.replace(resId, fragment);
+		ft.addToBackStack(null);
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;
@@ -775,6 +784,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		}
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.replace(resId, fragment);
+		ft.addToBackStack(null);
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;
@@ -883,12 +893,20 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 
 	
 	/**
+	 * 返回至前一个Fragment（将当前的Fragment退出堆栈）
+	 */
+	public void backToPrevious() {
+		getFragmentManager().popBackStack();
+	}
+	
+	/**
 	 * 结束当前的Fragment
 	 */
 	public void finish() {
 		FragmentTransaction ft = this.getFragmentManager().beginTransaction();
 		ft.remove(this);
 		ft.commit();
+		backToPrevious();
 	}
 	
 	/**
@@ -914,7 +932,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	}
 	
 	public void finishWithData(DataRow row, Bundle args){
-		// TODO
+		throw new UnsupportedOperationException();
 	}
 	
 	/**

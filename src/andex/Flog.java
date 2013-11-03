@@ -126,7 +126,7 @@ public class Flog {
 		else {
 			Log.w("", "Flog输出流错误");
 		}
-		Log.e("andex", ex.getMessage() + "");
+		Log.e("andex", String.format("%s \r\n %s", msg, (ex == null ? "" : ex.getMessage())));
 	}
 	
 	public static void closeFile() {

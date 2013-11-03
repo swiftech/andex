@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -740,6 +741,11 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	@Override
 	public SurfaceView getSurfaceView(int resId) {
 		return (SurfaceView)this.findViewById(resId);
+	}
+	
+	@Override
+	public DrawerLayout getDrawerLayout(int resId) {
+		return (DrawerLayout)this.findViewById(resId);
 	}
 
 	@Override
