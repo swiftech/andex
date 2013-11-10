@@ -115,6 +115,9 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		this.parentActivity = (T) this.getActivity();
 		this.rs = context.getResources();
 		this.simpleDialog = new SimpleDialog(context);
+		
+		// 默认情况下Fragment的菜单都会加到Activity上。
+		setHasOptionsMenu(true);
 	}
 	
 

@@ -755,4 +755,31 @@ public class BaseActionBarActivity extends ActionBarActivity implements Activity
 		return view;
 	}
 
+	/**
+	 * 调试输出
+	 * @param log
+	 */
+	protected void debug(Object log) {
+		if(log == null) log = "[null]";
+		Log.d("andex", log.toString());
+	}
+	
+	/**
+	 * 警告输出
+	 * @param log
+	 */
+	protected void warn(Object log) {
+		if(log == null) log = "[null]";
+		Log.w("andex", log.toString());		
+	}
+	
+	/**
+	 * 错误输出
+	 * @param log
+	 */
+	protected void error(Object log) {
+		if(log == null) log = "[null]";
+		Log.e("andex", log.toString());
+	}
+	
 }

@@ -105,7 +105,7 @@ public abstract class BaseDataSource {
 	 * 
 	 */
 	public void disconnect() {
-		Log.d("db", "Disconnection from db connection");
+		Log.d("db", "Disconnect db");
 		if (db != null && db.isOpen()) {
 			db.close();
 		}
@@ -278,6 +278,7 @@ public abstract class BaseDataSource {
 			}
 			result.add(row);
 		}
+		cursor.close();
 		Log.d("andex.db", "Result with " + result.size() + " records.");
 		return result;
 	}
@@ -349,6 +350,9 @@ public abstract class BaseDataSource {
 		return db;
 	}
 	
+	/**
+	 * 开始事务（用endTransaction()结束）
+	 */
 	public void beginTransaction() {
 		isAutoDisconnect = false; // 关闭自动模式
 		this.connect();
@@ -363,6 +367,9 @@ public abstract class BaseDataSource {
 		// NOTHING NEED TO DO FOR ROLLBACK
 	}
 	
+	/**
+	 * 结束一个用beginTransaction()开始的事务。
+	 */
 	public void endTransaction() {
 		this.db.endTransaction();
 		this.disconnect();

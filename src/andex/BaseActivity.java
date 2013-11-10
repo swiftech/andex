@@ -69,6 +69,8 @@ import android.widget.ToggleButton;
  */
 public abstract class BaseActivity extends FragmentActivity implements ActivityExtendable{
 	
+//	protected static String LOG_TAG = "andex";
+	
 	//
 	protected final int REQUEST_CODE_DEFAULT = 1000;
 	

@@ -4,7 +4,6 @@ import android.app.ActivityManager.RunningServiceInfo;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -17,7 +16,8 @@ import android.util.Log;
 public abstract class BaseService extends Service {
 	public Context context;
 	
-	public boolean isRunning;
+	/**  */
+	public boolean isServiceRunning;
 	
 	protected String LOG_LABEL = "service";
 
@@ -26,10 +26,15 @@ public abstract class BaseService extends Service {
 		this.context = this;
 	}
 
+	/**
+	 * 实现这个方法可以使得Service驻留在内存中（即使APP被销毁），除非调用stopItself()或者stopService().
+	 */
 	@Override
-	public void onStart(Intent intent, int startId) {
-		super.onStart(intent, startId);
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		int ret = super.onStartCommand(intent, flags, startId);
 		Log.d("andex", "Service " + this.getClass().getName() + " start");
+		
+		return ret;
 	}
 
 	@Override

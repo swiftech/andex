@@ -23,7 +23,7 @@ public class BaseServiceBinder extends Binder {
 	}
 	
 	public boolean isServiceRunning() {
-		return service.isRunning;
+		return service.isServiceRunning;
 	}
 
 	public void stopService() {
