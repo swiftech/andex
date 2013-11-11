@@ -19,7 +19,7 @@ public abstract class BaseService extends Service {
 	/**  */
 	public boolean isServiceRunning;
 	
-	protected String LOG_LABEL = "service";
+	protected String LOG_TAG = "service";
 
 	public BaseService() {
 		super();

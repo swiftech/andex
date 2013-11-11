@@ -11,6 +11,7 @@ import android.os.Handler;
 public class BaseServiceBinder extends Binder {
 	
 	protected BaseService service;
+	
 	public Handler handler;
 	
 	public BaseServiceBinder() {
@@ -27,10 +28,14 @@ public class BaseServiceBinder extends Binder {
 	}
 
 	public void stopService() {
-		service.stopService();
+		if (service.isServiceRunning) {
+			service.stopService();
+		}
 	}
 	
 	public void restartService() {
-		service.restartService();
+		if (service.isServiceRunning) {
+			service.restartService();
+		}
 	}
 }
