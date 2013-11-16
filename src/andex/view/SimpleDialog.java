@@ -129,7 +129,7 @@ public class SimpleDialog {
 		if (!enterComposing())
 			return;
 
-		Log.d("andex", "Confirm Dialog");
+		Log.v("andex", "Confirm Dialog");
 		String tagPositive = null;
 		String tagNegative = null;
 		if (buttonsTitle != null && buttonsTitle.length >= 2) {
@@ -143,7 +143,7 @@ public class SimpleDialog {
 		dBuilder.setPositiveButton(tagPositive, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Log.d("andex", "Confirm Dialog OK clicked");
+				Log.v("andex", "Confirm Dialog OK clicked");
 				callback.onPositive();
 				callback.onPositive(dialog); // deprecated
 				dismissDialogOnTop();
@@ -153,7 +153,7 @@ public class SimpleDialog {
 		dBuilder.setNegativeButton(tagNegative, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Log.d("andex", "'Calcel' clicked for confirmation dialog ");
+				Log.v("andex", "'Calcel' clicked for confirmation dialog ");
 				callback.onNegative();
 				callback.onNegative(dialog); // deprecated
 				dismissDialogOnTop();
@@ -164,7 +164,7 @@ public class SimpleDialog {
 		AlertDialog confirmDialog = dBuilder.create();
 		confirmDialog.setTitle(title);
 		confirmDialog.show();
-		Log.d("andex", "  shown");
+		Log.v("andex", "  shown");
 		composingDone();
 		dialogStack.push(confirmDialog);
 	}
@@ -213,7 +213,7 @@ public class SimpleDialog {
 		dBuilder.setNegativeButton(tagCancel, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Log.d("andex", "Calcel clicked");
+				Log.v("andex", "Calcel clicked");
 				dismissDialogOnTop();
 				callback.onNegative(dialog);
 			}
@@ -343,7 +343,7 @@ public class SimpleDialog {
 		// radioGroup.setBackgroundColor(dialogBgColor);
 		radioGroup.removeAllViews();
 		for (int i = 0; i < labels.length; i++) {
-			// Log.d("", "Add new radio to group " + labels[i]);
+			// Log.v("", "Add new radio to group " + labels[i]);
 			RadioButton radio = new RadioButton(context);
 			radio.setId(i);
 			radio.setText(labels[i]);
@@ -445,7 +445,7 @@ public class SimpleDialog {
 		dBuilder.setPositiveButton(android.R.string.ok, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Log.d("showInfoDialog", "Positive Clicked");
+				Log.v("showInfoDialog", "Positive Clicked");
 				if (callback != null)
 					callback.onPositive();
 				dismissDialogOnTop();
@@ -582,7 +582,7 @@ public class SimpleDialog {
 		dBuilder.setPositiveButton(android.R.string.ok, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Log.d("showCustomizedDialog", "Positive Button Clicked");
+				Log.v("showCustomizedDialog", "Positive Button Clicked");
 				dismissDialogOnTop();
 				Object[] ret = new Object[resIds.length];
 				for (int i = 0; i < resIds.length; i++) {
@@ -625,14 +625,14 @@ public class SimpleDialog {
 	 */
 	public void dismissDialogOnTop() {
 		if(dialogStack == null || dialogStack.isEmpty()) {
-			Log.d("andex", "No dialog on the top");
+			Log.v("andex", "No dialog on the top");
 			return;
 		}
 		AlertDialog dlg = dialogStack.pop();
 		if (dlg == null)
-			Log.d("andex", "No dialog on the top");
+			Log.v("andex", "No dialog on the top");
 		else{
-			Log.d("andex", "Dismiss top dialog");
+			Log.v("andex", "Dismiss top dialog");
 			dlg.dismiss();			
 		}
 	}

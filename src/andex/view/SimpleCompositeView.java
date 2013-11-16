@@ -158,20 +158,20 @@ public abstract class SimpleCompositeView {
 	 * @return
 	 */
 	public SimpleCompositeView addItem(Object id, int state, Object... values) {
-		Map m = new HashMap();
+		Map<String, Object> itemData = new HashMap<String, Object>();
 		if (id != null) {
-			m.put(idkey, id);
+			itemData.put(idkey, id);
 		}
-		m.put(statekey, state);
+		itemData.put(statekey, state);
 		if (values != null) {
 			if (values.length > 0)
-				m.put(keys[0], values[0]);
+				itemData.put(keys[0], values[0]);
 			if (values.length > 1)
-				m.put(keys[1], values[1]);
+				itemData.put(keys[1], values[1]);
 			if (values.length > 2)
-				m.put(keys[2], values[2]);
+				itemData.put(keys[2], values[2]);
 		}
-		data.add(m);
+		data.add(itemData);
 		return this;
 	}
 	
@@ -185,7 +185,7 @@ public abstract class SimpleCompositeView {
 		while (it.hasNext()) {
 			Object k = it.next();
 			Object v = m.get(k);
-			Log.d("", k + "=" + v);
+			Log.v("", k + "=" + v);
 			if (v != null) {
 				addItem(k, v, v);
 			}
@@ -203,7 +203,7 @@ public abstract class SimpleCompositeView {
 		while (it.hasNext()) {
 			Object k = it.next();
 			Object v = bundle.get(k.toString());
-			Log.d("", k + "=" + v);
+			Log.v("", k + "=" + v);
 			if (v != null) {
 				addItem(k, k, v);
 			}
@@ -292,12 +292,12 @@ public abstract class SimpleCompositeView {
 	 * Render to display all data for this view.
 	 */
 	public void render() {
-		Log.d("andex", "render()");
+		Log.v("andex", String.format("render() with %d rows", data == null ? 0 : data.size()));
 		if (this.absListView == null) {
 			throw new RuntimeException("The composite view was not init correctly, the abstract list view object is Null");
 		}
 		if (data == null || data.isEmpty()) {
-			Log.d("andex", "  No data for ListView, show info");
+			Log.v("andex", "  No data for ListView, show info");
 			((AdapterView)this.absListView).setAdapter(new SimpleInfoListViewAdapter(ctx, defaultLabel));
 		}
 		else {
@@ -313,7 +313,7 @@ public abstract class SimpleCompositeView {
 		this.absListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long itemid) {
-				Log.d("andex", "  Item at position " + pos + " was clicked");
+				Log.v("andex", "  Item at position " + pos + " was clicked");
 				view.setSelected(true); // TODO
 				handleClickEvent(pos, handler);
 			}
@@ -328,7 +328,7 @@ public abstract class SimpleCompositeView {
 		this.absListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long itemid) {
-				Log.d("andex", "  Item at position " + pos + " was long clicked");
+				Log.v("andex", "  Item at position " + pos + " was long clicked");
 				handleClickEvent(pos, handler);
 				return false;
 			}
@@ -345,11 +345,11 @@ public abstract class SimpleCompositeView {
 		}
 		Object bizid = item.get(idkey);
 		if (bizid == null) {
-			Log.d("andex", "  No business ID there, callback without anything");
+			Log.v("andex", "  No business ID there, callback without anything");
 			handler.invoke();
 		}
 		else {
-			Log.d("andex", "  Select business ID " + bizid + "[" + bizid.getClass() + "]");
+			Log.v("andex", "  Select business ID " + bizid + "[" + bizid.getClass() + "]");
 			handler.invoke(bizid);
 			handler.invoke(bizid, item.get(keys[0]), item.get(keys[1]));
 		}

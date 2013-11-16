@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 
+import andex.Callback.CallbackAdapter;
 import andex.model.DataList;
 import andex.model.DataRow;
 import andex.view.SimpleDialog;
@@ -56,6 +57,8 @@ import android.widget.ToggleButton;
 
 public class BaseActionBarActivity extends ActionBarActivity implements ActivityExtendable {
 
+	protected final int REQUEST_CODE_DEFAULT = 1000;
+	
 	protected Activity thisActivity;
 
 	protected Context context;
@@ -289,7 +292,7 @@ public class BaseActionBarActivity extends ActionBarActivity implements Activity
 	public String getArgStrFromIntent(String argName) {
 		Object o = getArgFromIntent(argName);
 		if (o == null) {
-			Log.d("andex", String.format("参数值%s不存在", argName));
+			Log.v("andex", String.format("参数值%s不存在", argName));
 			return null;
 //			throw new RuntimeException(String.format("参数值%s不存在", argName));
 		}
@@ -309,7 +312,7 @@ public class BaseActionBarActivity extends ActionBarActivity implements Activity
 		if (Constants.debugMode) {
 			for (Iterator it = bundle.keySet().iterator(); it.hasNext();) {
 				Object key = it.next();
-				Log.d("andex", String.format("  ARG: %s = %s", key, bundle.get(key.toString())));
+				Log.v("andex", String.format("  ARG: %s = %s", key, bundle.get(key.toString())));
 			}
 		}
 		return bundle.get(argName);
@@ -782,4 +785,15 @@ public class BaseActionBarActivity extends ActionBarActivity implements Activity
 		Log.e("andex", log.toString());
 	}
 	
+
+	/** Prepared callback that just finish current activity */
+	protected CallbackAdapter callbackFinish = new CallbackAdapter(){
+
+		@Override
+		public void invoke() {
+			super.invoke();
+			finish();
+		}
+		
+	};	
 }

@@ -1,7 +1,9 @@
 package andex.view;
 
+import android.content.Context;
 import android.text.InputType;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class ViewUtils {
 
@@ -19,5 +21,11 @@ public class ViewUtils {
 			et.setInputType(InputType.TYPE_CLASS_TEXT);
 		}
 		return et;
+	}
+	
+	public static TextView createTextView(Context context, String title) {
+		TextView tv = new TextView(context);
+		tv.setText(title);
+		return tv;
 	}
 }

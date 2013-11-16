@@ -51,11 +51,11 @@ public class NetworkUtils {
 			float downloadPercent;
 			byte[] buffer = new byte[4096];
 			int bufferLength = 0;
-			Log.d("wget()", "Download file size: " + totalSize);
+			Log.v("wget()", "Download file size: " + totalSize);
 			while ((bufferLength = inputStream.read(buffer)) > 0 && !isWgetStop) {
 				fileOutput.write(buffer, 0, bufferLength);
 				downloadedSize += bufferLength;
-				// Log.d(TAG, downloadedSize + " bytes have been downloaded.");
+				// Log.v(TAG, downloadedSize + " bytes have been downloaded.");
 				downloadSpeed = downloadedSize;
 				downloadPercent = ((downloadedSize * 100) / totalSize) > 100 ? 100
 						: ((downloadedSize * 100) / totalSize);

@@ -157,7 +157,7 @@ public class AndroidUtils {
 	 * @return
 	 */
 	public static int divideScreenHeight(Context ctx, int gridHeight, int skipHeight) {
-		Log.d("andex", "Screen: " + getScreenWidth(ctx) + "X" + getScreenHeight(ctx));
+		Log.v("andex", "Screen: " + getScreenWidth(ctx) + "X" + getScreenHeight(ctx));
 		int screenH = getScreenHeight(ctx);
 		int contentHeight = screenH - skipHeight;
 		double spacing = ((contentHeight / 160.0) * (contentHeight / 160.0));
@@ -175,11 +175,11 @@ public class AndroidUtils {
 	 * @return
 	 */
 	public static int divideScreenWidth(Context ctx, int gridWidth, int skipWidth, int gridHeight, int skipHeight, int spacing){
-		Log.d("andex", "Screen: " + getScreenWidth(ctx) + "X" + getScreenHeight(ctx));
+		Log.v("andex", "Screen: " + getScreenWidth(ctx) + "X" + getScreenHeight(ctx));
 		int result = (int) Math.round(getScreenWidth(ctx) / gridWidth)
 				* (int) Math.round((getScreenHeight(ctx) - skipHeight) / gridHeight);
 		
-		Log.d("andex", "Cols: " + Math.round(getScreenWidth(ctx) / gridWidth) + ", Rows: "
+		Log.v("andex", "Cols: " + Math.round(getScreenWidth(ctx) / gridWidth) + ", Rows: "
 				+ (int) Math.round((getScreenHeight(ctx) - skipHeight) / gridHeight));
 		return result;
 	}
@@ -367,7 +367,7 @@ public class AndroidUtils {
 	 * @return 
 	 */
 	public static boolean removeGlobalSetting(Context ctx, String key) {
-		Log.d("", "Try to remove setting: " + key);
+		Log.v("", "Try to remove setting: " + key);
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
 		return setting.edit().remove(key).commit();
 	}
@@ -533,7 +533,7 @@ public class AndroidUtils {
 			if(Utils.isEmpty(contact)) {
 				continue;
 			}
-			Log.d("", "" + contact);
+			Log.v("andex", "" + contact);
 
 			String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
 			// 第一个参数是确定查询电话号，第三个参数是查询具体某个人的过滤器

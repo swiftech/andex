@@ -67,32 +67,32 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	//
 	public final int REQUEST_CODE_DEFAULT = 1000;
 	
-	// 当前Fragment的引用
+	/** 当前Fragment的引用 */
 	public Fragment thisFragment;
 	
-	// 前一个Fragment（即调用startFragment()方法跳至当前Fragment的）
+	/** 前一个Fragment（即调用startFragment()方法跳至当前Fragment的）*/
 	public Basev4Fragment previousFragment;
 	
-	// 当前Fragment所属的Activity
+	/** 当前Fragment所属的Activity*/
 	public T parentActivity;
 	
 	
 	public Context context;
 
-	// Resources from context.
+	/** Resources from context.*/
 	public Resources rs;
 	
-	// Handler UI update
+	/** Handler UI update*/
 	public final Handler handler = new Handler();
 
 	
-	// Simple Dialogs
+	/** Simple Dialogs*/
 	public SimpleDialog simpleDialog;
 	
-	// View of Fragment
+	/** View of Fragment*/
 	public View fragmentView;
 	
-	// Resource id for this fragment view.
+	/** Resource id for this fragment view.*/
 	public int layoutResourceId = 0;
 	
 	public Basev4Fragment() {
@@ -896,7 +896,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 
 	
 	/**
-	 * 返回至前一个Fragment（将当前的Fragment退出堆栈）
+	 * 直接返回至前一个Fragment（将当前的Fragment退出堆栈）
 	 */
 	public void backToPrevious() {
 		getFragmentManager().popBackStack();
@@ -924,7 +924,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	}
 	
 	/**
-	 * 结束当前Fragment中的业务逻辑，
+	 * 结束当前Fragment中的业务逻辑，前面一个Fragment（有的话）的onFragmentResult()方法会被调用并传递数据。
 	 */
 	@Override
 	public void finishWithData(DataRow data) {

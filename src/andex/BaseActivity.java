@@ -91,11 +91,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	// Simple Dialogs
 	protected SimpleDialog simpleDialog;
 	
-	
-//	protected DisplayMetrics dm;
-//	protected int sw;
-//	protected int sh;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,10 +107,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 		i18n.init(context);
 
 		rs = this.getResources();
-		
-//		dm = context.getApplicationContext().getResources().getDisplayMetrics();
-//		sw = dm.widthPixels;
-//		sh = dm.heightPixels;
 	}
 
 	/**
@@ -393,7 +384,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	public String getArgStrFromIntent(String argName) {
 		Object o = getArgFromIntent(argName);
 		if (o == null) {
-			Log.d("andex", String.format("参数值%s不存在", argName));
+			Log.v("andex", String.format("参数值%s不存在", argName));
 			return null;
 //			throw new RuntimeException(String.format("参数值%s不存在", argName));
 		}
@@ -417,7 +408,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 		if (Constants.debugMode) {
 			for (Iterator it = bundle.keySet().iterator(); it.hasNext();) {
 				Object key = it.next();
-				Log.d("andex", String.format("  ARG: %s = %s", key, bundle.get(key.toString())));
+				Log.v("andex", String.format("  ARG: %s = %s", key, bundle.get(key.toString())));
 			}
 		}
 		return bundle.get(argName);

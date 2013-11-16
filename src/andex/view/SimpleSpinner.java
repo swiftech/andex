@@ -64,7 +64,7 @@ public class SimpleSpinner {
 			Log.w("andex", "Nothing to init for Spinner");
 			return spinner;
 		}
-		Log.d("andex", "Init Spinner with " + data.length + " items");
+		Log.v("andex", "Init Spinner with " + data.length + " items");
 		ArrayAdapter adapter = new ArrayAdapter(ctx, android.R.layout.simple_spinner_item, data);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
@@ -127,7 +127,7 @@ public class SimpleSpinner {
 			Object value = spinner.getItemAtPosition(i);
 			if (value instanceof SpinnerItem) {
 				SpinnerItem si = (SpinnerItem) value;
-				Log.d("", itemId + " -- " + si.getId());
+				Log.v("", itemId + " -- " + si.getId());
 				if (itemId.equals(si.getId())) {
 					spinner.setSelection(i);
 					return si;
@@ -167,7 +167,7 @@ public class SimpleSpinner {
 		while (it.hasNext()) {
 			Object key = it.next();
 			Object value = map.get(key);
-			// Log.d("", "" + value);
+			// Log.v("", "" + value);
 			items.add(new SpinnerItem(key, value));
 		}
 		return items;

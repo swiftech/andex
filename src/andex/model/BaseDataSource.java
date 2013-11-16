@@ -2,10 +2,12 @@ package andex.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import andex.Constants;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -105,7 +107,7 @@ public abstract class BaseDataSource {
 	 * 
 	 */
 	public void disconnect() {
-		Log.d("db", "Disconnect db");
+		Log.v("db", "Disconnect db");
 		if (db != null && db.isOpen()) {
 			db.close();
 		}
@@ -162,7 +164,7 @@ public abstract class BaseDataSource {
 	public boolean isExists(String tableName, String uniqueCol, String colValue) {
 		String sql = "select * from " + tableName + " where " + uniqueCol + "='" + colValue + "'";
 		if (Constants.debugMode) {
-//		Log.d("andex.db", "SQL:" + sql);
+//		Log.v("andex.db", "SQL:" + sql);
 		}
 		Cursor cur = null;
 		try {
@@ -229,7 +231,7 @@ public abstract class BaseDataSource {
 			return null;
 		}
 		connect();
-		Log.d("andex.db", "Find all in table " + tableName);
+		Log.v("andex.db", "Find all in table " + tableName);
 		Cursor cursor = db.query(tableName, null, whereClause, null, null, null, orderByClause);
 		try {
 			return cursorToMapList(cursor);
@@ -264,7 +266,7 @@ public abstract class BaseDataSource {
 		List<Map> result = new ArrayList();
 		int n = 0;
 		for(;cursor.moveToNext();) {
-//			Log.d("andex.db", "Row" + n++);
+//			Log.v("andex.db", "Row" + n++);
 			int count = cursor.getColumnCount();
 			Map row = new HashMap();
 			for (int i = 0; i < count; i++) {
@@ -279,7 +281,7 @@ public abstract class BaseDataSource {
 			result.add(row);
 		}
 		cursor.close();
-		Log.d("andex.db", "Result with " + result.size() + " records.");
+		Log.v("andex.db", "Result with " + result.size() + " records.");
 		return result;
 	}
 	
@@ -379,5 +381,36 @@ public abstract class BaseDataSource {
 
 	public void setContext(Context context) {
 		this.context = context;
+	}
+
+	protected ContentValues fromMap(Map<String, Object> map) {
+		ContentValues values = new ContentValues();
+
+		for (Iterator it = map.keySet().iterator(); it.hasNext();) {
+			String colName = (String) it.next();
+			Object value = map.get(colName);
+			if (value instanceof String) {
+				String typedValue = (String) value;
+				values.put(colName, typedValue);
+			}
+			else if (value instanceof Integer) {
+				Integer typedValue = (Integer) value;
+				values.put(colName, typedValue);
+			}
+			else if (value instanceof Long) {
+				Long typedValue = (Long) value;
+				values.put(colName, typedValue);
+			}
+			else if (value instanceof Float) {
+				Float typedValue = (Float) value;
+				values.put(colName, typedValue);
+			}
+			else if (value instanceof Double) {
+				Double typedValue = (Double) value;
+				values.put(colName, typedValue);
+			}
+		}
+
+		return values;
 	}
 }
