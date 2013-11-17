@@ -785,6 +785,18 @@ public class BaseActionBarActivity extends ActionBarActivity implements Activity
 		Log.e("andex", log.toString());
 	}
 	
+	/**
+	 * 简单的创建一个Bundle
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public static Bundle newBundle(String key, Serializable value) {
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(key, value);
+		return bundle;
+	}
+
 
 	/** Prepared callback that just finish current activity */
 	protected CallbackAdapter callbackFinish = new CallbackAdapter(){
