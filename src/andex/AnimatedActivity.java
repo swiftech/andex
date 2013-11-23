@@ -1,23 +1,16 @@
 package andex;
 
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 
 
 /**
- * 手势支持
+ * 
  * @author 
  *
  */
 public class AnimatedActivity extends BaseActivity {
-	
-	
-	// == 需要的话覆盖变量值进行参数调整 ==
 	
 	protected int animationSpeed = 500; // ms, Larger is faster
 	

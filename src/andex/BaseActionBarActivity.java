@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -55,7 +56,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class BaseActionBarActivity extends ActionBarActivity implements ActivityExtendable {
+public abstract class BaseActionBarActivity extends ActionBarActivity implements ActivityExtendable {
 
 	protected final int REQUEST_CODE_DEFAULT = 1000;
 	
@@ -71,6 +72,9 @@ public class BaseActionBarActivity extends ActionBarActivity implements Activity
 
 	// Simple Dialogs
 	protected SimpleDialog simpleDialog;
+	
+	// 
+	protected ActionBar actionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,8 @@ public class BaseActionBarActivity extends ActionBarActivity implements Activity
 		thisActivity = this;
 
 		context = this;
+		
+		rs = this.getResources();
 
 		simpleDialog = new SimpleDialog(context);
 
@@ -86,10 +92,22 @@ public class BaseActionBarActivity extends ActionBarActivity implements Activity
 		Constants.debugMode = !"false".equals(System.getProperty(Constants.SYS_PROP_DEBUG_MODE));
 
 		i18n.init(context);
+		
+		initLayout();
 
-		rs = this.getResources();
-
+		actionBar = getSupportActionBar();
 	}
+	
+	/**
+	 * 返回layout文件的ID，用处是：
+	 * <p>
+	 * 1. 避免在子类中设置布局文件。
+	 * <p>
+	 * 2. 父类中某些初始化操作需要在设置布局文件后执行，而某些操作需要在设置之前执行。
+	 * 
+	 * @return
+	 */
+	protected abstract boolean initLayout();
 
 	/**
 	 * 设置Activity为全屏无标题栏模式。
