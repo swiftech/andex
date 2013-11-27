@@ -25,4 +25,7 @@
 	<string name="common_dialog_confirm_title_exit">确定要退出吗？</string>
 	
 	<string name="common_dialog_unable_to_read_from_sdcard">无法读取SD卡</string>
+	
+	<string name="common_success">成功</string>
+	<string name="common_fail">失败</string>
 </resources>

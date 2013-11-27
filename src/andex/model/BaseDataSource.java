@@ -15,17 +15,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
- * <p>Access SQLite database from local file system(usually SDCard) or system storage.
- * Extend me to do more works on database.
- * <pre>
+ * <p>一个Model层的DAO基类，提供访问数据库的各种方法，继承以实现更多的功能。
+ * <p>它不关心数据如何存储，而是交给SQLiteOpenHelper来处理，覆盖getDbHelper()方法可以实现更多的SQLiteOpenHelper。
+ * <p>
  *   Override getDB() if you want to provide other ways to SQLite database like system built-in.
  *   Call connect() before invoking any database operation method.
  *   Don't forget init table schema before everything.
- * </pre>
+ * </p>
  * @author 
- *
+ * @see DefaultSQLiteOpenHelper
  */
 public abstract class BaseDataSource {
+	
+	private static final String LOG_TAG = "andex.db";
 
 	private static final String ERR_DB_NOT_CONNECTED = "Database instance is not correctly initilized.";
 
@@ -33,13 +35,12 @@ public abstract class BaseDataSource {
 	protected Context context;
 
 	protected String dbName;
-	
-//	protected int schemaVersion;
-	
-	DefaultSQLiteOpenHelper dbHelper;
-	
-	protected SQLiteDatabase db ;
 
+	DefaultSQLiteOpenHelper dbHelper;
+
+	protected SQLiteDatabase db;
+
+	// 常用SQL语句模板
 	protected final String SQL_DROP_TABLE = "drop table ${tableName}";
 
 	protected final String SQL_FIND_ALL = "select * from ${tableName}";
@@ -49,50 +50,30 @@ public abstract class BaseDataSource {
 	protected boolean isAutoDisconnect = true;
 	
 	/**
-	 * 
+	 * 用给定的名称初始化数据库。
 	 * @param dbName
 	 */
-	public BaseDataSource(String dbName) {
+	public BaseDataSource(Context context, String dbName) {
 		super();
+		this.context = context;
 		this.dbName = dbName;
-	}
-	
-	/**
-	 * 
-	 * @param dbName Database name
-	 */
-	public BaseDataSource(String dbName, int schemaVersion) {
-		super();
-		this.dbName = dbName;
-//		this.schemaVersion = schemaVersion;
 		dbHelper = getDbHelper();
-	}	
-	
-	/**
-	 * 
-	 * @return
-	 */
-	protected SQLiteDatabase getDB() {
-		Log.i("andex.db", "Access database from system storage");
-		// 没有则存系统的数据库。
-		if (context == null) {
-			Log.e("andex.db", "System Context didn't set properly.");
-			return null;
-		}
-//		DefaultSQLiteOpenHelper dbHelper = getDbHelper();
-		return dbHelper.getWritableDatabase();
 	}
 	
 	/**
-	 * 
+	 * 默认使用系统提供的方式，子类可以继承已修改DB的创建来源，
 	 * Inject new implemented db helper here.
 	 * @return
 	 */
 	protected DefaultSQLiteOpenHelper getDbHelper() {
+		if (context == null) {
+			Log.e(LOG_TAG, "System Context didn't set properly.");
+			return null;
+		}
 		return new DefaultSQLiteOpenHelper(context, this.dbName);
 	}
 
-	
+
 	/**
 	 * Connect to DB, create it if not exist.
 	 */
@@ -102,9 +83,9 @@ public abstract class BaseDataSource {
 		}
 		db = getDB();
 	}
-	
+
 	/**
-	 * 
+	 * 关闭数据库连接
 	 */
 	public void disconnect() {
 		Log.v("db", "Disconnect db");
@@ -114,23 +95,39 @@ public abstract class BaseDataSource {
 	}
 
 	/**
+	 * 获取可写的数据实例。
+	 * @return
+	 */
+	protected SQLiteDatabase getDB() {
+		Log.i(LOG_TAG, "Access database from system storage");
+		// 没有则存系统的数据库。
+		if (context == null) {
+			Log.e(LOG_TAG, "System Context didn't set properly.");
+			return null;
+		}
+		Log.v(LOG_TAG, "DBHelper is: " + dbHelper.getClass().getSimpleName());
+		return dbHelper.getWritableDatabase();
+	}
+	
+	/**
 	 * Create table by sql if not exist.
 	 * @param sql
 	 */
 	public boolean createTable(String sql) {
-		if(db == null || !db.isOpen()) {
-			Log.e("andex.db", ERR_DB_NOT_CONNECTED);
-			return false;
-		}
+//		if(db == null || !db.isOpen()) {
+//			Log.e(LOG_TAG, ERR_DB_NOT_CONNECTED);
+//			return false;
+//		}
+		connect();
 		try {
 			db.execSQL(sql);
-			Log.i("andex.db", "Table created: " + sql);
+			Log.i(LOG_TAG, "Table created: " + sql);
 		} catch (SQLException e) {
-//			e.printStackTrace();
-			Log.w("andex.db", e.getLocalizedMessage());
+			Log.w(LOG_TAG, e.getLocalizedMessage());
 			return false;
 		} finally {
-//			db.close();
+			if (isAutoDisconnect)
+				this.disconnect();
 		}
 		return true;
 	}
@@ -140,17 +137,19 @@ public abstract class BaseDataSource {
 	 * @param tableName
 	 */
 	public void dropTable(String tableName) {
-		if (db == null || !db.isOpen()) {
-			Log.e("andex.db", ERR_DB_NOT_CONNECTED);
-			return;
-		}
+//		if (db == null || !db.isOpen()) {
+//			Log.e(LOG_TAG, ERR_DB_NOT_CONNECTED);
+//			return;
+//		}
+		connect();
 		try {
 			db.execSQL(SQL_DROP_TABLE.replace("${tableName}", tableName));
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			Log.i("andex.db", "Table " + tableName + " has been droped");
-			this.disconnect();
+			Log.i(LOG_TAG, "Table " + tableName + " has been droped");
+			if (isAutoDisconnect)
+				this.disconnect();
 		}
 	}
 	
@@ -164,20 +163,20 @@ public abstract class BaseDataSource {
 	public boolean isExists(String tableName, String uniqueCol, String colValue) {
 		String sql = "select * from " + tableName + " where " + uniqueCol + "='" + colValue + "'";
 		if (Constants.debugMode) {
-//		Log.v("andex.db", "SQL:" + sql);
+			// Log.v(LOG_TAG, "SQL:" + sql);
 		}
 		Cursor cur = null;
 		try {
 			cur = db.rawQuery(sql, null);
-			if(cur.moveToNext()) {
+			if (cur.moveToNext()) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-		}
-		finally{
-			if(cur != null )cur.close();	
+		} finally {
+			if (cur != null)
+				cur.close();
 		}
 		return false;
 	}
@@ -227,11 +226,11 @@ public abstract class BaseDataSource {
 	 */
 	public List<Map> findAll(String tableName, String whereClause, String orderByClause) {
 		if (db == null) {
-			Log.e("andex.db", ERR_DB_NOT_CONNECTED);
+			Log.e(LOG_TAG, ERR_DB_NOT_CONNECTED);
 			return null;
 		}
 		connect();
-		Log.v("andex.db", "Find all in table " + tableName);
+		Log.v(LOG_TAG, "Find all in table " + tableName);
 		Cursor cursor = db.query(tableName, null, whereClause, null, null, null, orderByClause);
 		try {
 			return cursorToMapList(cursor);
@@ -258,7 +257,8 @@ public abstract class BaseDataSource {
 			e.printStackTrace();
 			return new ArrayList();
 		} finally {
-			if(isAutoDisconnect) this.disconnect();
+			if (isAutoDisconnect)
+				this.disconnect();
 		}
 	}
 	
@@ -266,7 +266,7 @@ public abstract class BaseDataSource {
 		List<Map> result = new ArrayList();
 		int n = 0;
 		for(;cursor.moveToNext();) {
-//			Log.v("andex.db", "Row" + n++);
+//			Log.v(LOG_TAG, "Row" + n++);
 			int count = cursor.getColumnCount();
 			Map row = new HashMap();
 			for (int i = 0; i < count; i++) {
@@ -281,7 +281,7 @@ public abstract class BaseDataSource {
 			result.add(row);
 		}
 		cursor.close();
-		Log.v("andex.db", "Result with " + result.size() + " records.");
+		Log.v(LOG_TAG, "Result with " + result.size() + " records.");
 		return result;
 	}
 	
@@ -309,7 +309,7 @@ public abstract class BaseDataSource {
 		prepareToConnect();
 		try {
 			int rows = db.delete(tbName, "ID=?", new String[]{"" + pkID});
-			Log.i("andex.db", "" + rows  + " rows in " + tbName + " deleted.");
+			Log.i(LOG_TAG, "" + rows  + " rows in " + tbName + " deleted.");
 			return (rows > 0);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -328,7 +328,7 @@ public abstract class BaseDataSource {
 		prepareToConnect();
 		try {
 			int rows = db.delete(tbName, null, null);
-			Log.i("andex.db", "all " + rows  + " rows in " + tbName + " deleted.");
+			Log.i(LOG_TAG, "all " + rows  + " rows in " + tbName + " deleted.");
 			return (rows > 0);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -340,7 +340,7 @@ public abstract class BaseDataSource {
 	// @deprecated?
 	protected void prepareToConnect() {
 //		if(db == null) {
-//			Log.e("andex.db", "Database instance is not correctly initilized.");
+//			Log.e(LOG_TAG, "Database instance is not correctly initilized.");
 //			throw new RuntimeException("Database instance is not correctly initilized.");
 //		}
 		if(db == null || !db.isOpen()) {
@@ -376,11 +376,6 @@ public abstract class BaseDataSource {
 		this.db.endTransaction();
 		this.disconnect();
 		isAutoDisconnect = true; // 恢复自动模式
-	}
-
-
-	public void setContext(Context context) {
-		this.context = context;
 	}
 
 	protected ContentValues fromMap(Map<String, Object> map) {

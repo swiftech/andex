@@ -330,7 +330,7 @@ public abstract class SimpleCompositeView {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long itemid) {
 				Log.v("andex", "  Item at position " + pos + " was long clicked");
 				handleClickEvent(pos, handler);
-				return false;
+				return true;
 			}
 		});
 	}
