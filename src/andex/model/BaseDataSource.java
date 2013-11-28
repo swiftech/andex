@@ -27,7 +27,7 @@ import android.util.Log;
  */
 public abstract class BaseDataSource {
 	
-	private static final String LOG_TAG = "andex.db";
+	private static String LOG_TAG = "andex.db";
 
 	private static final String ERR_DB_NOT_CONNECTED = "Database instance is not correctly initilized.";
 
@@ -58,6 +58,8 @@ public abstract class BaseDataSource {
 		this.context = context;
 		this.dbName = dbName;
 		dbHelper = getDbHelper();
+		LOG_TAG = String.format("infra.db[%s]", dbName);
+		Log.v(LOG_TAG, "DBHelper is: " + dbHelper.getClass().getSimpleName());
 	}
 	
 	/**
@@ -66,13 +68,13 @@ public abstract class BaseDataSource {
 	 * @return
 	 */
 	protected DefaultSQLiteOpenHelper getDbHelper() {
+		Log.i(LOG_TAG, "Access database from system storage");
 		if (context == null) {
 			Log.e(LOG_TAG, "System Context didn't set properly.");
 			return null;
 		}
 		return new DefaultSQLiteOpenHelper(context, this.dbName);
 	}
-
 
 	/**
 	 * Connect to DB, create it if not exist.
@@ -88,7 +90,7 @@ public abstract class BaseDataSource {
 	 * 关闭数据库连接
 	 */
 	public void disconnect() {
-		Log.v("db", "Disconnect db");
+		Log.v(LOG_TAG, "Disconnect db");
 		if (db != null && db.isOpen()) {
 			db.close();
 		}
@@ -96,16 +98,10 @@ public abstract class BaseDataSource {
 
 	/**
 	 * 获取可写的数据实例。
+	 * TODO 是否应该把dbHelper.getWritableDatabase();拿到connect()中，而此处直接返回实例db?
 	 * @return
 	 */
 	protected SQLiteDatabase getDB() {
-		Log.i(LOG_TAG, "Access database from system storage");
-		// 没有则存系统的数据库。
-		if (context == null) {
-			Log.e(LOG_TAG, "System Context didn't set properly.");
-			return null;
-		}
-		Log.v(LOG_TAG, "DBHelper is: " + dbHelper.getClass().getSimpleName());
 		return dbHelper.getWritableDatabase();
 	}
 	
