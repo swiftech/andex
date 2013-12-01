@@ -316,6 +316,12 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 		ft.commit();
 		return frag;
 	}
+	
+	public BaseDialogFragment showDialogFragment(BaseDialogFragment dlgFrag) {
+		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+		dlgFrag.show(ft, "andex");
+		return dlgFrag;
+	}
 
 	@Override
 	public void finishWithId(long id) {

@@ -51,14 +51,14 @@ public class SimpleDialog {
 	protected int dialogTxtColor = Color.BLACK;
 	
 	// The current on top of any other dialogs.
-	private Stack<AlertDialog> dialogStack = new Stack<AlertDialog>();
+	protected Stack<AlertDialog> dialogStack = new Stack<AlertDialog>();
 	
-	private Context context;
+	protected Context context;
 	
-	private Resources rs;
+	protected Resources rs;
 	
 	// 避免重复弹出对话框
-	private boolean isComposing = false;
+	protected boolean isComposing = false;
 
 	public SimpleDialog(Context context) {
 		super();
@@ -80,7 +80,7 @@ public class SimpleDialog {
 	 * 正在生成对话框 TODO 要解决只避开相同（不是相同类型）对话框，允许不同对话框。
 	 * @return
 	 */
-	private boolean enterComposing() {
+	protected boolean enterComposing() {
 		if(isComposing == true) {
 			return true;// TODO
 		}
@@ -89,9 +89,9 @@ public class SimpleDialog {
 	}
 	
 	/**
-	 * 完成对话框的建立。
+	 * 标识对话框的完成建立。
 	 */
-	private void composingDone() {
+	protected void composingDone() {
 		isComposing = false;
 	}
 
@@ -176,7 +176,7 @@ public class SimpleDialog {
 	 */
 	public void showProgressDialog(String msg) {
 		if(!enterComposing())return;
-		final View progressView = LayoutInflater.from(context).inflate(R.layout.ax_progress_dialog, null);
+		final View progressView = LayoutInflater.from(context).inflate(R.layout.ax_dialog_progress, null);
 		TextView textView = (TextView) progressView.findViewById(R.id.axpd_msg);
 		textView.setText(msg);
 		AlertDialog.Builder dBuilder = new Builder(context);
@@ -189,12 +189,17 @@ public class SimpleDialog {
 		dialogStack.push(progressDialog);		
 	}
 	
+	/**
+	 * 显示一个持续不断进行的进度条，知道用户点击“取消”按钮。
+	 * @param msg
+	 * @param callback
+	 */
 	public void showProgressDialog(String msg, DialogCallback callback) {
 		showProgressDialog(msg, 0, callback);
 	}	
 	
 	/**
-	 * 显示一个进度对话框，显示一个取消按钮。
+	 * 显示一个进度对话框，并设定超时时间，时间过后对话框消失。或者用户点击“取消”按钮。
 	 * Show un-interrupted progress dialog with message.
 	 * 
 	 * @param msg
@@ -203,7 +208,7 @@ public class SimpleDialog {
 	 */
 	public void showProgressDialog(String msg, final long timeout, final DialogCallback callback) {
 		if(!enterComposing())return;
-		final View progressView = LayoutInflater.from(context).inflate(R.layout.ax_progress_dialog, null);
+		final View progressView = LayoutInflater.from(context).inflate(R.layout.ax_dialog_progress, null);
 		TextView textView = (TextView) progressView.findViewById(R.id.axpd_msg);
 		textView.setText(msg);
 

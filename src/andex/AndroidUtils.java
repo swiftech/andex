@@ -372,10 +372,8 @@ public class AndroidUtils {
 		return setting.edit().remove(key).commit();
 	}
 
-	
-	
 	/**
-	 * 在状态栏显示提示消息
+	 * 在通知栏显示通知消息通知消息
 	 * @param context
 	 * @param id Notification ID
 	 * @param icon
@@ -398,7 +396,7 @@ public class AndroidUtils {
 	}
 	
 	/**
-	 * 在状态栏显示提示消息
+	 * 通知栏
 	 * @param context
 	 * @param id Notification ID
 	 * @param icon
@@ -413,12 +411,21 @@ public class AndroidUtils {
 		showNotification(context, id, icon, title, msg, notificationIntent, sticky);
 	}
 	
+	/**
+	 * 在通知栏显示一个可以跳转至Activity的通知消息。
+	 * @param context
+	 * @param id
+	 * @param icon
+	 * @param title
+	 * @param msg
+	 * @param notificationIntent
+	 * @param sticky
+	 */
 	public static void showNotification(Context context, int id, int icon, String title, String msg,
 			Intent notificationIntent, boolean sticky) {
-		NotificationManager notificationManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, id, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		Notification notification = new NotificationCompat.Builder(context).setContentTitle(title).setContentText(msg)
 				.setSmallIcon(icon).setContentIntent(contentIntent).build();
@@ -426,7 +433,7 @@ public class AndroidUtils {
 		if (sticky) {
 			notification.flags = Notification.FLAG_ONGOING_EVENT;
 		}
-		notificationManager.notify(id, notification);
+		nm.notify(id, notification);
 	}
 	
 //	protected int findNotifiation() {

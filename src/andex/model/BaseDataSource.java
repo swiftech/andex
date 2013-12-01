@@ -157,7 +157,8 @@ public abstract class BaseDataSource {
 	 * @return
 	 */
 	public boolean isExists(String tableName, String uniqueCol, String colValue) {
-		String sql = "select * from " + tableName + " where " + uniqueCol + "='" + colValue + "'";
+		connect();
+		String sql = String.format("select * from %s where %s = '%s'", tableName, uniqueCol, colValue);
 		if (Constants.debugMode) {
 			// Log.v(LOG_TAG, "SQL:" + sql);
 		}
@@ -221,10 +222,10 @@ public abstract class BaseDataSource {
 	 * @return 一个List，每一项表示一条记录，每项用Map表示，key为字段名，value为字段值。
 	 */
 	public List<Map> findAll(String tableName, String whereClause, String orderByClause) {
-		if (db == null) {
-			Log.e(LOG_TAG, ERR_DB_NOT_CONNECTED);
-			return null;
-		}
+//		if (db == null) {
+//			Log.e(LOG_TAG, ERR_DB_NOT_CONNECTED);
+//			return null;
+//		}
 		connect();
 		Log.v(LOG_TAG, "Find all in table " + tableName);
 		Cursor cursor = db.query(tableName, null, whereClause, null, null, null, orderByClause);
@@ -287,7 +288,7 @@ public abstract class BaseDataSource {
 	
 	public long countTable(String table, String filter, String[] values) {
 		//TODO 暂时用query替代实现，如果有性能问题，再改成用rawQuery实现
-		prepareToConnect();
+		connect();
 		Cursor cursor = db.query(table, null, filter, values, null, null, null, null);
 		long i=0;
 		for(;cursor.moveToNext();i++){}
@@ -302,7 +303,7 @@ public abstract class BaseDataSource {
 	 * @return
 	 */
 	public boolean deleteRow(String tbName, long pkID) {
-		prepareToConnect();
+		connect();
 		try {
 			int rows = db.delete(tbName, "ID=?", new String[]{"" + pkID});
 			Log.i(LOG_TAG, "" + rows  + " rows in " + tbName + " deleted.");
@@ -310,8 +311,9 @@ public abstract class BaseDataSource {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-//		} finally {
-//			this.disconnect();
+		} finally {
+			if (isAutoDisconnect)
+				this.disconnect();
 		}
 	}
 	
@@ -321,7 +323,7 @@ public abstract class BaseDataSource {
 	 * @return
 	 */
 	public boolean deleteAllRows(String tbName) {
-		prepareToConnect();
+		connect();
 		try {
 			int rows = db.delete(tbName, null, null);
 			Log.i(LOG_TAG, "all " + rows  + " rows in " + tbName + " deleted.");
@@ -329,18 +331,9 @@ public abstract class BaseDataSource {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-		}
-	}
-	
-	// TODO use this method for every operation.
-	// @deprecated?
-	protected void prepareToConnect() {
-//		if(db == null) {
-//			Log.e(LOG_TAG, "Database instance is not correctly initilized.");
-//			throw new RuntimeException("Database instance is not correctly initilized.");
-//		}
-		if(db == null || !db.isOpen()) {
-			connect();
+		} finally{
+			if (isAutoDisconnect)
+				this.disconnect();
 		}
 	}
 
@@ -357,10 +350,16 @@ public abstract class BaseDataSource {
 		this.db.beginTransaction();
 	}
 	
+	/**
+	 * 提交事务
+	 */
 	public void commit() {
 		this.db.setTransactionSuccessful();
 	}
 	
+	/**
+	 * 回滚事务，调用后必须再调用endTransaction()。
+	 */
 	public void rollback() {
 		// NOTHING NEED TO DO FOR ROLLBACK
 	}

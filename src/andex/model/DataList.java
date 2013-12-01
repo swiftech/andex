@@ -9,12 +9,14 @@ import java.util.Map;
 import andex.Utils;
 
 /**
+ * 表示一个数据集合。
  * Represent data record set.
  * 
  * @author 
  * 
  */
 public class DataList<T extends DataRow> extends ArrayList<T> {
+	
 	public DataList() {
 		super();
 	}
@@ -24,6 +26,7 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 	}
 	
 	/**
+	 * 
 	 * Wrap all elements in collection to DataRow class type.
 	 * @param coll
 	 * @return
@@ -128,7 +131,7 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 		}
 		return ret;
 	}
-
+	
 	/**
 	 * 遍历表中所有的数据行（DataRow）
 	 * @param handler
