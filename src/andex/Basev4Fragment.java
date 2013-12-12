@@ -706,8 +706,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	public void startFragment(Basev4Fragment fragment, int resId, boolean forResult) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(resId, fragment);
-		ft.addToBackStack(null);
+		ft.replace(resId, fragment, fragment.getClass().getName());
+		ft.addToBackStack(fragment.getClass().getName());
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;
@@ -726,7 +726,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 //		bundle.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
 //		fragment.setArguments(bundle);
 //		FragmentTransaction ft = getFragmentManager().beginTransaction();
-//		ft.replace(resId, fragment);
+//		ft.replace(resId, fragment, fragment.getClass().getName());
 //		ft.commit();
 //		if (forResult) {
 //			fragment.previousFragment = this;
@@ -748,8 +748,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		bundle.putSerializable(key, value);
 		fragment.setArguments(bundle);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(resId, fragment);
-		ft.addToBackStack(null);
+		ft.replace(resId, fragment, fragment.getClass().getName());
+		ft.addToBackStack(fragment.getClass().getName());
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;
@@ -761,8 +761,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		args.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
 		fragment.setArguments(args);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(resId, fragment);
-		ft.addToBackStack(null);
+		ft.replace(resId, fragment, fragment.getClass().getName());
+		ft.addToBackStack(fragment.getClass().getName());
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;
@@ -786,8 +786,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 			return;
 		}
 		FragmentTransaction ft = fm.beginTransaction();
-		ft.replace(resId, fragment);
-		ft.addToBackStack(null);
+		ft.replace(resId, fragment, fragment.getClass().getName());
+		ft.addToBackStack(fragment.getClass().getName());
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;
@@ -906,10 +906,15 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 * 结束当前的Fragment
 	 */
 	public void finish() {
-		FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-		ft.remove(this);
-		ft.commit();
-		backToPrevious();
+		if (this.getFragmentManager() == null) {
+			Log.w("andex", "无法获得FragmentManager");
+		}
+		else {
+			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+			ft.remove(this);
+			ft.commit();
+			backToPrevious();
+		}
 	}
 	
 	/**

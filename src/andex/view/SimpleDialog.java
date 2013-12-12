@@ -143,7 +143,7 @@ public class SimpleDialog {
 		dBuilder.setPositiveButton(tagPositive, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Log.v("andex", "Confirm Dialog OK clicked");
+				Log.v("andex", "Positive button clicked for confirmation dialog");
 				callback.onPositive();
 				callback.onPositive(dialog); // deprecated
 				dismissDialogOnTop();
@@ -153,7 +153,7 @@ public class SimpleDialog {
 		dBuilder.setNegativeButton(tagNegative, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Log.v("andex", "'Calcel' clicked for confirmation dialog ");
+				Log.v("andex", "Negative button clicked for confirmation dialog ");
 				callback.onNegative();
 				callback.onNegative(dialog); // deprecated
 				dismissDialogOnTop();

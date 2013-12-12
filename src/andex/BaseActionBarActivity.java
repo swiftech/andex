@@ -211,7 +211,6 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data) {
 		Intent intent = new Intent(context, clazz);
-		intent.putExtra("TEST", 999);
 		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, new DataRow(data));
 		startActivity(intent);
 	}
@@ -219,7 +218,7 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	@Override
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-		ft.replace(resId, frag);
+		ft.replace(resId, frag, frag.getClass().getName());
 		ft.commit();
 		return frag;
 	}
@@ -230,7 +229,7 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		Bundle args = new Bundle();
 		args.putSerializable(argKey, argValue);
 		frag.setArguments(args);
-		ft.replace(resId, frag);
+		ft.replace(resId, frag, frag.getClass().getName());
 		ft.commit();
 		return frag;
 	}
@@ -239,7 +238,7 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, Bundle args) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 		frag.setArguments(args);
-		ft.replace(resId, frag);
+		ft.replace(resId, frag, frag.getClass().getName());
 		ft.commit();
 		return frag;
 	}

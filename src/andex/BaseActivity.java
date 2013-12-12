@@ -280,7 +280,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-		ft.replace(resId, frag);
+		ft.replace(resId, frag, frag.getClass().getName());
 		ft.commit();
 		return frag;
 	}
@@ -298,7 +298,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 		Bundle args = new Bundle();
 		args.putSerializable(argKey, argValue);
 		frag.setArguments(args);
-		ft.replace(resId, frag);
+		ft.replace(resId, frag, frag.getClass().getName());
 		ft.commit();
 		return frag;
 	}
@@ -312,7 +312,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, Bundle args) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 		frag.setArguments(args);
-		ft.replace(resId, frag);
+		ft.replace(resId, frag, frag.getClass().getName());
 		ft.commit();
 		return frag;
 	}
