@@ -18,6 +18,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -95,7 +96,15 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		
 		initLayout();
 
-		actionBar = getSupportActionBar();
+		// 在某设备的4.0版本系统上会抛出异常，此处无法解决问题
+		try {
+			actionBar = getSupportActionBar();
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+			AndroidUtils.showToast(context, "发生严重错误，即将退出: " + ex.getLocalizedMessage());
+		}
+
 	}
 	
 	/**
@@ -607,7 +616,11 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	public DrawerLayout getDrawerLayout(int resId) {
 		return (DrawerLayout)this.findViewById(resId);
 	}
-	
+
+	public ViewPager getViewPager(int resId) {
+		return (ViewPager)this.findViewById(resId);
+	}
+
 	@Override
 	public String getNestedString(int sentence, Object... words) {
 		// TODO Auto-generated method stub

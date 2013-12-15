@@ -20,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.InputType;
 import android.util.Log;
@@ -330,6 +331,10 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	@Override
 	public DrawerLayout getDrawerLayout(int resId) {
 		return (DrawerLayout)fragmentView.findViewById(resId);
+	}
+
+	public ViewPager getViewPager(int resId) {
+		return (ViewPager)fragmentView.findViewById(resId);
 	}
 	
 	@Override

@@ -1,0 +1,56 @@
+package andex.utils;
+
+import android.content.Context;
+import android.util.DisplayMetrics;
+
+/**
+ * Created by yuxing on 13-12-13.
+ */
+public class SysUtils {
+
+	/**
+	 * 获得屏幕的尺寸（英寸），如果无法获得屏幕的像素密度，则返回0.
+	 * @param ctx
+	 * @return
+	 */
+	public static double getScreenSizeInch(Context ctx) {
+		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
+		double diagonalInPixel = Math.sqrt(dm.widthPixels * dm.widthPixels + dm.heightPixels * dm.heightPixels);
+		if (dm.density == 0) {
+			return 0;
+		}
+		double ret = (double)(diagonalInPixel / dm.densityDpi);
+		return ret;
+	}
+
+	/**
+	 * 获得屏幕像素数量。
+	 * @param ctx
+	 * @return
+	 */
+	public static int getScreenPixels(Context ctx) {
+		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
+		return dm.widthPixels * dm.heightPixels;
+	}
+
+	/**
+	 * 获取屏幕像素宽度
+	 * @param ctx
+	 * @return
+	 */
+	public static int getScreenWidth(Context ctx) {
+		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
+		return dm.widthPixels;
+	}
+
+	/**
+	 * 获取屏幕像素高度
+	 * @param ctx
+	 * @return
+	 */
+	public static int getScreenHeight(Context ctx) {
+		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
+		return dm.heightPixels;
+	}
+
+}

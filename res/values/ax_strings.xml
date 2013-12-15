@@ -38,8 +38,11 @@
 	<string name="common_dialog_confirm_title_exit">Are you sure to exit?</string>
 	
 	<string name="common_dialog_unable_to_read_from_sdcard">Failed to read from SD card.</string>
-	
+
+
 	<string name="common_success">success</string>
 	<string name="common_fail">fail</string>
 
+	<string name="common_setting_save_success">Success to save setting</string>
+	<string name="common_setting_save_fail">Failed to save setting</string>
 </resources>

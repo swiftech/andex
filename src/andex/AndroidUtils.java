@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 /**
  * Utilities for Android.
+ * TODO refactor to separated Utils classes.
  * @author 
  *
  */
@@ -188,6 +189,7 @@ public class AndroidUtils {
 	 * 获得屏幕像素数量。
 	 * @param ctx
 	 * @return
+	 * @deprecated
 	 */
 	public static int getScreenPixels(Context ctx) {
 		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
@@ -198,6 +200,7 @@ public class AndroidUtils {
 	 * 获取屏幕像素宽度
 	 * @param ctx
 	 * @return
+	 * @deprecated
 	 */
 	public static int getScreenWidth(Context ctx) {
 		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
@@ -208,6 +211,7 @@ public class AndroidUtils {
 	 * 获取屏幕像素高度
 	 * @param ctx
 	 * @return
+	 * @deprecated
 	 */
 	public static int getScreenHeight(Context ctx) {
 		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
@@ -220,6 +224,7 @@ public class AndroidUtils {
 	 * @param ctx
 	 * @param name
 	 * @param value
+	 * @deprecated
 	 */
 	public static void saveGlobalSetting(Context ctx, String name, Object value) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
@@ -245,6 +250,7 @@ public class AndroidUtils {
 	 * @param name
 	 * @param defaultValue
 	 * @return
+	 * @deprecated
 	 */
 	public static String getGlobalSetting(Context ctx, String name, Object defaultValue) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
@@ -272,6 +278,7 @@ public class AndroidUtils {
 	 * @param ctx
 	 * @param name
 	 * @return
+	 * @deprecated
 	 */
 	public static String getGlobalSetting(Context ctx, String name) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
@@ -293,6 +300,7 @@ public class AndroidUtils {
 	 * @param ctx
 	 * @param name
 	 * @return
+	 * @deprecated
 	 */
 	public static boolean getGlobalSettingBoolean(Context ctx, String name) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
@@ -310,6 +318,7 @@ public class AndroidUtils {
 	 * @param name
 	 * @param defaultValue
 	 * @return
+	 * @deprecated
 	 */
 	public static boolean getGlobalSettingBoolean(Context ctx, String name, boolean defaultValue) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
@@ -320,7 +329,11 @@ public class AndroidUtils {
 			return defaultValue;
 		}
 	}
-	
+
+	/**
+	 *
+	 * @deprecated
+	 */
 	public static int getGlobalSettingInt(Context ctx, String name) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
 		try {
@@ -330,7 +343,11 @@ public class AndroidUtils {
 			return 0;
 		}
 	}
-	
+
+	/**
+	 *
+	 * @deprecated
+	 */
 	public static long getGlobalSettingLong(Context ctx, String name) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
 		try {
@@ -346,6 +363,7 @@ public class AndroidUtils {
 	 * @param ctx
 	 * @param prefix
 	 * @return
+	 * @deprecated
 	 */
 	public static Map<String, Object> getGlobalSettingsWithPrefix(Context ctx, String prefix) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
@@ -364,7 +382,8 @@ public class AndroidUtils {
 	 * 
 	 * @param ctx
 	 * @param key
-	 * @return 
+	 * @return
+	 * @deprecated
 	 */
 	public static boolean removeGlobalSetting(Context ctx, String key) {
 		Log.v("", "Try to remove setting: " + key);
