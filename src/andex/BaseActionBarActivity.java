@@ -31,31 +31,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RatingBar;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TextView;
-import android.widget.ToggleButton;
 
 public abstract class BaseActionBarActivity extends ActionBarActivity implements ActivityExtendable {
 
@@ -591,6 +568,11 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	@Override
 	public ScrollView getScrollView(int resId) {
 		return (ScrollView)this.findViewById(resId);
+	}
+
+	@Override
+	public HorizontalScrollView getHorizontalScrollView(int resId){
+		return (HorizontalScrollView)this.findViewById(resId);
 	}
 
 	@Override

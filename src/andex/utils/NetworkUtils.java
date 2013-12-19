@@ -1,4 +1,4 @@
-package andex;
+package andex.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
+import andex.Utils;
 import android.util.Log;
 
 public class NetworkUtils {

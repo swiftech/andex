@@ -14,31 +14,8 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.AbsListView;
-import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RatingBar;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TextView;
-import android.widget.ToggleButton;
 
 public interface Extendable {
 
@@ -311,6 +288,8 @@ public interface Extendable {
 	public ExpandableListView getExpandableListView(int resId);
 
 	public ScrollView getScrollView(int resId);
+
+	public HorizontalScrollView getHorizontalScrollView(int resId);
 
 	public ImageView getImageView(int resId);
 
