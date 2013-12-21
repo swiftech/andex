@@ -1,5 +1,7 @@
 package andex.model;
 
+import android.content.Context;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +13,23 @@ import java.util.Map;
  */
 public class DataRow extends HashMap<String, Object> implements Serializable {
 
+	// Inject from constructor if needed.
+	protected Context context;
+
 	public DataRow() {
 		super();
 	}
 
+	public DataRow(Context context) {
+		super();
+		this.context = context;
+	}
+
 	public DataRow(Map map) {
+		super(map);
+	}
+
+	public DataRow(Context context, Map map) {
 		super(map);
 	}
 	

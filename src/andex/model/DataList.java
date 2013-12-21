@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import andex.Utils;
+import android.content.Context;
 
 /**
  * 表示一个数据集合。
@@ -31,30 +32,30 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 	 * @param coll
 	 * @return
 	 */
-	public static DataList wrap(Collection coll) {
-		return wrap(coll, DataRow.class);
+	public static DataList wrap(Context ctx,Collection coll) {
+		return wrap(ctx, coll, DataRow.class);
 	}
 	
 	/**
 	 * Wrap all elements in collection to specified type.
 	 * @param coll
-	 * @param elType
+	 * @param elType Target class type.
 	 * @return
 	 */
-	public static DataList wrap(Collection coll, Class elType) {
+	public static DataList wrap(Context ctx, Collection coll, Class elType) {
 		DataList ret = new DataList();
-		if(coll == null || coll.size() == 0) {
+		if (coll == null || coll.size() == 0) {
 			return ret;
-		}		
+		}
 		Constructor cst;
 		try {
-			cst = elType.getConstructor(Map.class);
-			if(cst == null) {
+			cst = elType.getConstructor(Context.class, Map.class);
+			if (cst == null) {
 				return ret;
-			}	
+			}
 			Iterator it = coll.iterator();
-			while(it.hasNext()) {
-				ret.add(cst.newInstance((Map)it.next()));
+			while (it.hasNext()) {
+				ret.add(cst.newInstance(ctx, (Map) it.next()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -150,7 +151,7 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 	
 	/**
 	 * 将某个字段纵向导出为数组。
-	 * @param keyName
+	 * @param colName
 	 * @return
 	 */
 	public Object[] getColumn(String colName) {
