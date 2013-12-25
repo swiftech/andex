@@ -2,11 +2,22 @@ package andex.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
- * Created by yuxing on 13-12-13.
+ * 系统相关的工具类。
  */
 public class SysUtils {
+
+	/**
+	 * 有很多手机分辨率很大，所以不能依靠分辨率来判断，而是根据像素密度获得屏幕大小来判断。
+	 * @return
+	 */
+	public static boolean isLargeScreen(Context context) {
+		double screenSize = SysUtils.getScreenSizeInch(context);
+		Log.d("", String.format("屏幕大小（英寸）: %f", screenSize));
+		return screenSize>= 6.5f;
+	}
 
 	/**
 	 * 获得屏幕的尺寸（英寸），如果无法获得屏幕的像素密度，则返回0.
