@@ -15,18 +15,18 @@ import android.widget.ListAdapter;
  */
 public abstract class BaseListAdapter implements ListAdapter{
 
+	protected Context context;
+
 	protected LayoutInflater inflater;
 	
 	protected String[] keys;
-	protected Context context;
+
 	protected int layoutResId;
+
 	protected int[] itemResIds;
 
 	protected List<Map<String, ?>> data;
-	
-	// Label that displayed while no data for this View.
-//	protected String defaultLabel = "";
-	
+
 	/**
 	 * 基本的ListAdapter实现，注入Context和初始化了Inflater
 	 * @param context
@@ -73,14 +73,6 @@ public abstract class BaseListAdapter implements ListAdapter{
 	public int getItemViewType(int position) {
 		return 0;
 	}
-
-//	@Override
-//	public View getView(int position, View convertView, ViewGroup parent) {
-//		
-//		inflater = LayoutInflater.from(context);
-//		
-//		return null;
-//	}
 
 	@Override
 	public boolean hasStableIds() {

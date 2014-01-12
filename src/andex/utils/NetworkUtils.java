@@ -14,10 +14,16 @@ import java.util.Enumeration;
 import java.util.List;
 
 import andex.Utils;
+import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
 public class NetworkUtils {
 
+	public static String DEFAULT_MAC_TEMPLATE = "%02X:%02X:%02X:%02X:%02X:%02X";
+
+	public static String DEFAULT_UNAVAILABLE_MAC = "00:00:00:00:00:00";
 
 	public static boolean isWgetStop = false;
 	
@@ -144,29 +150,101 @@ public class NetworkUtils {
 		}
 		return (String[])ret.toArray();
 	}
-	
+
+
 	/**
-	 * 获取第一个读取到的网卡的MAC地址。
+	 * 不管什么情况，总是能够获得MAC地址。
+	 * @param ctx
+	 * @return
+	 */
+	public static String getMacAddressSafely(Context ctx) {
+		return getMacAddressSafely(ctx, DEFAULT_MAC_TEMPLATE);
+	}
+
+	/**
+	 * 不管什么情况，总是能够获得MAC地址。
+	 * @param ctx
+	 * @param template
+	 * @return
+	 */
+	public static String getMacAddressSafely(Context ctx, String template) {
+		String ret;
+		ret = getFirstMacAddress("wlan", template);
+		if (ret.equals(DEFAULT_UNAVAILABLE_MAC)) {
+			ret = getFirstMacAddress("eth", template);
+			if (ret.equals(DEFAULT_UNAVAILABLE_MAC)) {
+				ret = getMac(ctx);
+			}
+		}
+		return ret;
+	}
+
+	/**
+	 * 从WIFI管理器获得MAC地址（模拟器无效）
+	 * @param ctx
+	 * @return
+	 */
+	public static String getMac(Context ctx) {
+		WifiManager wifiMgr = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
+		WifiInfo info = (null == wifiMgr ? null : wifiMgr.getConnectionInfo());
+		if (null != info) {
+			String macAddress = info.getMacAddress();
+			if (Utils.isEmpty(macAddress)) {
+				return DEFAULT_UNAVAILABLE_MAC;
+			}
+			return macAddress;
+		}
+		return DEFAULT_UNAVAILABLE_MAC;
+	}
+
+	/**
+	 * 获取第一个读取到的网卡的MAC地址（可能会有虚拟网卡，而不是真实的网卡地址）
 	 * @return
 	 */
 	public static String getFirstMacAddress() {
+		return getFirstMacAddress(null, DEFAULT_MAC_TEMPLATE);
+	}
+
+	public static String getFirstMacAddress(String namePrefix) {
+		return getFirstMacAddress(namePrefix, DEFAULT_MAC_TEMPLATE);
+	}
+
+	/**
+	 * 获取名称符合前缀规则的第一个网卡MAC地址（在网络未开启的情况下无效）
+	 * @param namePrefix 空则不做限定
+	 * @param macTemplate 返回的MAC地址模板
+	 * @return
+	 */
+	public static String getFirstMacAddress(String namePrefix, String macTemplate) {
 		try {
 			List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
 			for (NetworkInterface intf : interfaces) {
+
+				Log.v("andex", String.format("MAC: Try %s with %s ", intf.getName(), namePrefix));
+
+				// 排除非物理网卡
+				if (intf.isLoopback() || intf.isPointToPoint() || intf.isVirtual()) {
+					continue;
+				}
+
+				if (!Utils.isEmpty(namePrefix)) {
+					if (!intf.getName().startsWith(namePrefix)) {
+						continue;
+					}
+				}
+
 				byte[] mac = intf.getHardwareAddress();
 				if (mac == null)
 					continue;
-				StringBuilder buf = new StringBuilder();
-				for (int idx = 0; idx < mac.length; idx++)
-					buf.append(String.format("%02X:", mac[idx]));
-				if (buf.length() > 0)
-					buf.deleteCharAt(buf.length() - 1);
-				return buf.toString();
+				if (Utils.isEmpty(macTemplate)) {
+					macTemplate = DEFAULT_MAC_TEMPLATE;
+				}
+				return String.format(macTemplate, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		return "";
+		return DEFAULT_UNAVAILABLE_MAC;
 	}
 	
 }
