@@ -301,6 +301,7 @@ public abstract class SimpleCompositeView {
 			((AdapterView)this.absListView).setAdapter(new SimpleInfoListViewAdapter(ctx, defaultLabel));
 		}
 		else {
+			Log.v("andex", String.format("  Rnder %d items", adapter.getCount()));
 			((AdapterView)this.absListView).setAdapter(adapter);
 		}
 	}

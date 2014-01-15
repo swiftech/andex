@@ -1,6 +1,7 @@
 package andex.utils;
 
 import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -8,6 +9,18 @@ import android.util.Log;
  * 系统相关的工具类。
  */
 public class SysUtils {
+
+	/**
+	 * 获取设备的IMEI编号。
+	 * 有些设备（比如Nexus 7）没有不能返回IMEI编号。
+	 * @param ctx
+	 * @return
+	 */
+	public static String getDeviceIMEI(Context ctx) {
+		TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+		String imei = tm.getDeviceId();
+		return imei;
+	}
 
 	/**
 	 * 有很多手机分辨率很大，所以不能依靠分辨率来判断，而是根据像素密度获得屏幕大小来判断。

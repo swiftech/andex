@@ -1,13 +1,5 @@
 package andex;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -26,10 +18,12 @@ import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
 import android.support.v4.app.NotificationCompat;
-import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.io.File;
+import java.util.*;
 
 /**
  * Utilities for Android.
@@ -40,18 +34,6 @@ import android.widget.Toast;
 public class AndroidUtils {
 	
 //	private static final String GLOBAL_SETTING = "org.andex";
-	
-	/**
-	 * 获取设备的IMEI编号。
-	 * 有些设备（比如Nexus 7）没有不能返回IMEI编号。
-	 * @param ctx
-	 * @return
-	 */
-	public static String getDeviceIMEI(Context ctx) {
-		TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-		String imei = tm.getDeviceId();
-		return imei;
-	}
 
 	/**
 	 * 杀掉一个进程

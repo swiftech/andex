@@ -734,6 +734,10 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 		return (ViewPager)this.findViewById(resId);
 	}
 
+	public DatePicker getDatePicker(int resId) {
+		return (DatePicker)this.findViewById(resId);
+	}
+
 	@Override
 	public String getNestedString(int sentence, Object... words) {
 		// TODO Auto-generated method stub

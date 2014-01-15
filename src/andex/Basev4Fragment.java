@@ -318,6 +318,10 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	public ViewPager getViewPager(int resId) {
 		return (ViewPager)fragmentView.findViewById(resId);
 	}
+
+	public DatePicker getDatePicker(int resId) {
+		return (DatePicker)fragmentView.findViewById(resId);
+	}
 	
 	@Override
 	public String getNestedString(int sentence, Object... words){

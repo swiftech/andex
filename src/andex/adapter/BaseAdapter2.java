@@ -6,11 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BaseAdapter2 extends BaseAdapter {
 	
 	protected LayoutInflater inflater;
 	
 	protected Context context;
+
+	// 用于缓存（有需要的话）每一项的View，
+	protected Map<Integer, View> viewCache = new HashMap<Integer, View>();
 	
 	public BaseAdapter2(Context context) {
 		this.context = context;

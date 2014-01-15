@@ -603,6 +603,10 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		return (ViewPager)this.findViewById(resId);
 	}
 
+	public DatePicker getDatePicker(int resId) {
+		return (DatePicker)this.findViewById(resId);
+	}
+
 	@Override
 	public String getNestedString(int sentence, Object... words) {
 		// TODO Auto-generated method stub
