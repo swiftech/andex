@@ -350,7 +350,7 @@ public abstract class SimpleCompositeView {
 			handler.invoke();
 		}
 		else {
-			Log.v("andex", "  Select business ID " + bizid + "[" + bizid.getClass() + "]");
+			Log.v("andex", String.format("  Select business ID %s [%s]", bizid, bizid.getClass()));
 			handler.invoke(bizid);
 			handler.invoke(bizid, item.get(keys[0]), item.get(keys[1]));
 		}

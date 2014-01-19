@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import andex.Constants;
+import andex.Utils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -380,8 +381,10 @@ public abstract class BaseDataSource {
 			String colName = (String) it.next();
 			Object value = map.get(colName);
 			if (value instanceof String) {
-				String typedValue = (String) value;
-				values.put(colName, typedValue);
+				if (!Utils.isEmpty(value)) {
+					String typedValue = (String) value;
+					values.put(colName, typedValue);
+				}
 			}
 			else if (value instanceof Integer) {
 				Integer typedValue = (Integer) value;
