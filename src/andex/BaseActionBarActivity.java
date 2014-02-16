@@ -85,13 +85,13 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	}
 	
 	/**
-	 * 返回layout文件的ID，用处是：
+	 * 执行布局的初始化操作，用处是：
 	 * <p>
 	 * 1. 避免在子类中设置布局文件。
 	 * <p>
 	 * 2. 父类中某些初始化操作需要在设置布局文件后执行，而某些操作需要在设置之前执行。
 	 * 
-	 * @return
+	 * @return 初始化成功与否（目前不做处理）
 	 */
 	protected abstract boolean initLayout();
 
@@ -110,7 +110,7 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	@Override
 	public void startActivityByName(String actName) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
-		ComponentName cn = new ComponentName(this.getClass().getPackage().getName(), actName);
+		ComponentName cn = new ComponentName(Utils.getClass(this).getPackage().getName(), actName);
 		intent.setComponent(cn);
 		startActivity(intent);
 	}
@@ -204,7 +204,7 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	@Override
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-		ft.replace(resId, frag, frag.getClass().getName());
+		ft.replace(resId, frag, Utils.getClassName(frag));
 		ft.commit();
 		return frag;
 	}
@@ -215,7 +215,7 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		Bundle args = new Bundle();
 		args.putSerializable(argKey, argValue);
 		frag.setArguments(args);
-		ft.replace(resId, frag, frag.getClass().getName());
+		ft.replace(resId, frag, Utils.getClassName(frag));
 		ft.commit();
 		return frag;
 	}
@@ -224,7 +224,7 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, Bundle args) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 		frag.setArguments(args);
-		ft.replace(resId, frag, frag.getClass().getName());
+		ft.replace(resId, frag, Utils.getClassName(frag));
 		ft.commit();
 		return frag;
 	}
@@ -625,91 +625,91 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 
 	@Override
 	public void showViews(View... views) {
-		for (int i = 0; i < views.length; i++) {
-			if (views[i] == null) {
+		for (View view : views) {
+			if (view == null) {
 				continue;
 			}
-			views[i].setVisibility(View.VISIBLE);
+			view.setVisibility(View.VISIBLE);
 		}
 	}
 
 	@Override
 	public void hideViews(int... ids) {
-		for (int i = 0; i < ids.length; i++) {
-			if (findViewById(ids[i]) == null) {
+		for (int id : ids) {
+			if (findViewById(id) == null) {
 				continue;
 			}
-			findViewById(ids[i]).setVisibility(View.INVISIBLE);
+			findViewById(id).setVisibility(View.INVISIBLE);
 		}
 	}
 
 	@Override
 	public void hideViews(View... views) {
-		for (int i = 0; i < views.length; i++) {
-			if (views[i] == null) {
+		for (View view : views) {
+			if (view == null) {
 				continue;
 			}
-			views[i].setVisibility(View.INVISIBLE);
+			view.setVisibility(View.INVISIBLE);
 		}
 	}
 
 	@Override
 	public void unblockViews(int... ids) {
-		for (int i = 0; i < ids.length; i++) {
-			if (findViewById(ids[i]) == null) {
+		for (int id : ids) {
+			if (findViewById(id) == null) {
 				continue;
 			}
-			findViewById(ids[i]).setVisibility(View.GONE);
+			findViewById(id).setVisibility(View.GONE);
 		}
 	}
 
 	@Override
 	public void unblockViews(View... views) {
-		for (int i = 0; i < views.length; i++) {
-			if (views[i] == null) {
+		for (View view : views) {
+			if (view == null) {
 				continue;
 			}
-			views[i].setVisibility(View.GONE);
+			view.setVisibility(View.GONE);
 		}
 	}
 
 	@Override
 	public void disableViews(int... ids) {
-		for (int i = 0; i < ids.length; i++) {
-			if (findViewById(ids[i]) == null) {
+		for (int id : ids) {
+			if (findViewById(id) == null) {
 				continue;
 			}
-			findViewById(ids[i]).setEnabled(false);
+			findViewById(id).setEnabled(false);
 		}
 	}
 
 	@Override
 	public void disableViews(View... views) {
-		for (int i = 0; i < views.length; i++) {
-			if (views[i] == null) {
+		for (View view : views) {
+			if (view == null) {
 				continue;
 			}
-			views[i].setEnabled(false);
+			view.setEnabled(false);
 		}
 	}
 
 	@Override
 	public void enableViews(int... ids) {
-		for (int i = 0; i < ids.length; i++) {
-			if (findViewById(ids[i]) == null) {
+		for (int id : ids) {
+			if (findViewById(id) == null) {
 				continue;
 			}
-			findViewById(ids[i]).setEnabled(true);
+			findViewById(id).setEnabled(true);
 		}
 	}
 
 	@Override
 	public void enableViews(View... views) {
-		for (int i = 0; i < views.length; i++) {
-			if (views[i] == null) {
+		for (View view : views) {
+			if (view == null) {
 				continue;
 			}
-			views[i].setEnabled(true);
+			view.setEnabled(true);
 		}
 	}
 

@@ -9,6 +9,9 @@ import android.widget.BaseAdapter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 具有缓存View缓存功能的适配器。
+ */
 public class BaseAdapter2 extends BaseAdapter {
 	
 	protected LayoutInflater inflater;

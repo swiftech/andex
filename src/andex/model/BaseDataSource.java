@@ -1,11 +1,5 @@
 package andex.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import andex.Constants;
 import andex.Utils;
 import android.content.ContentValues;
@@ -14,6 +8,11 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>一个Model层的DAO基类，提供访问数据库的各种方法，继承以实现更多的功能。
@@ -219,7 +218,8 @@ public abstract class BaseDataSource {
 	/**
 	 * 查询指定表的所有记录。
 	 * @param tableName
-	 * @param orderBy
+	 * @param whereClause
+	 * @param orderByClause
 	 * @return 一个List，每一项表示一条记录，每项用Map表示，key为字段名，value为字段值。
 	 */
 	public List<Map> findAll(String tableName, String whereClause, String orderByClause) {
@@ -253,15 +253,20 @@ public abstract class BaseDataSource {
 			return cursorToMapList(cursor);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ArrayList();
+			return new ArrayList<Map>();
 		} finally {
 			if (isAutoDisconnect)
 				this.disconnect();
 		}
 	}
-	
+
+	/**
+	 * 已知的问题：除了ID之外，其余的字段只能转换为字符串
+	 * @param cursor
+	 * @return
+	 */
 	private List<Map> cursorToMapList(Cursor cursor) {
-		List<Map> result = new ArrayList();
+		List<Map> result = new ArrayList<Map>();
 		int n = 0;
 		for(;cursor.moveToNext();) {
 //			Log.v(LOG_TAG, "Row" + n++);
@@ -374,11 +379,45 @@ public abstract class BaseDataSource {
 		isAutoDisconnect = true; // 恢复自动模式
 	}
 
+	/**
+	 * 用于转换findAll()出来的结果。
+	 * @param row
+	 * @param colName
+	 * @param defaultV
+	 */
+	protected void convertLongColumn(Map row, String colName, long defaultV) {
+		try {
+			long t = Long.parseLong((String) row.get(colName));
+			row.put(colName, t);
+		} catch (NumberFormatException e) {
+			row.put(colName, defaultV);
+		}
+	}
+
+	/**
+	 * 用于转换findAll()出来的结果。
+	 * @param row
+	 * @param colName
+	 * @param defaultV
+	 */
+	protected void convertIntColumn(Map row, String colName, int defaultV) {
+		try {
+			int t = Integer.parseInt((String) row.get(colName));
+			row.put(colName, t);
+		} catch (NumberFormatException e) {
+			row.put(colName, defaultV);
+		}
+	}
+
+	/**
+	 * 将Map中内容转换成ContentValues用于插入数据库。
+	 * @param map
+	 * @return
+	 */
 	protected ContentValues fromMap(Map<String, Object> map) {
 		ContentValues values = new ContentValues();
 
-		for (Iterator it = map.keySet().iterator(); it.hasNext();) {
-			String colName = (String) it.next();
+		for (String colName : map.keySet()) {
 			Object value = map.get(colName);
 			if (value instanceof String) {
 				if (!Utils.isEmpty(value)) {

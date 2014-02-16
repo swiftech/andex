@@ -1,8 +1,5 @@
 package andex;
 
-import java.io.Serializable;
-import java.util.Map;
-
 import andex.model.DataList;
 import andex.model.DataRow;
 import andex.view.SimpleDialog;
@@ -33,10 +30,14 @@ import android.webkit.WebView;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import java.io.Serializable;
+import java.util.Map;
+
 /**
  * 扩展的基础Fragment类。
  * 注意：必须在使用前通过构造函数注入、或者onCreate()方法中设置布局资源ID。
- * @author 
+ *
+ * @author yuxing
  *
  */
 @SuppressLint("ValidFragment")
@@ -335,11 +336,11 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	@Override
 	public void disableViews(int... ids) {
-		for (int i = 0; i < ids.length; i++) {
-			if (fragmentView.findViewById(ids[i]) == null) {
+		for (int id : ids) {
+			if (fragmentView.findViewById(id) == null) {
 				continue;
 			}
-			fragmentView.findViewById(ids[i]).setEnabled(false);
+			fragmentView.findViewById(id).setEnabled(false);
 		}
 	}
 
@@ -350,11 +351,11 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	@Override
 	public void disableViews(View... views) {
-		for (int i = 0; i < views.length; i++) {
-			if (views[i] == null) {
+		for (View view : views) {
+			if (view == null) {
 				continue;
 			}
-			views[i].setEnabled(false);
+			view.setEnabled(false);
 		}
 	}
 	
@@ -365,11 +366,11 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	@Override
 	public void enableViews(int... ids) {
-		for (int i = 0; i < ids.length; i++) {
-			if (fragmentView.findViewById(ids[i]) == null) {
+		for (int id : ids) {
+			if (fragmentView.findViewById(id) == null) {
 				continue;
 			}
-			fragmentView.findViewById(ids[i]).setEnabled(true);
+			fragmentView.findViewById(id).setEnabled(true);
 		}
 	}
 
@@ -380,11 +381,11 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	@Override
 	public void enableViews(View... views) {
-		for (int i = 0; i < views.length; i++) {
-			if (views[i] == null) {
+		for (View view : views) {
+			if (view == null) {
 				continue;
 			}
-			views[i].setEnabled(true);
+			view.setEnabled(true);
 		}
 	}
 
@@ -394,11 +395,11 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	@Override
 	public void showViews(int... ids) {
-		for (int i = 0; i < ids.length; i++) {
-			if (fragmentView.findViewById(ids[i]) == null) {
+		for (int id : ids) {
+			if (fragmentView.findViewById(id) == null) {
 				continue;
 			}
-			fragmentView.findViewById(ids[i]).setVisibility(View.VISIBLE);
+			fragmentView.findViewById(id).setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -408,11 +409,11 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	@Override
 	public void showViews(View... views) {
-		for (int i = 0; i < views.length; i++) {
-			if (views[i] == null) {
+		for (View view : views) {
+			if (view == null) {
 				continue;
 			}
-			views[i].setVisibility(View.VISIBLE);
+			view.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -422,11 +423,11 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	@Override
 	public void hideViews(int... ids) {
-		for (int i = 0; i < ids.length; i++) {
-			if (fragmentView.findViewById(ids[i]) == null) {
+		for (int id : ids) {
+			if (fragmentView.findViewById(id) == null) {
 				continue;
 			}
-			fragmentView.findViewById(ids[i]).setVisibility(View.INVISIBLE);
+			fragmentView.findViewById(id).setVisibility(View.INVISIBLE);
 		}
 	}
 
@@ -436,11 +437,11 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	@Override
 	public void hideViews(View... views) {
-		for (int i = 0; i < views.length; i++) {
-			if (views[i] == null) {
+		for (View view : views) {
+			if (view == null) {
 				continue;
 			}
-			views[i].setVisibility(View.INVISIBLE);
+			view.setVisibility(View.INVISIBLE);
 		}
 	}
 	
@@ -450,11 +451,11 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	@Override
 	public void unblockViews(int... ids) {
-		for (int i = 0; i < ids.length; i++) {
-			if (fragmentView.findViewById(ids[i]) == null) {
+		for (int id : ids) {
+			if (fragmentView.findViewById(id) == null) {
 				continue;
 			}
-			fragmentView.findViewById(ids[i]).setVisibility(View.GONE);
+			fragmentView.findViewById(id).setVisibility(View.GONE);
 		}
 	}
 	
@@ -464,11 +465,11 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	@Override
 	public void unblockViews(View... views) {
-		for (int i = 0; i < views.length; i++) {
-			if (views[i] == null) {
+		for (View view : views) {
+			if (view == null) {
 				continue;
 			}
-			views[i].setVisibility(View.GONE);
+			view.setVisibility(View.GONE);
 		}
 	}
 	
@@ -559,7 +560,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	@Override
 	public void startActivityByName(String actName) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
-		ComponentName cn = new ComponentName(this.getClass().getPackage().getName(), actName);
+		ComponentName cn = new ComponentName(Utils.getClass(this).getPackage().getName(), actName);
 		intent.setComponent(cn);
 		startActivity(intent);
 	}
@@ -697,8 +698,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	public void startFragment(Basev4Fragment fragment, int resId, boolean forResult) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(resId, fragment, fragment.getClass().getName());
-		ft.addToBackStack(fragment.getClass().getName());
+		ft.replace(resId, fragment, Utils.getClassName(fragment));
+		ft.addToBackStack(Utils.getClassName(fragment));
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;
@@ -717,7 +718,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 //		bundle.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
 //		fragment.setArguments(bundle);
 //		FragmentTransaction ft = getFragmentManager().beginTransaction();
-//		ft.replace(resId, fragment, fragment.getClass().getName());
+//		ft.replace(resId, fragment, Utils.getClassName(fragment));
 //		ft.commit();
 //		if (forResult) {
 //			fragment.previousFragment = this;
@@ -739,8 +740,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		bundle.putSerializable(key, value);
 		fragment.setArguments(bundle);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(resId, fragment, fragment.getClass().getName());
-		ft.addToBackStack(fragment.getClass().getName());
+		ft.replace(resId, fragment, Utils.getClassName(fragment));
+		ft.addToBackStack(Utils.getClassName(fragment));
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;
@@ -752,8 +753,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		args.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
 		fragment.setArguments(args);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(resId, fragment, fragment.getClass().getName());
-		ft.addToBackStack(fragment.getClass().getName());
+		ft.replace(resId, fragment, Utils.getClassName(fragment));
+		ft.addToBackStack(Utils.getClassName(fragment));
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;
@@ -777,8 +778,8 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 			return;
 		}
 		FragmentTransaction ft = fm.beginTransaction();
-		ft.replace(resId, fragment, fragment.getClass().getName());
-		ft.addToBackStack(fragment.getClass().getName());
+		ft.replace(resId, fragment, Utils.getClassName(fragment));
+		ft.addToBackStack(Utils.getClassName(fragment));
 		ft.commit();
 		if (forResult) {
 			fragment.previousFragment = this;

@@ -138,4 +138,12 @@ public class Utils {
 		}
 	}
 
+	public static Class getClass(Object target) {
+		return target.getClass();
+	}
+
+	public static String getClassName(Object target) {
+		return ((Object)target).getClass().getName();
+	}
+
 }
