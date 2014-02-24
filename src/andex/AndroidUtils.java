@@ -64,15 +64,12 @@ public class AndroidUtils {
 		int[] appVersion = getAppVersion(ctx, packageName);
 		StringTokenizer token = new StringTokenizer(targetVersion, ".");
 		for (int i = 0; token.hasMoreTokens(); i++) {
-			int v = Integer.parseInt(token.nextToken().toString());
+			int v = Integer.parseInt(token.nextToken());
 			if(v > appVersion[i]) {
 				return 1;
 			}
 			else if(v < appVersion[i]) {
 				return -1;
-			}
-			else {
-				continue;
 			}
 		}
 		return 0;
@@ -92,7 +89,7 @@ public class AndroidUtils {
 				StringTokenizer token = new StringTokenizer(pi.versionName, ".");
 				int[] result = new int[token.countTokens()];
 				for (int i = 0; token.hasMoreTokens(); i++) {
-					result[i] = Integer.parseInt(token.nextToken().toString());
+					result[i] = Integer.parseInt(token.nextToken());
 				}
 				return result;
 			}
@@ -349,10 +346,10 @@ public class AndroidUtils {
 	 */
 	public static Map<String, Object> getGlobalSettingsWithPrefix(Context ctx, String prefix) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		Map result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
 		Map m = setting.getAll();
-		for (Iterator it = m.keySet().iterator(); it.hasNext();) {
-			String key = (String) it.next();
+		for (Object o : m.keySet()) {
+			String key = (String) o;
 			if (key.startsWith(prefix) && m.get(key) != null) {
 				result.put(key, m.get(key));
 			}
@@ -403,7 +400,7 @@ public class AndroidUtils {
 	 * @param icon
 	 * @param title
 	 * @param msg
-	 * @param activity 点击后调用的Activity
+	 * @param clsActivity 点击后调用的Activity
 	 * @param sticky 是否常驻状态栏
 	 */
 	public static void showNotification(Context context, int id, int icon, String title, String msg, Class clsActivity,
@@ -538,7 +535,7 @@ public class AndroidUtils {
 		while (cursor.moveToNext()) {
 			int idxName = cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME);
 			String contact = cursor.getString(idxName);
-			if(Utils.isEmpty(contact)) {
+			if (Utils.isEmpty(contact)) {
 				continue;
 			}
 			Log.v("andex", "" + contact);
@@ -561,6 +558,7 @@ public class AndroidUtils {
 	
 	/**
 	 * 取出并处理嵌入式的字符资源，嵌入格式: {编号}
+	 * @param ctx
 	 * @param sentence
 	 * @param words 字符串值或者字符串资源ID可以混合使用
 	 * @return
@@ -582,7 +580,11 @@ public class AndroidUtils {
 		}
 		return resource;
 	}
-	
+
+	/**
+	 *
+	 * @return
+	 */
 	public static int getAPILevel() {
 		return Build.VERSION.SDK_INT;
 	}

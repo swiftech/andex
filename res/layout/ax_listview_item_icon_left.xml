@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="5dp" >
 
     <ImageView
-        android:id="@+id/cliilTImageView"
+        android:id="@+id/ax_iv_lv_item_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"/>
@@ -17,17 +17,17 @@
         android:orientation="vertical" android:padding="5dp">
 
         <TextView
-            android:id="@+id/cliilTextViewTitle"
-            android:layout_width="wrap_content"
+            android:id="@+id/ax_tv_lv_item_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Medium Text"
+            android:text="[TITLE]"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
-            android:id="@+id/cliilTextViewDesc"
-            android:layout_width="wrap_content"
+            android:id="@+id/ax_tv_lv_item_desc"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Medium Text"
+            android:text="[DESCRIPTION]"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>

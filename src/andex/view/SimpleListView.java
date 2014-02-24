@@ -92,12 +92,21 @@ public class SimpleListView extends SimpleCompositeView {
 	 *
 	 */
 	public static class SimpleIconListViewAdapter extends BaseListAdapter {
-		
-		
+
 		public SimpleIconListViewAdapter(Context context, List<Map<String, ?>> data, String[] keys) {
 			super(context, data, keys);
+			layoutResId = R.layout.ax_listview_item_icon_left;
+			itemResIds = new int[]{R.id.ax_iv_lv_item_icon, R.id.ax_tv_lv_item_title, R.id.ax_tv_lv_item_desc};
 		}
 
+		/**
+		 *
+		 * @param context
+		 * @param data
+		 * @param keys
+		 * @param layoutResId 自定义资源文件
+		 * @param itemResIds 自定义资源文件中的资源ID
+		 */
 		public SimpleIconListViewAdapter(Context context, List<Map<String, ?>> data, String[] keys, int layoutResId,
 				int[] itemResIds) {
 			super(context, data, keys, layoutResId, itemResIds);
@@ -105,10 +114,10 @@ public class SimpleListView extends SimpleCompositeView {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			
+
 			inflater = LayoutInflater.from(context);
-			LinearLayout layout = (LinearLayout)inflater.inflate(layoutResId, null);
-			
+			LinearLayout layout = (LinearLayout) inflater.inflate(layoutResId, null);
+
 			Map row = data.get(position);
 			if (row == null) {
 				return layout;
@@ -135,7 +144,7 @@ public class SimpleListView extends SimpleCompositeView {
 
 			if (itemResIds.length > 2 && layout.findViewById(itemResIds[2]) != null) {
 				TextView tvDesc = (TextView) layout.findViewById(itemResIds[2]);
-				tvDesc.setText(new String(row.get(keys[1]).toString().getBytes()));
+				tvDesc.setText(new String(row.get(keys[2]).toString().getBytes()));
 			}
 			return layout;
 		}

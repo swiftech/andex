@@ -40,8 +40,7 @@ import java.util.Map;
  * @author yuxing
  *
  */
-@SuppressLint("ValidFragment")
-public class Basev4Fragment<T extends FragmentActivity> extends Fragment implements Extendable{
+public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragment implements Extendable{
 	
 	//
 	public final int REQUEST_CODE_DEFAULT = 1000;
@@ -84,13 +83,18 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		this.thisFragment = this;
 		this.layoutResourceId = resourceId;
 	}
-	
+
+	public int getLayoutResourceId(){
+		return 0;
+	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.context = (Context)this.getActivity();
+
+		this.layoutResourceId = getLayoutResourceId();
+
+		this.context = this.getActivity();
 		this.parentActivity = (T) this.getActivity();
 		this.rs = context.getResources();
 		this.simpleDialog = new SimpleDialog(context);
@@ -508,7 +512,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		final View view = fragmentView.findViewById(resId);
 		if(view == null) {
 			Log.w("andex", "No view found：" + rs.getResourceName(resId));
-			return view;
+			return null;
 		}
 		view.setOnClickListener(new OnClickListener() {
 			@Override
@@ -534,7 +538,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		final CompoundButton view = (CompoundButton) fragmentView.findViewById(resId);
 		if(view == null) {
 			Log.w("andex", "No view found：" + rs.getResourceName(resId));
-			return view;
+			return null;
 		}
 		view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -615,7 +619,7 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 */
 	@Override
 	public void startActivity(Class<? extends Activity> clazz, boolean forResult) {
-		if(forResult) {
+		if (forResult) {
 			startActivityForResult(new Intent(context, clazz), REQUEST_CODE_DEFAULT);
 		}
 		else {
@@ -663,30 +667,30 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 * use getArgsFromPreActivity() to retrieve arguments.
 	 * @param clazz
 	 * @param id Integer类型表示是选项，Long和String类型表示是ID，其他类型则为参数。
-	 * @param args {@link Constants.INTENT_DATA_ARGS_KEY}
+	 * @param args {@link andex.Constants.INTENT_DATA_ARGS_KEY}
 	 * @param forResult
 	 */
 	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
 		Intent intent = new Intent(context, clazz);
-		if(id instanceof Integer) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Integer)id);
+		if (id instanceof Integer) {
+			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Integer) id);
 		}
-		else if(id instanceof Long) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Long)id);
+		else if (id instanceof Long) {
+			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Long) id);
 		}
-		else if(id instanceof String){
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (String)id);
+		else if (id instanceof String) {
+			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (String) id);
 		}
 		
 		if (args != null)
 //			intent.getExtras().putAll(args); // 直接将参数导入
 			intent.putExtra(Constants.INTENT_DATA_ARGS_KEY, args);
-		if(forResult) {
+		if (forResult) {
 			startActivityForResult(intent, REQUEST_CODE_DEFAULT);
 		}
 		else {
-			startActivity(intent);			
+			startActivity(intent);
 		}
 	}
 
@@ -930,6 +934,24 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 		}
 		finish();
 	}
+
+	/**
+	 * 结束当前Fragment中的业务逻辑，前面一个Fragment（有的话）的onFragmentResult()方法会被调用并传递数据。
+	 * @param data
+	 */
+	public void finishWithData(Map data) {
+		if (previousFragment != null) {
+			previousFragment.onFragmentResult(data);
+		}
+		finish();
+	}
+
+	public void finishWithData(Object data) {
+		if (previousFragment != null) {
+			previousFragment.onFragmentResult(data);
+		}
+		finish();
+	}
 	
 	public void finishWithData(DataRow row, Bundle args){
 		throw new UnsupportedOperationException();
@@ -940,6 +962,10 @@ public class Basev4Fragment<T extends FragmentActivity> extends Fragment impleme
 	 * @param data
 	 */
 	protected void onFragmentResult(DataRow data) {
+		// NOTHING NEED TO DO FOR NOW, INHERIT ME.
+	}
+
+	protected void onFragmentResult(Map data) {
 		// NOTHING NEED TO DO FOR NOW, INHERIT ME.
 	}
 	

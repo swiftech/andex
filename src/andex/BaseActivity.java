@@ -138,7 +138,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 * @param forResult
 	 */
 	public void startActivity(Class<? extends Activity> clazz, boolean forResult) {
-		if(forResult) {
+		if (forResult) {
 			startActivityForResult(new Intent(context, clazz), REQUEST_CODE_DEFAULT);
 		}
 		else {
@@ -215,22 +215,22 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
 		Intent intent = new Intent(context, clazz);
-		if(id instanceof Integer) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Integer)id);
+		if (id instanceof Integer) {
+			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Integer) id);
 		}
-		else if(id instanceof Long) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Long)id);
+		else if (id instanceof Long) {
+			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Long) id);
 		}
-		else if(id instanceof String){
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (String)id);
+		else if (id instanceof String) {
+			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (String) id);
 		}
 		if (args != null)
 			intent.putExtra(Constants.INTENT_DATA_ARGS_KEY, args);
-		if(forResult) {
+		if (forResult) {
 			startActivityForResult(intent, REQUEST_CODE_DEFAULT);
 		}
 		else {
-			startActivity(intent);			
+			startActivity(intent);
 		}
 	}
 
