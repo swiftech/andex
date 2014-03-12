@@ -1,5 +1,6 @@
 package andex;
 
+import andex.utils.SysUtils;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -137,8 +138,8 @@ public class AndroidUtils {
 	 * @return
 	 */
 	public static int divideScreenHeight(Context ctx, int gridHeight, int skipHeight) {
-		Log.v("andex", "Screen: " + getScreenWidth(ctx) + "X" + getScreenHeight(ctx));
-		int screenH = getScreenHeight(ctx);
+		Log.v("andex", String.format("Screen: %dX%d", SysUtils.getScreenWidth(ctx), SysUtils.getScreenHeight(ctx)));
+		int screenH = SysUtils.getScreenHeight(ctx);
 		int contentHeight = screenH - skipHeight;
 		double spacing = ((contentHeight / 160.0) * (contentHeight / 160.0));
 		return (int) Math.round(contentHeight / (gridHeight + spacing));
@@ -155,12 +156,14 @@ public class AndroidUtils {
 	 * @return
 	 */
 	public static int divideScreenWidth(Context ctx, int gridWidth, int skipWidth, int gridHeight, int skipHeight, int spacing){
-		Log.v("andex", "Screen: " + getScreenWidth(ctx) + "X" + getScreenHeight(ctx));
-		int result = (int) Math.round(getScreenWidth(ctx) / gridWidth)
-				* (int) Math.round((getScreenHeight(ctx) - skipHeight) / gridHeight);
+		Log.v("andex", String.format("Screen: %dX%d", SysUtils.getScreenWidth(ctx), SysUtils.getScreenHeight(ctx)));
+
+		int result = Math.round(SysUtils.getScreenWidth(ctx) / gridWidth)
+				* Math.round((SysUtils.getScreenHeight(ctx) - skipHeight) / gridHeight);
 		
-		Log.v("andex", "Cols: " + Math.round(getScreenWidth(ctx) / gridWidth) + ", Rows: "
-				+ (int) Math.round((getScreenHeight(ctx) - skipHeight) / gridHeight));
+		Log.v("andex", String.format("Cols: %d, Rows: %d",
+				Math.round(SysUtils.getScreenWidth(ctx) / gridWidth),
+				Math.round((SysUtils.getScreenHeight(ctx) - skipHeight) / gridHeight)));
 		return result;
 	}
 	
@@ -529,11 +532,15 @@ public class AndroidUtils {
 	 * @return Map with phone number to contact name.
 	 */
 	public static Map<String, String> getContactsNamesFromDevice(Context context) {
-		Map<String, String> ret = new HashMap();
+		Map<String, String> ret = new HashMap<String, String>();
 		ContentResolver cr = context.getContentResolver();
+		// 先查所有联系人
 		Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+		if (cursor == null) {
+			return ret;
+		}
+		int idxName = cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME);
 		while (cursor.moveToNext()) {
-			int idxName = cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME);
 			String contact = cursor.getString(idxName);
 			if (Utils.isEmpty(contact)) {
 				continue;
@@ -542,14 +549,17 @@ public class AndroidUtils {
 
 			String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
 			// 第一个参数是确定查询电话号，第三个参数是查询具体某个人的过滤器
-			Cursor phoneNums = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-					ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
-
-			while (phoneNums.moveToNext()) {
-				String phoneNum = phoneNums.getString(phoneNums.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+			Cursor phoneNumsCursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+					String.format("%s = %s", ContactsContract.CommonDataKinds.Phone.CONTACT_ID, contactId), null, null);
+			if (phoneNumsCursor == null || phoneNumsCursor.isClosed()) {
+				continue;
+			}
+			int idxNumber = phoneNumsCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+			while (phoneNumsCursor.moveToNext()) {
+				String phoneNum = phoneNumsCursor.getString(idxNumber);
 				ret.put(phoneNum.trim(), contact);
 			}
-			phoneNums.close();
+			phoneNumsCursor.close();
 		}
 		cursor.close();
 		return ret;
