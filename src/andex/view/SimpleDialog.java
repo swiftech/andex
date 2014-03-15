@@ -29,6 +29,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 各种常见模式的对话框，比如等待对话框、信息对话框，选项列表对话框、单个和多个输入对话框等。
@@ -133,8 +134,8 @@ public class SimpleDialog {
 		String tagPositive = null;
 		String tagNegative = null;
 		if (buttonsTitle != null && buttonsTitle.length >= 2) {
-			tagPositive = Utils.isEmpty(buttonsTitle[0]) ? tagOk : buttonsTitle[0];
-			tagNegative = Utils.isEmpty(buttonsTitle[1]) ? tagCancel : buttonsTitle[1];
+			tagPositive = StringUtils.isEmpty(buttonsTitle[0]) ? tagOk : buttonsTitle[0];
+			tagNegative = StringUtils.isEmpty(buttonsTitle[1]) ? tagCancel : buttonsTitle[1];
 		}
 		
 		AlertDialog.Builder dBuilder = new Builder(context);
@@ -360,7 +361,7 @@ public class SimpleDialog {
 		AlertDialog.Builder dBuilder = new Builder(context);
 		dBuilder.setView(inputView);
 		dBuilder.setIcon(android.R.drawable.ic_menu_more);
-		if(!Utils.isEmpty(msg))dBuilder.setMessage(msg);
+		if(!StringUtils.isEmpty(msg))dBuilder.setMessage(msg);
 		dBuilder.setPositiveButton(tagYes, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -420,7 +421,7 @@ public abstract class BaseDataSource {
 		for (String colName : map.keySet()) {
 			Object value = map.get(colName);
 			if (value instanceof String) {
-				if (!Utils.isEmpty(value)) {
+				if (!StringUtils.isEmpty((CharSequence) value)) {
 					String typedValue = (String) value;
 					values.put(colName, typedValue);
 				}

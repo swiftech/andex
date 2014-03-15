@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
-import andex.Utils;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -115,7 +114,7 @@ public class NetworkUtils {
 				}
 			}
 		}
-		if (Utils.isEmpty(appropriateIpAddress)) {
+		if (org.apache.commons.lang3.StringUtils.isEmpty(appropriateIpAddress)) {
 			appropriateIpAddress = "127.0.0.1";
 		}
 		return appropriateIpAddress;
@@ -189,7 +188,7 @@ public class NetworkUtils {
 		WifiInfo info = (null == wifiMgr ? null : wifiMgr.getConnectionInfo());
 		if (null != info) {
 			String macAddress = info.getMacAddress();
-			if (Utils.isEmpty(macAddress)) {
+			if (org.apache.commons.lang3.StringUtils.isEmpty(macAddress)) {
 				return DEFAULT_UNAVAILABLE_MAC;
 			}
 			return macAddress;
@@ -227,7 +226,7 @@ public class NetworkUtils {
 					continue;
 				}
 
-				if (!Utils.isEmpty(namePrefix)) {
+				if (!org.apache.commons.lang3.StringUtils.isEmpty(namePrefix)) {
 					if (!intf.getName().startsWith(namePrefix)) {
 						continue;
 					}
@@ -236,7 +235,7 @@ public class NetworkUtils {
 				byte[] mac = intf.getHardwareAddress();
 				if (mac == null)
 					continue;
-				if (Utils.isEmpty(macTemplate)) {
+				if (org.apache.commons.lang3.StringUtils.isEmpty(macTemplate)) {
 					macTemplate = DEFAULT_MAC_TEMPLATE;
 				}
 				return String.format(macTemplate, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);

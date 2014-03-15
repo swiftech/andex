@@ -22,6 +22,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.*;
@@ -518,7 +519,7 @@ public class AndroidUtils {
 		}
 		while (cursor.moveToNext()) {
 			String name = cursor.getString(cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME));
-			if (!Utils.isEmpty(name)) {
+			if (!StringUtils.isEmpty(name)) {
 				ret.add(name);
 			}
 		}
@@ -542,7 +543,7 @@ public class AndroidUtils {
 		int idxName = cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME);
 		while (cursor.moveToNext()) {
 			String contact = cursor.getString(idxName);
-			if (Utils.isEmpty(contact)) {
+			if (StringUtils.isEmpty(contact)) {
 				continue;
 			}
 			Log.v("andex", "" + contact);
@@ -576,7 +577,7 @@ public class AndroidUtils {
 	public static String getNestedString(Context ctx, int sentence, Object... words) {
 		Resources rs = ctx.getResources();
 		String resource = rs.getString(sentence);
-		if (Utils.isEmpty(resource)) {
+		if (StringUtils.isEmpty(resource)) {
 			return "";
 		}
 		for (int i = 0; i < words.length; i++) {

@@ -32,8 +32,7 @@ public abstract class BaseService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		int ret = super.onStartCommand(intent, flags, startId);
-		Log.d("andex", "Service " + this.getClass().getName() + " start");
-		
+		Log.d("andex", String.format("Service %s start", this.getClass().getName()));
 		return ret;
 	}
 
