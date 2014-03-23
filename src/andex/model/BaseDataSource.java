@@ -1,7 +1,6 @@
 package andex.model;
 
 import andex.Constants;
-import andex.Utils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -235,7 +234,7 @@ public abstract class BaseDataSource {
 			return cursorToMapList(cursor);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ArrayList();
+			return new ArrayList<Map>();
 		} finally {
 			if (isAutoDisconnect)
 				this.disconnect();
@@ -285,7 +284,7 @@ public abstract class BaseDataSource {
 			result.add(row);
 		}
 		cursor.close();
-		Log.v(LOG_TAG, "Result with " + result.size() + " records.");
+		Log.v(LOG_TAG, String.format("Result with %d records.", result.size()));
 		return result;
 	}
 	
@@ -313,7 +312,7 @@ public abstract class BaseDataSource {
 		connect();
 		try {
 			int rows = db.delete(tbName, "ID=?", new String[]{"" + pkID});
-			Log.i(LOG_TAG, "" + rows  + " rows in " + tbName + " deleted.");
+			Log.i(LOG_TAG, String.format("%d rows in %s deleted.", rows, tbName));
 			return (rows > 0);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -333,7 +332,7 @@ public abstract class BaseDataSource {
 		connect();
 		try {
 			int rows = db.delete(tbName, null, null);
-			Log.i(LOG_TAG, "all " + rows  + " rows in " + tbName + " deleted.");
+			Log.i(LOG_TAG, String.format("all %d rows in %s deleted.", rows, tbName));
 			return (rows > 0);
 		} catch (Exception e) {
 			e.printStackTrace();

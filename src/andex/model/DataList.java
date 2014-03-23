@@ -32,7 +32,7 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 	 * @param coll
 	 * @return
 	 */
-	public static DataList wrap(Context ctx,Collection coll) {
+	public static DataList wrap(Context ctx, Collection coll) {
 		return wrap(ctx, coll, DataRow.class);
 	}
 	

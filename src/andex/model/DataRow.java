@@ -1,6 +1,7 @@
 package andex.model;
 
 import android.content.Context;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class DataRow extends HashMap<String, Object> implements Serializable {
 	}
 	
 	public long getID() {
-		return 0;
+		throw new NotImplementedException("");
 	}
 
 	public static interface Callback<T1, T2> {

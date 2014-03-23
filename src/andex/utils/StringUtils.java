@@ -29,15 +29,16 @@ public class StringUtils {
 	 * 注意：重复调用可能性能不佳。
 	 * @param ctx
 	 * @param original
-	 * @param headLen Head width in DP
-	 * @param tailLen Tail width in DP
+	 * @param leftWidth Head width in DP
+	 * @param rightWidth Tail width in DP
 	 * @param fontSize Font size in PX
 	 * @return
 	 */
-	public static String toFitableString(Context ctx, String original, int headLen, int tailLen, float fontSize) {
+	public static String toFitableString(Context ctx, String original, int leftWidth, int rightWidth, float fontSize) {
 		float screenWidth = SysUtils.getScreenWidth(ctx);
 		float screenWidthInDip = SysUtils.px2dip(ctx, screenWidth);
-		int maxWordsCount = (int) ((screenWidthInDip - headLen - tailLen) / SysUtils.px2dip(ctx,fontSize));
+		float halfFont = fontSize / 2;
+		int maxWordsCount = (int) ((screenWidthInDip - leftWidth - rightWidth) / SysUtils.px2dip(ctx, halfFont));
 		Log.v("", String.format("Max Words Count: %d", maxWordsCount));
 		try {
 			return org.apache.commons.lang3.StringUtils.abbreviate(original, maxWordsCount);

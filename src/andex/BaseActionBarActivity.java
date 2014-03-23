@@ -1,10 +1,7 @@
 package andex;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.Map;
-
 import andex.Callback.CallbackAdapter;
+import andex.controller.FragmentBuilder;
 import andex.model.DataList;
 import andex.model.DataRow;
 import andex.view.SimpleDialog;
@@ -24,15 +21,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Log;
-import android.view.SurfaceView;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.Map;
 
 public abstract class BaseActionBarActivity extends ActionBarActivity implements ActivityExtendable {
 
@@ -187,6 +184,16 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		}
 	}
 
+	/**
+	 * 创建跳转至指定Fragment的构造器。
+	 * @param fragment
+	 * @param resId
+	 * @return
+	 */
+	public FragmentBuilder buildFragment(Basev4Fragment fragment, int resId) {
+		return new FragmentBuilder(this, fragment).replace(resId);
+	}
+
 	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
 		Intent intent = new Intent(context, clazz);
@@ -228,6 +235,10 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		ft.commit();
 		return frag;
 	}
+
+//	public Basev4Fragment pushFragment(Basev4Fragment frag) {
+//		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+//	}
 
 	@Override
 	public void finishWithId(long id) {

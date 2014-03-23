@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import andex.Callback.CallbackAdapter;
+import andex.controller.FragmentBuilder;
 import andex.model.DataList;
 import andex.model.DataRow;
 import andex.view.SimpleDialog;
@@ -248,13 +249,23 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, new DataRow(data));
 		startActivity(intent);
 	}
-	
-	
+
+	/**
+	 * 创建跳转至指定Fragment的构造器。
+	 * @param fragment
+	 * @param resId
+	 * @return
+	 */
+	public FragmentBuilder buildFragment(Basev4Fragment fragment, int resId) {
+		return new FragmentBuilder(this, fragment).replace(resId);
+	}
+
 	/**
 	 * 在资源ID指定的位置显示Fragment
 	 * @param frag
 	 * @param resId
 	 * @return
+	 * @deprecated
 	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
@@ -269,7 +280,8 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 * @param resId
 	 * @param argKey
 	 * @param argValue
-	 * @return 
+	 * @return
+	 * @deprecated
 	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, String argKey, Serializable argValue) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
@@ -286,6 +298,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 * @param frag
 	 * @param resId
 	 * @param args 启动Fragment附带的参数列表，用getArguments()获取。
+	 * @deprecated
 	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, Bundle args) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();

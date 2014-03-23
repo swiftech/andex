@@ -1,10 +1,10 @@
 package andex;
 
+import andex.controller.FragmentBuilder;
 import andex.model.DataList;
 import andex.model.DataRow;
 import andex.view.SimpleDialog;
 import andex.view.SimpleDialog.DialogCallback;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -653,7 +653,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	/**
 	 * Start activity with arguments.
 	 * @param clazz
-	 * @param args {@link Constants.INTENT_DATA_ARGS_KEY} 
+	 * @param args andex.Constants.INTENT_DATA_ARGS_KEY
 	 * @param forResult
 	 */
 	@Override
@@ -667,7 +667,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * use getArgsFromPreActivity() to retrieve arguments.
 	 * @param clazz
 	 * @param id Integer类型表示是选项，Long和String类型表示是ID，其他类型则为参数。
-	 * @param args {@link andex.Constants.INTENT_DATA_ARGS_KEY}
+	 * @param args andex.Constants.INTENT_DATA_ARGS_KEY
 	 * @param forResult
 	 */
 	@Override
@@ -695,10 +695,21 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	}
 
 	/**
+	 * 创建跳转至指定Fragment的构造器。
+	 * @param fragment
+	 * @param resId
+	 * @return
+	 */
+	public FragmentBuilder buildFragment(Basev4Fragment fragment, int resId) {
+		return new FragmentBuilder(this, fragment).replace(resId);
+	}
+
+	/**
 	 * 在资源ID指定的位置显示Fragment，如果forResult为true的话，将会在调用finishWithData(Object)后回调前一个Fragment的onFragmentResult()方法
 	 * @param fragment
 	 * @param resId
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startFragment(Basev4Fragment fragment, int resId, boolean forResult) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -716,6 +727,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param resId
 	 * @param id
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startFragmentWithId(Basev4Fragment fragment, int resId, long id, boolean forResult) {
 //		Bundle bundle = new Bundle();
@@ -738,6 +750,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param key
 	 * @param value
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startFragmentWith(Basev4Fragment fragment, int resId, String key, Serializable value, boolean forResult) {
 		Bundle bundle = new Bundle();
@@ -751,8 +764,16 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 			fragment.previousFragment = this;
 		}
 	}
-	
-	
+
+	/**
+	 *
+	 * @deprecated
+	 * @param fragment
+	 * @param resId
+	 * @param id
+	 * @param args
+	 * @param forResult
+	 */
 	public void startFragmentWith(Basev4Fragment fragment, int resId, long id, Bundle args, boolean forResult) {
 		args.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
 		fragment.setArguments(args);
@@ -772,6 +793,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param resId
 	 * @param bundle
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startFragmentWithArgs(Basev4Fragment fragment, int resId, Bundle bundle, boolean forResult) {
 		fragment.setArguments(bundle);

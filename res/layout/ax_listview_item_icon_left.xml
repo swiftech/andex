@@ -14,7 +14,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" android:padding="5dp">
+        android:orientation="vertical"
+		android:padding="5dp">
 
         <TextView
             android:id="@+id/ax_tv_lv_item_title"
@@ -28,7 +29,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="[DESCRIPTION]"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textColor="@color/ax_text_color_description"
+			android:textSize="14sp"/>
 
     </LinearLayout>
 
