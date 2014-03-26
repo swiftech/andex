@@ -1,5 +1,6 @@
 package andex.controller;
 
+import andex.Constants;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,11 @@ public class ActivityBuilder {
 		this.preFrag = preFrag;
 		this.context = context;
 		this.intent = new Intent(context, activityClass);
+	}
+
+	public ActivityBuilder withId(long id) {
+		with(Constants.INTENT_DATA_ID_KEY, id);
+		return this;
 	}
 
 	/**

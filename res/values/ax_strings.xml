@@ -30,6 +30,8 @@
 
 	<string name="common_crud_add">Add</string>
 	<string name="common_crud_delete">Delete</string>
+	<string name="common_crud_delete_fail">Failed to delete %s</string>
+	<string name="common_crud_delete_success">Success to delete %s</string>
 	<string name="common_crud_remove">Remove</string>
 	<string name="common_crud_edit">Edit</string>
 	<string name="common_crud_search">Search</string>

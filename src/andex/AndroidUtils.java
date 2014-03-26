@@ -497,17 +497,19 @@ public class AndroidUtils {
 	 * 获取联系人数量
 	 * @param context
 	 * @return
+	 * @deprecated
 	 */
 	public static int getContactsCount(Context context) {
 		ContentResolver cr = context.getContentResolver();
 		Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
 		return cursor.getCount();
 	}
-	
+
 	/**
 	 * 获取所有联系人的姓名。
 	 * @param context
 	 * @return
+	 * @deprecated
 	 */
 	public static List<String> getAllContactsNames(Context context) {
 		List<String> ret = new ArrayList<String>();
@@ -531,6 +533,7 @@ public class AndroidUtils {
 	 * Read contacts names with phone number from device storage.
 	 * @param context
 	 * @return Map with phone number to contact name.
+	 * @deprecated
 	 */
 	public static Map<String, String> getContactsNamesFromDevice(Context context) {
 		Map<String, String> ret = new HashMap<String, String>();
@@ -565,8 +568,8 @@ public class AndroidUtils {
 		cursor.close();
 		return ret;
 	}
-	
-	
+
+
 	/**
 	 * 取出并处理嵌入式的字符资源，嵌入格式: {编号}
 	 * @param ctx

@@ -709,16 +709,19 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param fragment
 	 * @param resId
 	 * @param forResult
-	 * @deprecated
 	 */
 	public void startFragment(Basev4Fragment fragment, int resId, boolean forResult) {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(resId, fragment, Utils.getClassName(fragment));
-		ft.addToBackStack(Utils.getClassName(fragment));
-		ft.commit();
-		if (forResult) {
-			fragment.previousFragment = this;
+		FragmentBuilder fragmentBuilder = buildFragment(fragment, resId).start();
+		if(forResult) {
+			fragmentBuilder.result();
 		}
+//		FragmentTransaction ft = getFragmentManager().beginTransaction();
+//		ft.replace(resId, fragment, Utils.getClassName(fragment));
+//		ft.addToBackStack(Utils.getClassName(fragment));
+//		ft.commit();
+//		if (forResult) {
+//			fragment.previousFragment = this;
+//		}
 	}
 
 	/**
@@ -914,10 +917,19 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 
 	
 	/**
-	 * 直接返回至前一个Fragment（将当前的Fragment退出堆栈）
+	 * 直接返回至前一个Fragment（将当前的Fragment退出堆栈），如果没有更多...TODO
 	 */
 	public void backToPrevious() {
-		getFragmentManager().popBackStack();
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				if (!getFragmentManager().popBackStackImmediate()) {
+					if (parentActivity != null) {
+						parentActivity.finish();
+					}
+				}
+			}
+		});
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package andex.controller;
 
 import andex.Basev4Fragment;
+import andex.Constants;
 import andex.Utils;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -64,6 +65,16 @@ public class FragmentBuilder {
 	public FragmentBuilder add(int resId) {
 		ft.add(resId, frag, Utils.getClassName(frag));
 		this.resourceId = resId;
+		return this;
+	}
+
+	public FragmentBuilder withId(long id) {
+		with(Constants.FRAGMENT_DATA_ID_KEY, id);
+		return this;
+	}
+
+	public FragmentBuilder withOption(int option) {
+		with(Constants.FRAGMENT_DATA_OPTION_KEY, option);
 		return this;
 	}
 
