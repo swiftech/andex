@@ -1,20 +1,18 @@
 package andex.view;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import andex.SpinnerItem;
 import andex.model.DataList;
 import andex.model.DataRow;
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * TODO 目前暂时替换SimpleSpinner和MoreSimpleSpinner，如果成熟则永久替换它们。
@@ -48,7 +46,7 @@ public class SimpleSpinner2 {
 	
 	/**
 	 * 初始化包含在View中的Spinner
-	 * @param act
+	 * @param view
 	 * @param ctx
 	 * @param resID
 	 */
@@ -78,7 +76,7 @@ public class SimpleSpinner2 {
 	/**
 	 * 用键-值对集合初始化Spinner Init spinner with key-value data in Map.
 	 * 
-	 * @param spinner
+	 * @param
 	 * @param map
 	 * @return
 	 */
@@ -89,7 +87,6 @@ public class SimpleSpinner2 {
 	/**
 	 * 用户数组初始化Spinner。 Init spinner with data array.
 	 * 
-	 * @param spinner
 	 * @param data
 	 * @return
 	 */
@@ -200,9 +197,7 @@ public class SimpleSpinner2 {
 	 */
 	protected List<SpinnerItem> mapToList(Map map) {
 		final List<SpinnerItem> items = new ArrayList<SpinnerItem>();
-		Iterator<Object> it = map.keySet().iterator();
-		while (it.hasNext()) {
-			Object key = it.next();
+		for (Object key : map.keySet()) {
 			Object value = map.get(key);
 			// Log.v("", "" + value);
 			items.add(new SpinnerItem(key, value));

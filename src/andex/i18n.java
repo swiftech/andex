@@ -5,6 +5,9 @@ import org.andex.R;
 import android.content.Context;
 import android.content.res.Resources;
 
+/**
+ * 国际化
+ */
 public class i18n {
 	// == 字符串资源 ==
 	public static String tagOk = "OK";

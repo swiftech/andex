@@ -329,7 +329,7 @@ public abstract class SimpleCompositeView {
 		this.absListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long itemid) {
-				Log.v("andex", "  Item at position " + pos + " was long clicked");
+				Log.v("andex", String.format("  Item at position %d was long clicked", pos));
 				handleClickEvent(pos, handler);
 				return true;
 			}

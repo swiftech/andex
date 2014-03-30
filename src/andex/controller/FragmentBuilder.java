@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import java.io.Serializable;
 
 /**
- * Fragment事务的构造器。
+ * Fragment事务的构造器。如果需要更多的处理（比如特定的参数）可以继承实现自己的Builder。
  */
 public class FragmentBuilder {
 

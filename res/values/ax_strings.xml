@@ -49,4 +49,6 @@
 
 	<string name="common_setting_save_success">Success to save setting</string>
 	<string name="common_setting_save_fail">Failed to save setting</string>
+
+	<string name="common_currency">￥</string>
 </resources>

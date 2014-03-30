@@ -9,9 +9,10 @@ import android.support.v4.app.Fragment;
 import java.io.Serializable;
 
 /**
- *
+ * 如果需要更多的处理（比如特定的参数）可以继承实现自己的Builder。
  */
 public class ActivityBuilder {
+
 	public final int REQUEST_CODE_DEFAULT = 1000;
 
 	Intent intent;
@@ -40,10 +41,6 @@ public class ActivityBuilder {
 	 * @return
 	 */
 	public ActivityBuilder with(String key, Serializable value) {
-//		if (args == null) {
-//			args = new Bundle();
-//		}
-//		args.putSerializable(key, value);
 		this.intent.putExtra(key, value);
 		return this;
 	}
@@ -53,12 +50,6 @@ public class ActivityBuilder {
 	 * @return
 	 */
 	public ActivityBuilder with(Bundle args) {
-//		if (this.args == null) {
-//			this.args = args;
-//		}
-//		else {
-//			this.args.putAll(args);
-//		}
 		intent.putExtras(args);
 		return this;
 	}

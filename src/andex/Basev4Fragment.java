@@ -1,5 +1,6 @@
 package andex;
 
+import andex.controller.ActivityBuilder;
 import andex.controller.FragmentBuilder;
 import andex.model.DataList;
 import andex.model.DataRow;
@@ -705,6 +706,15 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	}
 
 	/**
+	 * 创建掉转至指定Activity的构造器。
+	 * @param activityClass
+	 * @return
+	 */
+	public ActivityBuilder buildActivity(Class activityClass) {
+		return new ActivityBuilder(context, this, activityClass);
+	}
+
+	/**
 	 * 在资源ID指定的位置显示Fragment，如果forResult为true的话，将会在调用finishWithData(Object)后回调前一个Fragment的onFragmentResult()方法
 	 * @param fragment
 	 * @param resId
@@ -923,9 +933,14 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
-				if (!getFragmentManager().popBackStackImmediate()) {
-					if (parentActivity != null) {
-						parentActivity.finish();
+				if (getFragmentManager() == null) {
+					Log.d("andex", "No fragment manager!");
+				}
+				else {
+					if (!getFragmentManager().popBackStackImmediate()) {
+						if (parentActivity != null) {
+							parentActivity.finish();
+						}
 					}
 				}
 			}
