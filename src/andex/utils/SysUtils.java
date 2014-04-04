@@ -1,14 +1,33 @@
 package andex.utils;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.StringUtils;
+
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * 系统相关的工具类。
  */
 public class SysUtils {
+	public static String DEFAULT_MAC_TEMPLATE = "%02X:%02X:%02X:%02X:%02X:%02X";
+
+	private static String NO_MAC_ADDRESS = "00:00:00:00:00:00";
 
 	/**
 	 * 获取设备的IMEI编号。
@@ -18,8 +37,7 @@ public class SysUtils {
 	 */
 	public static String getDeviceIMEI(Context ctx) {
 		TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-		String imei = tm.getDeviceId();
-		return imei;
+		return tm.getDeviceId();
 	}
 
 	/**
@@ -43,8 +61,7 @@ public class SysUtils {
 		if (dm.density == 0) {
 			return 0;
 		}
-		double ret = (double)(diagonalInPixel / dm.densityDpi);
-		return ret;
+		return diagonalInPixel / dm.densityDpi;
 	}
 
 	/**
@@ -92,4 +109,134 @@ public class SysUtils {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (pxValue / scale + 0.5f);
 	}
+
+	/**
+	 * 获取应用程序最近一次安装更新的时间。
+	 * @param ctx
+	 * @return
+	 */
+	public static long getAppLastUpdateTime(Context ctx) {
+		try {
+			PackageInfo pkgInfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), PackageManager.GET_ACTIVITIES);
+			return pkgInfo.lastUpdateTime;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	/**
+	 * 获得APP编译的时间。
+	 * @param ctx
+	 * @return
+	 */
+	public static long getAppBuildTime(Context ctx) {
+		try {
+			ApplicationInfo ai = ctx.getApplicationInfo();
+			if (ai == null) {
+				return 0;
+			}
+			ZipFile zf = new ZipFile(ai.sourceDir);
+			ZipEntry ze = zf.getEntry("classes.dex");
+			return ze.getTime();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	/**
+	 * 播放系统默认铃声
+	 * @param context
+	 */
+	public static void playSystemDefaultRingtone(Context context) {
+		Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+		Ringtone r = RingtoneManager.getRingtone(context, notification);
+		r.play();
+	}
+
+
+	/**
+	 * 不管什么情况，总是能够获得MAC地址。
+	 * @param ctx
+	 * @return
+	 */
+	public static String getMacAddressSafely(Context ctx) {
+		return getMacAddressSafely(ctx, DEFAULT_MAC_TEMPLATE);
+	}
+
+	/**
+	 * 不管什么情况，总是能够获得MAC地址。
+	 * @param ctx
+	 * @param template
+	 * @return
+	 */
+	public static String getMacAddressSafely(Context ctx, String template) {
+		String ret;
+		ret = getFirstMacAddress("wlan", template);
+		if (ret.equals(NO_MAC_ADDRESS)) {
+			ret = getFirstMacAddress("eth", template);
+			if (ret.equals(NO_MAC_ADDRESS)) {
+				ret = getMac(ctx);
+			}
+		}
+		return ret;
+	}
+
+	/**
+	 * 从WIFI管理器获得MAC地址（模拟器无效）
+	 * @param ctx
+	 * @return
+	 */
+	public static String getMac(Context ctx) {
+		WifiManager wifiMgr = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
+		WifiInfo info = (null == wifiMgr ? null : wifiMgr.getConnectionInfo());
+		if (null != info) {
+			String macAddress = info.getMacAddress();
+			if (org.apache.commons.lang3.StringUtils.isEmpty(macAddress)) {
+				return NO_MAC_ADDRESS;
+			}
+			return macAddress;
+		}
+		return NO_MAC_ADDRESS;
+	}
+
+	/**
+	 * 获取名称符合前缀规则的第一个网卡MAC地址（在网络未开启的情况下无效）
+	 * @param namePrefix 空则不做限定
+	 * @param macTemplate 返回的MAC地址模板
+	 * @return
+	 */
+	public static String getFirstMacAddress(String namePrefix, String macTemplate) {
+		try {
+			List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface intf : interfaces) {
+
+				Log.v("andex", String.format("MAC: Try %s with %s ", intf.getName(), namePrefix));
+
+				// 排除非物理网卡
+				if (intf.isLoopback() || intf.isPointToPoint() || intf.isVirtual()) {
+					continue;
+				}
+
+				if (!org.apache.commons.lang3.StringUtils.isEmpty(namePrefix)) {
+					if (!intf.getName().startsWith(namePrefix)) {
+						continue;
+					}
+				}
+
+				byte[] mac = intf.getHardwareAddress();
+				if (mac == null)
+					continue;
+				if (StringUtils.isEmpty(macTemplate)) {
+					macTemplate = DEFAULT_MAC_TEMPLATE;
+				}
+				return String.format(macTemplate, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return NO_MAC_ADDRESS;
+	}
+
 }
