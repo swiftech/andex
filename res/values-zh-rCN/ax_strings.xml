@@ -34,5 +34,5 @@
 	<string name="common_setting_save_success">保存设置成功</string>
 	<string name="common_setting_save_fail">保存设置失败</string>
 
-	<string name="common_currency">$</string>
+	<string name="common_currency">￥</string>
 </resources>

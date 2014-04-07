@@ -1,12 +1,6 @@
 package andex.view;
 
-import java.util.Map;
-import java.util.Stack;
-
-import org.andex.R;
-
 import andex.Callback.CallbackAdapter;
-import andex.Utils;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -19,17 +13,13 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
+import org.andex.R;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Map;
+import java.util.Stack;
 
 /**
  * 各种常见模式的对话框，比如等待对话框、信息对话框，选项列表对话框、单个和多个输入对话框等。
@@ -389,8 +379,6 @@ public class SimpleDialog {
 	 * Show dialog with Checkbox list view
 	 * 
 	 * @param title
-	 * @param msg
-	 * @param labels
 	 * @param checkboxListViewAdapter
 	 *            Adapter to init the list view with checkboxs.
 	 * @param callback

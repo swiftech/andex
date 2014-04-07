@@ -39,8 +39,7 @@ import android.widget.ToggleButton;
 
 /**
  * 
- * @author yuxing
- * 
+ *
  * @param <T>
  *            FragmentActivity
  */

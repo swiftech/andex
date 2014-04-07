@@ -170,7 +170,13 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 	public String[] getColumnAsString(String colName) {
 		String[] ret = new String[this.size()];
 		for(int i = 0; i < this.size(); i++) {
-			ret[i] = this.get(i).get(colName).toString();
+			Object o = this.get(i).get(colName);
+			if (o == null) {
+				ret[i] = null;
+			}
+			else {
+				ret[i] = o.toString();
+			}
 		}
 		return ret;
 	}

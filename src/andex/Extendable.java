@@ -1,9 +1,5 @@
 package andex;
 
-import java.io.Serializable;
-import java.util.Map;
-
-import andex.model.DataList;
 import andex.model.DataRow;
 import andex.view.SimpleDialog.DialogCallback;
 import android.app.Activity;
@@ -17,18 +13,29 @@ import android.webkit.WebView;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import java.io.Serializable;
+import java.util.Map;
+
 public interface Extendable {
 
 	/**
+	 * 按照Activity的Class启动
+	 *
+	 * @param clazz
+	 */
+	public void startActivity(Class<? extends Activity> clazz);
+
+	/**
 	 * 按照Activity类的名字启动（相同的classpath下面）
-	 * 
+	 *
 	 * @param actName
+	 * @deprecated
 	 */
 	public void startActivityByName(String actName);
 
 	/**
 	 * 按照Activity的Class启动
-	 * 
+	 *
 	 * @param clazz
 	 */
 	public void startActivityWithoutTrace(Class<? extends Activity> clazz);
@@ -37,14 +44,8 @@ public interface Extendable {
 	 * 按照Activity的Class启动
 	 * 
 	 * @param clazz
-	 */
-	public void startActivity(Class<? extends Activity> clazz);
-
-	/**
-	 * 按照Activity的Class启动
-	 * 
-	 * @param clazz
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startActivity(Class<? extends Activity> clazz, boolean forResult);
 
@@ -54,6 +55,7 @@ public interface Extendable {
 	 * @param clazz
 	 * @param id
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult);
 
@@ -62,6 +64,7 @@ public interface Extendable {
 	 * 
 	 * @param clazz
 	 * @param id
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult);
 
@@ -72,6 +75,7 @@ public interface Extendable {
 	 * @param key
 	 * @param value
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult);
 
@@ -83,6 +87,7 @@ public interface Extendable {
 	 * @param key
 	 * @param value
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value,
 			boolean forResult);
@@ -93,6 +98,7 @@ public interface Extendable {
 	 * @param clazz
 	 * @param args
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult);
 
@@ -105,12 +111,9 @@ public interface Extendable {
 	 *            Integer类型表示是选项，Long和String类型表示是ID，其他类型则为参数。
 	 * @param args
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult);
-
-	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data);
-
-	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data);
 
 
 	public void finishWithId(long id);

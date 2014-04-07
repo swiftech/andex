@@ -14,6 +14,7 @@ public interface ActivityExtendable extends Extendable {
 	 * @param frag
 	 * @param resId
 	 * @return
+	 * @deprecated
 	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId);
 
@@ -25,6 +26,7 @@ public interface ActivityExtendable extends Extendable {
 	 * @param argKey
 	 * @param argValue
 	 * @return
+	 * @deprecated
 	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, String argKey, Serializable argValue);
 
@@ -35,6 +37,7 @@ public interface ActivityExtendable extends Extendable {
 	 * @param resId
 	 * @param args
 	 *            启动Fragment附带的参数列表，用getArguments()获取。
+	 * @deprecated
 	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, Bundle args);
 	

@@ -9,7 +9,7 @@ import android.provider.MediaStore;
 import java.io.File;
 
 /**
- * Created by yuxing on 14-4-4.
+ *
  */
 public class IntentManager {
 

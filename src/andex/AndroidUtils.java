@@ -406,6 +406,7 @@ public class AndroidUtils {
 	 * @param msg
 	 * @param clsActivity 点击后调用的Activity
 	 * @param sticky 是否常驻状态栏
+	 * @deprecated to NotificationBuilder
 	 */
 	public static void showNotification(Context context, int id, int icon, String title, String msg, Class clsActivity,
 			boolean sticky) {
@@ -422,6 +423,7 @@ public class AndroidUtils {
 	 * @param msg
 	 * @param notificationIntent
 	 * @param sticky
+	 * @deprecated to NotificationBuilder
 	 */
 	public static void showNotification(Context context, int id, int icon, String title, String msg,
 			Intent notificationIntent, boolean sticky) {

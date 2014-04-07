@@ -1,6 +1,8 @@
 package andex.controller;
 
 import andex.Constants;
+import andex.Utils;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,27 +17,59 @@ public class ActivityBuilder {
 
 	public final int REQUEST_CODE_DEFAULT = 1000;
 
-	Intent intent;
-	Class activityClass;
-	Fragment preFrag;
 	Context context;
 
+	Intent intent;
+	Fragment preFrag;
+	Class activityClass;
+	String activityName;
+
+	/**
+	 * 通过指定Activity名字来启动它。
+	 * @param context
+	 * @param preFrag 从哪个Fragment创建并启动Activity的，如果没有则设置为null
+	 * @param activityName 想要启动的Actvity名字
+	 */
+	public ActivityBuilder(Context context, Fragment preFrag, String activityName) {
+		if (preFrag == null) {
+			throw new IllegalArgumentException("Previous Fragment Needed");
+		}
+		this.context = context;
+		this.preFrag = preFrag;
+		this.activityName = activityName;
+		this.intent = new Intent(Intent.ACTION_VIEW);
+		ComponentName cn = new ComponentName(Utils.getClass(this).getPackage().getName(), activityName);
+		intent.setComponent(cn);
+	}
+
+	/**
+	 * 通过指定Activity类型启动它。
+	 * @param context
+	 * @param preFrag 从哪个Fragment创建并启动Activity的，如果没有则设置为null
+	 * @param activityClass 想要启动的Actvity类型
+	 */
 	public ActivityBuilder(Context context, Fragment preFrag, Class activityClass) {
 		if (preFrag == null) {
 			throw new IllegalArgumentException("Previous Fragment Needed");
 		}
-		this.activityClass = activityClass;
-		this.preFrag = preFrag;
 		this.context = context;
+		this.preFrag = preFrag;
+		this.activityClass = activityClass;
 		this.intent = new Intent(context, activityClass);
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @return
+	 */
 	public ActivityBuilder withId(long id) {
 		with(Constants.INTENT_DATA_ID_KEY, id);
 		return this;
 	}
 
 	/**
+	 *
 	 * @param key
 	 * @param value
 	 * @return
@@ -46,11 +80,21 @@ public class ActivityBuilder {
 	}
 
 	/**
+	 *
 	 * @param args
 	 * @return
 	 */
 	public ActivityBuilder with(Bundle args) {
 		intent.putExtras(args);
+		return this;
+	}
+
+	/**
+	 * Intent.FLAG_ACTIVITY_CLEAR_TOP 标志
+	 * @return
+	 */
+	public ActivityBuilder clearTop() {
+		intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		return this;
 	}
 

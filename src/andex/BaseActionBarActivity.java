@@ -194,14 +194,12 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		return new FragmentBuilder(this, fragment).replace(resId);
 	}
 
-	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra(Constants.INTENT_DATA_LIST_KEY, data);
 		startActivity(intent);
 	}
 
-	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, new DataRow(data));
@@ -324,9 +322,8 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 			return null;
 		}
 		if (Constants.debugMode) {
-			for (Iterator it = bundle.keySet().iterator(); it.hasNext();) {
-				Object key = it.next();
-				Log.v("andex", String.format("  ARG: %s = %s", key, bundle.get(key.toString())));
+			for (String key : bundle.keySet()) {
+				Log.v("andex", String.format("  ARG: %s = %s", key, bundle.get(key)));
 			}
 		}
 		return bundle.get(argName);

@@ -1,9 +1,5 @@
 package andex;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.Map;
-
 import andex.Callback.CallbackAdapter;
 import andex.controller.FragmentBuilder;
 import andex.model.DataList;
@@ -28,16 +24,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.SurfaceView;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * 提供常用功能的基础Activity类<td/>
@@ -107,6 +102,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	/**
 	 * 按照Activity类的名字启动（相同的classpath下面）
 	 * @param actName
+	 * @deprecated
 	 */
 	public void startActivityByName(String actName) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -118,6 +114,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	/**
 	 * 按照Activity的Class启动
 	 * @param clazz
+	 * @deprecated to ActivityBuilder.clearTop()
 	 */
 	public void startActivityWithoutTrace(Class<? extends Activity> clazz) {
 		Intent intent = new Intent(context, clazz);
@@ -235,14 +232,12 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 		}
 	}
 
-	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra(Constants.INTENT_DATA_LIST_KEY, data);
 		startActivity(intent);
 	}
 
-	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra("TEST", 999);

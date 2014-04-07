@@ -124,11 +124,17 @@ public class Utils {
 	}
 
 	public static Class getClass(Object target) {
+		if (target == null) {
+			return null;
+		}
 		return target.getClass();
 	}
 
 	public static String getClassName(Object target) {
-		return ((Object)target).getClass().getName();
+		if (target == null) {
+			return null;
+		}
+		return ((Object) target).getClass().getName();
 	}
 
 }

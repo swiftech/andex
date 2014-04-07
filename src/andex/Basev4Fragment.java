@@ -2,6 +2,7 @@ package andex;
 
 import andex.controller.ActivityBuilder;
 import andex.controller.FragmentBuilder;
+import andex.controller.ResultBuilder;
 import andex.model.DataList;
 import andex.model.DataRow;
 import andex.view.SimpleDialog;
@@ -38,7 +39,6 @@ import java.util.Map;
  * 扩展的基础Fragment类。
  * 注意：必须在使用前通过构造函数注入、或者onCreate()方法中设置布局资源ID。
  *
- * @author yuxing
  *
  */
 public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragment implements Extendable{
@@ -49,7 +49,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	/** 当前Fragment的引用 */
 	public Fragment thisFragment;
 	
-	/** 前一个Fragment（即调用startFragment()方法跳至当前Fragment的）*/
+	/** 前一个Fragment（目前只有需要返回值的情况下才有）*/
 	public Basev4Fragment previousFragment;
 	
 	/** 当前Fragment所属的Activity*/
@@ -584,15 +584,31 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 */
 	@Override
 	public void startActivity(Class<? extends Activity> clazz) {
-		startActivity(clazz, false);
+		buildActivity(clazz).start();
 	}
-	
 
+	/**
+	 *
+	 * @param clazz
+	 * @param key
+	 * @param value
+	 * @param forResult
+	 * @deprecated
+	 */
 	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult) {
 		startActivityWith(clazz, -1L, key, value, forResult);
 	}
 
+	/**
+	 *
+	 * @param clazz
+	 * @param id
+	 * @param key
+	 * @param value
+	 * @param forResult
+	 * @deprecated
+	 */
 	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value,
 			boolean forResult) {
@@ -601,22 +617,11 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 		startActivityWith(clazz, id, args, forResult);	
 	}
 
-	@Override
-	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	/**
 	 * 按照Activity的Class启动
 	 * @param clazz
 	 * @param forResult
+	 * @deprecated
 	 */
 	@Override
 	public void startActivity(Class<? extends Activity> clazz, boolean forResult) {
@@ -634,6 +639,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param clazz
 	 * @param id
 	 * @param forResult
+	 * @deprecated
 	 */
 	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult) {
@@ -645,6 +651,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * use getIdFromPreActivity() to retrieve ID.
 	 * @param clazz
 	 * @param id
+	 * @deprecated
 	 */
 	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult) {
@@ -656,6 +663,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param clazz
 	 * @param args andex.Constants.INTENT_DATA_ARGS_KEY
 	 * @param forResult
+	 * @deprecated
 	 */
 	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
@@ -670,6 +678,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param id Integer类型表示是选项，Long和String类型表示是ID，其他类型则为参数。
 	 * @param args andex.Constants.INTENT_DATA_ARGS_KEY
 	 * @param forResult
+	 * @deprecated
 	 */
 	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
@@ -721,8 +730,9 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param forResult
 	 */
 	public void startFragment(Basev4Fragment fragment, int resId, boolean forResult) {
-		FragmentBuilder fragmentBuilder = buildFragment(fragment, resId).start();
-		if(forResult) {
+		FragmentBuilder fragmentBuilder = buildFragment(fragment, resId)
+				.backstack().start();
+		if (forResult) {
 			fragmentBuilder.result();
 		}
 //		FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -927,7 +937,8 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 
 	
 	/**
-	 * 直接返回至前一个Fragment（将当前的Fragment退出堆栈），如果没有更多...TODO
+	 * 直接返回至前一个Fragment（将当前的Fragment退出堆栈），如果没有更多...
+	 * @deprecated
 	 */
 	public void backToPrevious() {
 		handler.post(new Runnable() {
@@ -938,27 +949,56 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 				}
 				else {
 					if (!getFragmentManager().popBackStackImmediate()) {
-						if (parentActivity != null) {
-							parentActivity.finish();
-						}
+//						if (parentActivity != null) {
+//							parentActivity.finish();
+//						}
 					}
 				}
 			}
 		});
 	}
-	
+
 	/**
-	 * 结束当前的Fragment
+	 * 创建无返回值的结果。
+	 * @return
+	 */
+	public ResultBuilder buildResult() {
+		return new ResultBuilder(context).fragment(this);
+	}
+
+	/**
+	 * 创建要返回给前一Fragment的结果。
+	 * @return
+	 */
+	public ResultBuilder buildResultToPrevFragment() {
+		return new ResultBuilder(context).fragment(this, previousFragment);
+	}
+
+	/**
+	 * 创建要finish父Activity的结果。
+	 * @return
+	 */
+	public ResultBuilder buildResultNoActivity() {
+		return new ResultBuilder(context).fragment(this, parentActivity);
+	}
+
+	/**
+	 * 结束当前的Fragment，返回至前一个Fragment（如果设定有返回值的话）
 	 */
 	public void finish() {
 		if (this.getFragmentManager() == null) {
-			Log.w("andex", "无法获得FragmentManager");
+			Log.w("andex", "No fragment manager!");
 		}
 		else {
-			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-			ft.remove(this);
-			ft.commit();
-			backToPrevious();
+			getFragmentManager().popBackStackImmediate();
+//			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+//			ft.remove(this);
+//			if (previousFragment != null) {
+//				Log.d("andex", "Back to previous fragment");
+//				ft.add(previousFragment, Utils.getClassName(previousFragment));
+//				ft.addToBackStack(Utils.getClassName(previousFragment));
+//			}
+//			ft.commit();
 		}
 	}
 	
@@ -1019,6 +1059,10 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	}
 	
 	protected void onFragmentResult(Object data) {
+		// NOTHING NEED TO DO FOR NOW, INHERIT ME.
+	}
+
+	public void onFragmentResult(Bundle args) {
 		// NOTHING NEED TO DO FOR NOW, INHERIT ME.
 	}
 	
