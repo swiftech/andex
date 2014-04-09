@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,26 +29,22 @@ public class BaseAdapter2 extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new NotImplementedException("");
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotImplementedException("");
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new NotImplementedException("");
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotImplementedException("");
 	}
 
 }

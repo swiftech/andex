@@ -27,8 +27,8 @@ public class Flog {
 			i("Flog was already inited");
 			return true;
 		}
-		String fname = dir + "/" + Utils.stringifyDate(Calendar.getInstance()) + ".log";
-		File file = new File(fname);
+		String fName = dir + "/" + Utils.stringifyDate(Calendar.getInstance()) + ".log";
+		File file = new File(fName);
 		
 		if (!file.getParentFile().exists()) {
 			if (!file.getParentFile().mkdirs()) {
@@ -40,7 +40,7 @@ public class Flog {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		i("Log to file: " + fname);
+		i("Log to file: " + fName);
 		return true;
 	}
 	
@@ -113,8 +113,8 @@ public class Flog {
 							ex.getMessage());
 					fos.write(emsg.getBytes());
 					StackTraceElement[] trace = ex.getStackTrace();
-					for (int i = 0; i < trace.length; i++) {
-						String traceMsg = String.format("    %s \r\n", trace[i].toString());
+					for (StackTraceElement aTrace : trace) {
+						String traceMsg = String.format("    %s \r\n", aTrace.toString());
 						fos.write(traceMsg.getBytes());
 					}
 				}

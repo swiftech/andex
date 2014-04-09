@@ -6,6 +6,7 @@ import java.util.*;
  *
  */
 public class MapUtils {
+
 	/**
 	 * Return default string value if not exist.
 	 *

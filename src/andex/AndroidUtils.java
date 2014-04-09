@@ -85,8 +85,7 @@ public class AndroidUtils {
 	 */
 	public static int[] getAppVersion(Context ctx, String packageName) {
 		List<PackageInfo> pkgs = ctx.getPackageManager().getInstalledPackages(0);
-		for (Iterator it = pkgs.iterator(); it.hasNext();) {
-			PackageInfo pi = (PackageInfo) it.next();
+		for (PackageInfo pi : pkgs) {
 			if (pi.packageName.equals(packageName)) {
 				StringTokenizer token = new StringTokenizer(pi.versionName, ".");
 				int[] result = new int[token.countTokens()];
@@ -107,8 +106,7 @@ public class AndroidUtils {
 	 */
 	public static String getAppVersionString(Context ctx, String packageName) {
 		List<PackageInfo> pkgs = ctx.getPackageManager().getInstalledPackages(0);
-		for (Iterator it = pkgs.iterator(); it.hasNext();) {
-			PackageInfo pi = (PackageInfo) it.next();
+		for (PackageInfo pi : pkgs) {
 			if (pi.packageName.equals(packageName)) {
 				return pi.versionName;
 			}
@@ -383,6 +381,7 @@ public class AndroidUtils {
 	 * @param msg
 	 * @param activity 点击后调用的Activity
 	 * @param sticky 是否常驻状态栏
+	 * @deprecated
 	 */
 	public static void showNotification_depreacted(Context context, int id, int icon,String title, String msg, Class activity, boolean sticky) {
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
