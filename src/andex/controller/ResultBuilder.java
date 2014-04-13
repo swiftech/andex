@@ -35,7 +35,7 @@ public class ResultBuilder {
 	}
 
 	/**
-	 * 结束当前的Fragment
+	 * 标注结束当前的Fragment
 	 * @param thisFragment
 	 * @return
 	 */
@@ -48,7 +48,7 @@ public class ResultBuilder {
 	}
 
 	/**
-	 * 结束当前的Fragment，并且也结束父Activity
+	 * 标注结束当前的Fragment，并且也结束父Activity
 	 * @param thisFragment
 	 * @param parentActivity
 	 * @return
@@ -63,7 +63,7 @@ public class ResultBuilder {
 	}
 
 	/**
-	 * 结束当前的Fragment，并且返回数据给前面的Fragment
+	 * 标注结束当前的Fragment，并且返回数据给前面的Fragment
 	 * 与activity()方法互斥
 	 *
 	 * @param thisFrag
@@ -80,7 +80,7 @@ public class ResultBuilder {
 	}
 
 	/**
-	 * 与fragment()方法互斥
+	 * 标注结束当前的Activity，与fragment()方法互斥
 	 *
 	 * @param activity
 	 * @return
@@ -93,16 +93,32 @@ public class ResultBuilder {
 		return this;
 	}
 
+	/**
+	 * 添加返回参数
+	 * @param key
+	 * @param value
+	 * @return
+	 */
 	public ResultBuilder with(String key, Serializable value) {
 		this.args.putSerializable(key, value);
 		return this;
 	}
 
+	/**
+	 * 批量添加返回参数
+	 * @param args
+	 * @return
+	 */
 	public ResultBuilder with(Bundle args) {
 		this.args.putAll(args);
 		return this;
 	}
 
+	/**
+	 * 批量添加返回参数
+	 * @param mapArgs
+	 * @return
+	 */
 	public ResultBuilder with(Map<String, Serializable> mapArgs) {
 		for (String key : mapArgs.keySet()) {
 			this.args.putSerializable(key, mapArgs.get(key));
@@ -110,6 +126,11 @@ public class ResultBuilder {
 		return this;
 	}
 
+	/**
+	 * 批量添加返回参数
+	 * @param dataRowArgs
+	 * @return
+	 */
 	public ResultBuilder with(DataRow dataRowArgs) {
 		throw new NotImplementedException("");
 //		return this;

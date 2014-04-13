@@ -13,7 +13,6 @@ import android.webkit.WebView;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-import java.io.Serializable;
 import java.util.Map;
 
 public interface Extendable {
@@ -26,95 +25,11 @@ public interface Extendable {
 	public void startActivity(Class<? extends Activity> clazz);
 
 	/**
-	 * 按照Activity类的名字启动（相同的classpath下面）
-	 *
-	 * @param actName
-	 * @deprecated
-	 */
-	public void startActivityByName(String actName);
-
-	/**
-	 * 按照Activity的Class启动
-	 *
-	 * @param clazz
-	 */
-	public void startActivityWithoutTrace(Class<? extends Activity> clazz);
-
-	/**
-	 * 按照Activity的Class启动
-	 * 
+	 * 按照Activity的Class启动并返回
 	 * @param clazz
 	 * @param forResult
-	 * @deprecated
 	 */
 	public void startActivity(Class<? extends Activity> clazz, boolean forResult);
-
-	/**
-	 * 启动Activity，附带选项ID，并监听返回。 Start activity with option ID that represent a selection from multi-options.
-	 * 
-	 * @param clazz
-	 * @param id
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult);
-
-	/**
-	 * Start activity with biz ID that represent a data row's PK usually. use getIdFromPreActivity() to retrieve ID.
-	 * 
-	 * @param clazz
-	 * @param id
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult);
-
-	/**
-	 * 启动一个Activity，无ID，附带一对键值参数。 在新Activity中用getArgFromPreActivity()方法获取参数值。
-	 * 
-	 * @param clazz
-	 * @param key
-	 * @param value
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult);
-
-	/**
-	 * 启动一个Activity，附带ID和一对键值参数。 在新Activity中用getArgFromPreActivity()方法获取参数值。
-	 * 
-	 * @param clazz
-	 * @param id
-	 * @param key
-	 * @param value
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value,
-			boolean forResult);
-
-	/**
-	 * Start activity with arguments.
-	 * 
-	 * @param clazz
-	 * @param args
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult);
-
-	/**
-	 * Start activity with biz ID and arguments. use getIdFromPreActivity() to retrieve ID. use getArgsFromPreActivity()
-	 * to retrieve arguments.
-	 * 
-	 * @param clazz
-	 * @param id
-	 *            Integer类型表示是选项，Long和String类型表示是ID，其他类型则为参数。
-	 * @param args
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult);
-
 
 	public void finishWithId(long id);
 

@@ -104,7 +104,10 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
 
-	@Override
+	/**
+	 * @deprecated
+	 * @param actName
+	 */
 	public void startActivityByName(String actName) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		ComponentName cn = new ComponentName(Utils.getClass(this).getPackage().getName(), actName);
@@ -112,19 +115,29 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		startActivity(intent);
 	}
 
-	@Override
+	/**
+	 * @deprecated
+	 * @param clazz
+	 */
 	public void startActivityWithoutTrace(Class<? extends Activity> clazz) {
 		Intent intent = new Intent(context, clazz);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 * @param clazz
+	 */
 	public void startActivity(Class<? extends Activity> clazz) {
 		startActivity(clazz, false);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 * @param clazz
+	 * @param forResult
+	 */
 	public void startActivity(Class<? extends Activity> clazz, boolean forResult) {
 		if(forResult) {
 			startActivityForResult(new Intent(context, clazz), Constants.REQUEST_CODE_DEFAULT);
@@ -134,22 +147,49 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		}
 	}
 
-	@Override
+	/**
+	 * @deprecated
+	 * @param clazz
+	 * @param id
+	 * @param forResult
+	 * @deprecated
+	 */
 	public void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult) {
 		startActivityWith(clazz, id, null, forResult);	
 	}
 
-	@Override
+	/**
+	 * @deprecated
+	 * @param clazz
+	 * @param id
+	 * @param forResult
+	 * @deprecated
+	 */
 	public void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult) {
 		startActivityWith(clazz, id, null, forResult);	
 	}
 
-	@Override
+	/**
+	 * @deprecated
+	 * @param clazz
+	 * @param key
+	 * @param value
+	 * @param forResult
+	 * @deprecated
+	 */
 	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult) {
 		startActivityWith(clazz, -1L, key, value, forResult);
 	}
 
-	@Override
+	/**
+	 * @deprecated
+	 * @param clazz
+	 * @param id
+	 * @param key
+	 * @param value
+	 * @param forResult
+	 * @deprecated
+	 */
 	public void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value,
 			boolean forResult) {
 		Bundle args = new Bundle();
@@ -157,12 +197,25 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		startActivityWith(clazz, id, args, forResult);	
 	}
 
-	@Override
+	/**
+	 * @deprecated
+	 * @param clazz
+	 * @param args
+	 * @param forResult
+	 * @deprecated
+	 */
 	public void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
 		startActivityWith(clazz, 0, args, forResult);	
 	}
 
-	@Override
+	/**
+	 * @deprecated
+	 * @param clazz
+	 * @param id
+	 * @param args
+	 * @param forResult
+	 * @deprecated
+	 */
 	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
 		Intent intent = new Intent(context, clazz);
 		if(id instanceof Integer) {
@@ -185,6 +238,30 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	}
 
 	/**
+	 * @deprecated
+	 * @param clazz
+	 * @param data
+	 * @deprecated
+	 */
+	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
+		Intent intent = new Intent(context, clazz);
+		intent.putExtra(Constants.INTENT_DATA_LIST_KEY, data);
+		startActivity(intent);
+	}
+
+	/**
+	 * @deprecated
+	 * @param clazz
+	 * @param data
+	 * @deprecated
+	 */
+	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data) {
+		Intent intent = new Intent(context, clazz);
+		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, new DataRow(data));
+		startActivity(intent);
+	}
+
+	/**
 	 * 创建跳转至指定Fragment的构造器。
 	 * @param fragment
 	 * @param resId
@@ -194,19 +271,13 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		return new FragmentBuilder(this, fragment).replace(resId);
 	}
 
-	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
-		Intent intent = new Intent(context, clazz);
-		intent.putExtra(Constants.INTENT_DATA_LIST_KEY, data);
-		startActivity(intent);
-	}
-
-	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data) {
-		Intent intent = new Intent(context, clazz);
-		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, new DataRow(data));
-		startActivity(intent);
-	}
-
-	@Override
+	/**
+	 * @deprecated
+	 * @param frag
+	 * @param resId
+	 * @return
+	 * @deprecated
+	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 		ft.replace(resId, frag, Utils.getClassName(frag));
@@ -214,7 +285,15 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		return frag;
 	}
 
-	@Override
+	/**
+	 * @deprecated
+	 * @param frag
+	 * @param resId
+	 * @param argKey
+	 * @param argValue
+	 * @return
+	 * @deprecated
+	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, String argKey, Serializable argValue) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 		Bundle args = new Bundle();
@@ -225,7 +304,14 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		return frag;
 	}
 
-	@Override
+	/**
+	 * @deprecated
+	 * @param frag
+	 * @param resId
+	 * @param args
+	 * @return
+	 * @deprecated
+	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, Bundle args) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 		frag.setArguments(args);
@@ -234,10 +320,9 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		return frag;
 	}
 
-//	public Basev4Fragment pushFragment(Basev4Fragment frag) {
-//		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-//	}
-
+	/**
+	 * @param id
+	 */
 	@Override
 	public void finishWithId(long id) {
 		getIntent().getExtras().putLong(Constants.INTENT_DATA_ID_KEY, id);

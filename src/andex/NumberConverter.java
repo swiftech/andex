@@ -9,7 +9,9 @@ import java.util.Map;
  *
  */
 public class NumberConverter {
-	protected static Map<Class, Converter> CONVERTERS = new HashMap();
+
+	protected static Map<Class, Converter> CONVERTERS = new HashMap<Class, Converter>();
+
 	static {
 		CONVERTERS.put(Integer.class, new Converter<Integer>() {
 			public Integer convert(Object value) {

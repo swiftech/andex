@@ -123,7 +123,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	}
 	
 	/**
-	 * 按照Activity的Class启动
+	 * {@inheritDoc}
 	 * @param clazz
 	 */
 	public void startActivity(Class<? extends Activity> clazz) {
@@ -131,7 +131,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	}
 	
 	/**
-	 * 按照Activity的Class启动
+	 * {@inheritDoc}
 	 * @param clazz
 	 * @param forResult
 	 */
@@ -150,6 +150,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 * @param clazz
 	 * @param id
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult) {
 		startActivityWith(clazz, id, null, forResult);	
@@ -160,6 +161,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 * use getIdFromPreActivity() to retrieve ID.
 	 * @param clazz
 	 * @param id
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult) {
 		startActivityWith(clazz, id, null, forResult);	
@@ -172,6 +174,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 * @param key
 	 * @param value
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult) {
 		startActivityWith(clazz, -1L, key, value, forResult);
@@ -185,6 +188,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 * @param key
 	 * @param value
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value, boolean forResult) {
 		Bundle args = new Bundle();
@@ -197,6 +201,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 * @param clazz
 	 * @param args
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
 		startActivityWith(clazz, 0, args, forResult);	
@@ -210,6 +215,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 * @param id Integer类型表示是选项，Long和String类型表示是ID，其他类型则为参数。
 	 * @param args
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
 		Intent intent = new Intent(context, clazz);
@@ -232,12 +238,20 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra(Constants.INTENT_DATA_LIST_KEY, data);
 		startActivity(intent);
 	}
 
+	/**
+	 * @deprecated
+	 * @param clazz
+	 * @param data
+	 */
 	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra("TEST", 999);

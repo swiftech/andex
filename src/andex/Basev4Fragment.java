@@ -562,7 +562,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 		ft.commit();
 	}
 	
-	@Override
 	public void startActivityByName(String actName) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		ComponentName cn = new ComponentName(Utils.getClass(this).getPackage().getName(), actName);
@@ -570,7 +569,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 		startActivity(intent);
 	}
 
-	@Override
 	public void startActivityWithoutTrace(Class<? extends Activity> clazz) {
 		Intent intent = new Intent(context, clazz);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -595,7 +593,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param forResult
 	 * @deprecated
 	 */
-	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult) {
 		startActivityWith(clazz, -1L, key, value, forResult);
 	}
@@ -609,7 +606,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param forResult
 	 * @deprecated
 	 */
-	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value,
 			boolean forResult) {
 		Bundle args = new Bundle();
@@ -623,7 +619,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param forResult
 	 * @deprecated
 	 */
-	@Override
 	public void startActivity(Class<? extends Activity> clazz, boolean forResult) {
 		if (forResult) {
 			startActivityForResult(new Intent(context, clazz), REQUEST_CODE_DEFAULT);
@@ -641,11 +636,10 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param forResult
 	 * @deprecated
 	 */
-	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult) {
-		startActivityWith(clazz, id, null, forResult);	
+		startActivityWith(clazz, id, null, forResult);
 	}
-	
+
 	/**
 	 * Start activity with biz ID that represent a data row's PK usually.
 	 * use getIdFromPreActivity() to retrieve ID.
@@ -653,11 +647,10 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param id
 	 * @deprecated
 	 */
-	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult) {
-		startActivityWith(clazz, id, null, forResult);	
+		startActivityWith(clazz, id, null, forResult);
 	}
-	
+
 	/**
 	 * Start activity with arguments.
 	 * @param clazz
@@ -665,7 +658,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param forResult
 	 * @deprecated
 	 */
-	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
 		startActivityWith(clazz, 0L, args, forResult);
 	}
@@ -680,7 +672,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param forResult
 	 * @deprecated
 	 */
-	@Override
 	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
 		Intent intent = new Intent(context, clazz);
 		if (id instanceof Integer) {
@@ -728,6 +719,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @param fragment
 	 * @param resId
 	 * @param forResult
+	 * @deprecated
 	 */
 	public void startFragment(Basev4Fragment fragment, int resId, boolean forResult) {
 		FragmentBuilder fragmentBuilder = buildFragment(fragment, resId)
@@ -990,7 +982,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 			Log.w("andex", "No fragment manager!");
 		}
 		else {
-			getFragmentManager().popBackStackImmediate();
+			getFragmentManager().popBackStack();
 //			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
 //			ft.remove(this);
 //			if (previousFragment != null) {
