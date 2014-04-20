@@ -35,8 +35,6 @@ public interface Extendable {
 
 	public void finishWithData(DataRow row);
 
-	public void finishWithData(DataRow row, Bundle args);
-
 	public long getLongIdFromPrevious();
 
 

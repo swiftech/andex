@@ -1,11 +1,5 @@
 package andex.view;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import andex.Callback;
 import andex.Utils;
 import andex.view.SimpleListView.SimpleInfoListViewAdapter;
@@ -19,6 +13,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The base composite view. 
@@ -56,7 +55,7 @@ public abstract class SimpleCompositeView {
 	public SimpleCompositeView(Context context, AbsListView alv) {
 		this.ctx = context;
 		this.absListView = alv;
-		data = new ArrayList();
+		data = new ArrayList<Map<String, ?>>();
 		adapter = getAdapter(context);
 	}
 	
@@ -181,9 +180,7 @@ public abstract class SimpleCompositeView {
 	 * @return
 	 */
 	public SimpleCompositeView addAllItems(Map m) {
-		Iterator it = m.keySet().iterator();
-		while (it.hasNext()) {
-			Object k = it.next();
+		for (Object k : m.keySet()) {
 			Object v = m.get(k);
 			Log.v("", k + "=" + v);
 			if (v != null) {
@@ -199,9 +196,7 @@ public abstract class SimpleCompositeView {
 	 * @return
 	 */
 	public SimpleCompositeView addAllItems(Bundle bundle) {
-		Iterator it = bundle.keySet().iterator();
-		while (it.hasNext()) {
-			Object k = it.next();
+		for (Object k : bundle.keySet()) {
 			Object v = bundle.get(k.toString());
 			Log.v("", k + "=" + v);
 			if (v != null) {
@@ -219,8 +214,7 @@ public abstract class SimpleCompositeView {
 	 * @return
 	 */
 	public SimpleCompositeView addAllItems(List<Map> data, Object k1, Object k2) {
-		for (int i = 0; i < data.size(); i++) {
-			Map m = data.get(i);
+		for (Map m : data) {
 			addItem(m.get(k1), m.get(k2), null);
 		}
 		return this;
@@ -255,9 +249,9 @@ public abstract class SimpleCompositeView {
 		if (id == null) {
 			return null;
 		}
-		for (int i = 0; i < data.size(); i++) {
-			if (data.get(i).get(idkey) == id) {
-				return data.get(i);
+		for (Map<String, ?> aData : data) {
+			if (aData.get(idkey) == id) {
+				return aData;
 			}
 		}
 		return null;
@@ -283,6 +277,7 @@ public abstract class SimpleCompositeView {
 	 * Clear all data.
 	 */
 	public void clear() {
+//		data = new ArrayList<Map<String, ?>>(data.size() + 5);
 		data.clear();
 		// render here will case wrong displaying.
 		// this.render();
@@ -314,7 +309,7 @@ public abstract class SimpleCompositeView {
 		this.absListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long itemid) {
-				Log.v("andex", "  Item at position " + pos + " was clicked");
+				Log.v("andex", String.format("  Item at position %d was clicked", pos));
 				view.setSelected(true); // TODO
 				handleClickEvent(pos, handler);
 			}

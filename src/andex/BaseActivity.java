@@ -1,6 +1,7 @@
 package andex;
 
 import andex.Callback.CallbackAdapter;
+import andex.controller.ActivityBuilder;
 import andex.controller.FragmentBuilder;
 import andex.model.DataList;
 import andex.model.DataRow;
@@ -257,6 +258,10 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 		intent.putExtra("TEST", 999);
 		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, new DataRow(data));
 		startActivity(intent);
+	}
+
+	public ActivityBuilder buildActivity(Class activityClass) {
+		return new ActivityBuilder(context, activityClass);
 	}
 
 	/**

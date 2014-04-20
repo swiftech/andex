@@ -8,9 +8,9 @@ package andex;
  */
 public class SpinnerItem<K, V> {
 	private K id;
-	private Object value;
+	private V value;
 
-	public SpinnerItem(K id, Object value) {
+	public SpinnerItem(K id, V value) {
 		super();
 		this.id = id;
 		this.value = value;
@@ -24,11 +24,11 @@ public class SpinnerItem<K, V> {
 		this.id = id;
 	}
 
-	public Object getValue() {
+	public V getValue() {
 		return value;
 	}
 
-	public void setValue(Object value) {
+	public void setValue(V value) {
 		this.value = value;
 	}
 

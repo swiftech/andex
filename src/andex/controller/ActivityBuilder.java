@@ -27,15 +27,13 @@ public class ActivityBuilder {
 	/**
 	 * 通过指定Activity名字来启动它。
 	 * @param context
-	 * @param preFrag 从哪个Fragment创建并启动Activity的，如果没有则设置为null
 	 * @param activityName 想要启动的Actvity名字
 	 */
-	public ActivityBuilder(Context context, Fragment preFrag, String activityName) {
+	public ActivityBuilder(Context context, String activityName) {
 		if (preFrag == null) {
 			throw new IllegalArgumentException("Previous Fragment Needed");
 		}
 		this.context = context;
-		this.preFrag = preFrag;
 		this.activityName = activityName;
 		this.intent = new Intent(Intent.ACTION_VIEW);
 		ComponentName cn = new ComponentName(Utils.getClass(this).getPackage().getName(), activityName);
@@ -45,17 +43,25 @@ public class ActivityBuilder {
 	/**
 	 * 通过指定Activity类型启动它。
 	 * @param context
-	 * @param preFrag 从哪个Fragment创建并启动Activity的，如果没有则设置为null
 	 * @param activityClass 想要启动的Actvity类型
 	 */
-	public ActivityBuilder(Context context, Fragment preFrag, Class activityClass) {
-		if (preFrag == null) {
-			throw new IllegalArgumentException("Previous Fragment Needed");
-		}
+	public ActivityBuilder(Context context, Class activityClass) {
+//		if (preFrag == null) {
+//			throw new IllegalArgumentException("Previous Fragment Needed");
+//		}
 		this.context = context;
-		this.preFrag = preFrag;
 		this.activityClass = activityClass;
 		this.intent = new Intent(context, activityClass);
+	}
+
+	/**
+	 * 从某个Fragment启动的。
+	 * @param preFrag
+	 * @return
+	 */
+	public ActivityBuilder from(Fragment preFrag) {
+		this.preFrag = preFrag;
+		return this;
 	}
 
 	/**
@@ -102,7 +108,12 @@ public class ActivityBuilder {
 		if (this.intent == null) {
 			throw new IllegalStateException("No Intent Provided");
 		}
-		preFrag.startActivity(this.intent);
+		if (preFrag == null) {
+			context.startActivity(intent);
+		}
+		else {
+			preFrag.startActivity(this.intent);
+		}
 		return this;
 	}
 

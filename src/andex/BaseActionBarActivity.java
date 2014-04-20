@@ -1,6 +1,7 @@
 package andex;
 
 import andex.Callback.CallbackAdapter;
+import andex.controller.ActivityBuilder;
 import andex.controller.FragmentBuilder;
 import andex.model.DataList;
 import andex.model.DataRow;
@@ -261,6 +262,10 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		startActivity(intent);
 	}
 
+	public ActivityBuilder buildActivity(Class activityClass) {
+		return new ActivityBuilder(context, activityClass);
+	}
+
 	/**
 	 * 创建跳转至指定Fragment的构造器。
 	 * @param fragment
@@ -334,7 +339,6 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		finishWithData(row, null);
 	}
 
-	@Override
 	public void finishWithData(DataRow row, Bundle args) {
 		Intent intent = new Intent();
 //		debug("finishWithData() " + row.getClass());

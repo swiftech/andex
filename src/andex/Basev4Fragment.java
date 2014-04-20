@@ -711,7 +711,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @return
 	 */
 	public ActivityBuilder buildActivity(Class activityClass) {
-		return new ActivityBuilder(context, this, activityClass);
+		return new ActivityBuilder(context, activityClass).from(this);
 	}
 
 	/**
@@ -996,6 +996,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	
 	/**
 	 * TODO 待测试
+	 * @deprecated ?
 	 */
 	@Override
 	public void finishWithId(long id) {
@@ -1007,6 +1008,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	
 	/**
 	 * 结束当前Fragment中的业务逻辑，前面一个Fragment（有的话）的onFragmentResult()方法会被调用并传递数据。
+	 * @deprecated  ?
 	 */
 	@Override
 	public void finishWithData(DataRow data) {
@@ -1019,6 +1021,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	/**
 	 * 结束当前Fragment中的业务逻辑，前面一个Fragment（有的话）的onFragmentResult()方法会被调用并传递数据。
 	 * @param data
+	 * @deprecated  ?
 	 */
 	public void finishWithData(Map data) {
 		if (previousFragment != null) {
@@ -1027,17 +1030,17 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 		finish();
 	}
 
+	/**
+	 * @deprecated ?
+	 * @param data
+	 */
 	public void finishWithData(Object data) {
 		if (previousFragment != null) {
 			previousFragment.onFragmentResult(data);
 		}
 		finish();
 	}
-	
-	public void finishWithData(DataRow row, Bundle args){
-		throw new UnsupportedOperationException();
-	}
-	
+
 	/**
 	 * 当从一个Fragment返回时调用，并且附带数据（可以为NULL）。
 	 * @param data

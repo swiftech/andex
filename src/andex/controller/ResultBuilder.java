@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * For building activity or thisFragment results.
+ * For building activity or fragment results.
  */
 public class ResultBuilder {
 
