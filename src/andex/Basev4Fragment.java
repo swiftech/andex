@@ -585,33 +585,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 		buildActivity(clazz).start();
 	}
 
-	/**
-	 *
-	 * @param clazz
-	 * @param key
-	 * @param value
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult) {
-		startActivityWith(clazz, -1L, key, value, forResult);
-	}
-
-	/**
-	 *
-	 * @param clazz
-	 * @param id
-	 * @param key
-	 * @param value
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value,
-			boolean forResult) {
-		Bundle args = new Bundle();
-		args.putSerializable(key, value);
-		startActivityWith(clazz, id, args, forResult);	
-	}
 
 	/**
 	 * 按照Activity的Class启动
@@ -628,40 +601,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 		}
 	}
 
-	/**
-	 * 启动Activity，附带选项ID，并监听返回。
-	 * Start activity with option ID that represent a selection from multi-options.
-	 * @param clazz
-	 * @param id
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult) {
-		startActivityWith(clazz, id, null, forResult);
-	}
-
-	/**
-	 * Start activity with biz ID that represent a data row's PK usually.
-	 * use getIdFromPreActivity() to retrieve ID.
-	 * @param clazz
-	 * @param id
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult) {
-		startActivityWith(clazz, id, null, forResult);
-	}
-
-	/**
-	 * Start activity with arguments.
-	 * @param clazz
-	 * @param args andex.Constants.INTENT_DATA_ARGS_KEY
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
-		startActivityWith(clazz, 0L, args, forResult);
-	}
-	
 	/**
 	 * Start activity with biz ID and arguments.
 	 * use getIdFromPreActivity() to retrieve ID.
@@ -714,119 +653,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 		return new ActivityBuilder(context, activityClass).from(this);
 	}
 
-	/**
-	 * 在资源ID指定的位置显示Fragment，如果forResult为true的话，将会在调用finishWithData(Object)后回调前一个Fragment的onFragmentResult()方法
-	 * @param fragment
-	 * @param resId
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startFragment(Basev4Fragment fragment, int resId, boolean forResult) {
-		FragmentBuilder fragmentBuilder = buildFragment(fragment, resId)
-				.backstack().start();
-		if (forResult) {
-			fragmentBuilder.result();
-		}
-//		FragmentTransaction ft = getFragmentManager().beginTransaction();
-//		ft.replace(resId, fragment, Utils.getClassName(fragment));
-//		ft.addToBackStack(Utils.getClassName(fragment));
-//		ft.commit();
-//		if (forResult) {
-//			fragment.previousFragment = this;
-//		}
-	}
-
-	/**
-	 * 在资源ID指定的位置显示Fragment，如果forResult为true的话，将会在调用finishWithData(Object)后回调前一个Fragment的onFragmentResult()方法
-	 * @param fragment
-	 * @param resId
-	 * @param id
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startFragmentWithId(Basev4Fragment fragment, int resId, long id, boolean forResult) {
-//		Bundle bundle = new Bundle();
-//		bundle.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
-//		fragment.setArguments(bundle);
-//		FragmentTransaction ft = getFragmentManager().beginTransaction();
-//		ft.replace(resId, fragment, Utils.getClassName(fragment));
-//		ft.commit();
-//		if (forResult) {
-//			fragment.previousFragment = this;
-//		}
-		
-		startFragmentWith(fragment, resId, Constants.FRAGMENT_DATA_ID_KEY, id, forResult);
-	}
-	
-	/**
-	 * 
-	 * @param fragment
-	 * @param resId
-	 * @param key
-	 * @param value
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startFragmentWith(Basev4Fragment fragment, int resId, String key, Serializable value, boolean forResult) {
-		Bundle bundle = new Bundle();
-		bundle.putSerializable(key, value);
-		fragment.setArguments(bundle);
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(resId, fragment, Utils.getClassName(fragment));
-		ft.addToBackStack(Utils.getClassName(fragment));
-		ft.commit();
-		if (forResult) {
-			fragment.previousFragment = this;
-		}
-	}
-
-	/**
-	 *
-	 * @deprecated
-	 * @param fragment
-	 * @param resId
-	 * @param id
-	 * @param args
-	 * @param forResult
-	 */
-	public void startFragmentWith(Basev4Fragment fragment, int resId, long id, Bundle args, boolean forResult) {
-		args.putLong(Constants.FRAGMENT_DATA_ID_KEY, id);
-		fragment.setArguments(args);
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(resId, fragment, Utils.getClassName(fragment));
-		ft.addToBackStack(Utils.getClassName(fragment));
-		ft.commit();
-		if (forResult) {
-			fragment.previousFragment = this;
-		}
-	}
-
-	/**
-	 * <p>在资源ID指定的位置显示Fragment，如果forResult为true的话，
-	 * 将会在调用finishWithData(Object)后回调前一个Fragment的onFragmentResult()方法
-	 * @param fragment
-	 * @param resId
-	 * @param bundle
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startFragmentWithArgs(Basev4Fragment fragment, int resId, Bundle bundle, boolean forResult) {
-		fragment.setArguments(bundle);
-		
-		FragmentManager fm = getFragmentManager();
-		if (fm == null) {
-			Log.w("andex", "Failed to get Fragment manager");
-			return;
-		}
-		FragmentTransaction ft = fm.beginTransaction();
-		ft.replace(resId, fragment, Utils.getClassName(fragment));
-		ft.addToBackStack(Utils.getClassName(fragment));
-		ft.commit();
-		if (forResult) {
-			fragment.previousFragment = this;
-		}
-	}
-	
 	/**
 	 * 从前一个调用该Fragment的地方获得传递过来的Long类型的ID。
 	 * @return

@@ -146,69 +146,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	}
 
 	/**
-	 * 启动Activity，附带选项ID，并监听返回。
-	 * Start activity with option ID that represent a selection from multi-options.
-	 * @param clazz
-	 * @param id
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult) {
-		startActivityWith(clazz, id, null, forResult);	
-	}
-	
-	/**
-	 * Start activity with biz ID that represent a data row's PK usually.
-	 * use getIdFromPreActivity() to retrieve ID.
-	 * @param clazz
-	 * @param id
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult) {
-		startActivityWith(clazz, id, null, forResult);	
-	}
-	
-	/**
-	 * 启动一个Activity，无ID，附带一对键值参数。
-	 * 在新Activity中用getArgFromPreActivity()方法获取参数值。
-	 * @param clazz
-	 * @param key
-	 * @param value
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult) {
-		startActivityWith(clazz, -1L, key, value, forResult);
-	}
-
-	/**
-	 * 启动一个Activity，附带ID和一对键值参数。
-	 * 在新Activity中用getArgFromPreActivity()方法获取参数值。
-	 * @param clazz
-	 * @param id
-	 * @param key
-	 * @param value
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value, boolean forResult) {
-		Bundle args = new Bundle();
-		args.putSerializable(key, value);
-		startActivityWith(clazz, id, args, forResult);	
-	}
-	
-	/**
-	 * Start activity with arguments.
-	 * @param clazz
-	 * @param args
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
-		startActivityWith(clazz, 0, args, forResult);	
-	}
-	
-	/**
 	 * Start activity with biz ID and arguments.
 	 * use getIdFromPreActivity() to retrieve ID.
 	 * use getArgsFromPreActivity() to retrieve arguments.
@@ -239,27 +176,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 		}
 	}
 
-	/**
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
-		Intent intent = new Intent(context, clazz);
-		intent.putExtra(Constants.INTENT_DATA_LIST_KEY, data);
-		startActivity(intent);
-	}
-
-	/**
-	 * @deprecated
-	 * @param clazz
-	 * @param data
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data) {
-		Intent intent = new Intent(context, clazz);
-		intent.putExtra("TEST", 999);
-		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, new DataRow(data));
-		startActivity(intent);
-	}
-
 	public ActivityBuilder buildActivity(Class activityClass) {
 		return new ActivityBuilder(context, activityClass);
 	}
@@ -282,46 +198,11 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 * @deprecated
 	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId) {
-		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-		ft.replace(resId, frag, Utils.getClassName(frag));
-		ft.commit();
+		buildFragment(frag, resId).start();
 		return frag;
 	}
 	
-	/**
-	 * 在资源ID指定的位置显示Fragment，附带一对键值参数。
-	 * @param frag
-	 * @param resId
-	 * @param argKey
-	 * @param argValue
-	 * @return
-	 * @deprecated
-	 */
-	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, String argKey, Serializable argValue) {
-		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-		Bundle args = new Bundle();
-		args.putSerializable(argKey, argValue);
-		frag.setArguments(args);
-		ft.replace(resId, frag, Utils.getClassName(frag));
-		ft.commit();
-		return frag;
-	}
-	
-	/**
-	 * 在资源ID指定的位置显示Fragment，附带Bundle参数。
-	 * @param frag
-	 * @param resId
-	 * @param args 启动Fragment附带的参数列表，用getArguments()获取。
-	 * @deprecated
-	 */
-	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, Bundle args) {
-		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-		frag.setArguments(args);
-		ft.replace(resId, frag, Utils.getClassName(frag));
-		ft.commit();
-		return frag;
-	}
-	
+
 	public BaseDialogFragment showDialogFragment(BaseDialogFragment dlgFrag) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 		dlgFrag.show(ft, "andex");

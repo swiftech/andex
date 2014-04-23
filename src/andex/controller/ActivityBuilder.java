@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 /**
  * 如果需要更多的处理（比如特定的参数）可以继承实现自己的Builder。
+ * @see andex.controller.ResultBuilder
  */
 public class ActivityBuilder {
 

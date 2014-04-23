@@ -152,67 +152,6 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	 * @deprecated
 	 * @param clazz
 	 * @param id
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, int id, boolean forResult) {
-		startActivityWith(clazz, id, null, forResult);	
-	}
-
-	/**
-	 * @deprecated
-	 * @param clazz
-	 * @param id
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, long id, boolean forResult) {
-		startActivityWith(clazz, id, null, forResult);	
-	}
-
-	/**
-	 * @deprecated
-	 * @param clazz
-	 * @param key
-	 * @param value
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, String key, Serializable value, boolean forResult) {
-		startActivityWith(clazz, -1L, key, value, forResult);
-	}
-
-	/**
-	 * @deprecated
-	 * @param clazz
-	 * @param id
-	 * @param key
-	 * @param value
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, long id, String key, Serializable value,
-			boolean forResult) {
-		Bundle args = new Bundle();
-		args.putSerializable(key, value);
-		startActivityWith(clazz, id, args, forResult);	
-	}
-
-	/**
-	 * @deprecated
-	 * @param clazz
-	 * @param args
-	 * @param forResult
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, Bundle args, boolean forResult) {
-		startActivityWith(clazz, 0, args, forResult);	
-	}
-
-	/**
-	 * @deprecated
-	 * @param clazz
-	 * @param id
 	 * @param args
 	 * @param forResult
 	 * @deprecated
@@ -238,30 +177,6 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		}
 	}
 
-	/**
-	 * @deprecated
-	 * @param clazz
-	 * @param data
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, DataList<?> data) {
-		Intent intent = new Intent(context, clazz);
-		intent.putExtra(Constants.INTENT_DATA_LIST_KEY, data);
-		startActivity(intent);
-	}
-
-	/**
-	 * @deprecated
-	 * @param clazz
-	 * @param data
-	 * @deprecated
-	 */
-	public void startActivityWith(Class<? extends Activity> clazz, Map<?, ?> data) {
-		Intent intent = new Intent(context, clazz);
-		intent.putExtra(Constants.INTENT_DATA_ROW_KEY, new DataRow(data));
-		startActivity(intent);
-	}
-
 	public ActivityBuilder buildActivity(Class activityClass) {
 		return new ActivityBuilder(context, activityClass);
 	}
@@ -277,51 +192,13 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	}
 
 	/**
-	 * @deprecated
+	 *
 	 * @param frag
 	 * @param resId
 	 * @return
-	 * @deprecated
 	 */
 	public Basev4Fragment showFragment(Basev4Fragment frag, int resId) {
-		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-		ft.replace(resId, frag, Utils.getClassName(frag));
-		ft.commit();
-		return frag;
-	}
-
-	/**
-	 * @deprecated
-	 * @param frag
-	 * @param resId
-	 * @param argKey
-	 * @param argValue
-	 * @return
-	 * @deprecated
-	 */
-	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, String argKey, Serializable argValue) {
-		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-		Bundle args = new Bundle();
-		args.putSerializable(argKey, argValue);
-		frag.setArguments(args);
-		ft.replace(resId, frag, Utils.getClassName(frag));
-		ft.commit();
-		return frag;
-	}
-
-	/**
-	 * @deprecated
-	 * @param frag
-	 * @param resId
-	 * @param args
-	 * @return
-	 * @deprecated
-	 */
-	public Basev4Fragment showFragment(Basev4Fragment frag, int resId, Bundle args) {
-		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-		frag.setArguments(args);
-		ft.replace(resId, frag, Utils.getClassName(frag));
-		ft.commit();
+		buildFragment(frag, resId).start();
 		return frag;
 	}
 
