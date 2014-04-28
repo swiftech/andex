@@ -75,6 +75,11 @@ public class ActivityBuilder {
 		return this;
 	}
 
+	public ActivityBuilder withOption(int option) {
+		with(Constants.FRAGMENT_DATA_OPTION_KEY, option);
+		return this;
+	}
+
 	/**
 	 *
 	 * @param key
