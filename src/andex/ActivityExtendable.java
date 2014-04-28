@@ -6,16 +6,6 @@ import andex.model.DataRow;
 public interface ActivityExtendable extends Extendable {
 
 	/**
-	 * 在资源ID指定的位置显示Fragment
-	 * 
-	 * @param frag
-	 * @param resId
-	 * @return
-	 * @deprecated
-	 */
-	public Basev4Fragment showFragment(Basev4Fragment frag, int resId);
-
-	/**
 	 * 从前一Activity或Fragment获取ID。
 	 * @return
 	 */

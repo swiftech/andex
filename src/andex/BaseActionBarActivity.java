@@ -9,13 +9,11 @@ import andex.view.SimpleDialog;
 import andex.view.SimpleDialog.DialogCallback;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -29,7 +27,6 @@ import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.Map;
 
 public abstract class BaseActionBarActivity extends ActionBarActivity implements ActivityExtendable {
@@ -106,27 +103,6 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	}
 
 	/**
-	 * @deprecated
-	 * @param actName
-	 */
-	public void startActivityByName(String actName) {
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		ComponentName cn = new ComponentName(Utils.getClass(this).getPackage().getName(), actName);
-		intent.setComponent(cn);
-		startActivity(intent);
-	}
-
-	/**
-	 * @deprecated
-	 * @param clazz
-	 */
-	public void startActivityWithoutTrace(Class<? extends Activity> clazz) {
-		Intent intent = new Intent(context, clazz);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * @param clazz
 	 */
@@ -149,57 +125,22 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	}
 
 	/**
-	 * @deprecated
-	 * @param clazz
-	 * @param id
-	 * @param args
-	 * @param forResult
-	 * @deprecated
+	 * 构建一个 Activity 构建器。
+	 * @param activityClass
+	 * @return
 	 */
-	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
-		Intent intent = new Intent(context, clazz);
-		if(id instanceof Integer) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Integer)id);
-		}
-		else if(id instanceof Long) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Long)id);
-		}
-		else if(id instanceof String){
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (String)id);
-		}
-		if (args != null)
-			intent.putExtra(Constants.INTENT_DATA_ARGS_KEY, args);
-		if(forResult) {
-			startActivityForResult(intent,  Constants.REQUEST_CODE_DEFAULT);
-		}
-		else {
-			startActivity(intent);			
-		}
-	}
-
 	public ActivityBuilder buildActivity(Class activityClass) {
 		return new ActivityBuilder(context, activityClass);
 	}
 
 	/**
-	 * 创建跳转至指定Fragment的构造器。
+	 * 创建跳转至指定 Fragment 的构造器。
 	 * @param fragment
 	 * @param resId
 	 * @return
 	 */
 	public FragmentBuilder buildFragment(Basev4Fragment fragment, int resId) {
 		return new FragmentBuilder(this, fragment).replace(resId);
-	}
-
-	/**
-	 *
-	 * @param frag
-	 * @param resId
-	 * @return
-	 */
-	public Basev4Fragment showFragment(Basev4Fragment frag, int resId) {
-		buildFragment(frag, resId).start();
-		return frag;
 	}
 
 	/**

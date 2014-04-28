@@ -78,12 +78,8 @@ public class Utils {
 	
 	public static Object[] append(Object[] arr, Object... newEl){
 		Object[] ret = new Object[arr.length + newEl.length];
-		for(int i=0; i<arr.length; i++) {
-			ret[i] = arr[i];
-		}
-		for(int j=0;j<newEl.length;j++) {
-			ret[arr.length + j] = newEl[j];	
-		}		
+		System.arraycopy(arr, 0, ret, 0, arr.length);
+		System.arraycopy(newEl, 0, ret, arr.length, newEl.length);
 		return ret;
 	}
 

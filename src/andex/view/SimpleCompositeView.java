@@ -28,7 +28,14 @@ public abstract class SimpleCompositeView {
 	
 	public static final int STATE_POSITIVE = 1;
 	public static final int STATE_NEGATIVE = 2;
-	
+
+	/**
+	 *
+	 * @param value
+	 * @param posTarget
+	 * @param negTarget
+	 * @return
+	 */
 	public static int translateState(int value, int posTarget, int negTarget) {
 		return (Integer)Utils.quaterLogic(value
 				, posTarget, SimpleCompositeView.STATE_POSITIVE

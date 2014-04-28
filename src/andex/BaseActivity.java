@@ -9,7 +9,6 @@ import andex.view.SimpleDialog;
 import andex.view.SimpleDialog.DialogCallback;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -32,7 +31,6 @@ import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -44,18 +42,11 @@ import java.util.Map;
  */
 public abstract class BaseActivity extends FragmentActivity implements ActivityExtendable{
 	
-//	protected static String LOG_TAG = "andex";
-	
-	//
 	protected final int REQUEST_CODE_DEFAULT = 1000;
 	
 	protected Activity thisActivity;
 
 	protected Context context;
-	
-	// DEBUG模式（默认） changed by setting system arguments "andex.debug"
-	// @deprecated
-//	protected boolean debugMode = true; 
 
 	// Resources from context.
 	protected Resources rs;
@@ -101,29 +92,6 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	}
 
 	/**
-	 * 按照Activity类的名字启动（相同的classpath下面）
-	 * @param actName
-	 * @deprecated
-	 */
-	public void startActivityByName(String actName) {
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		ComponentName cn = new ComponentName(Utils.getClass(this).getPackage().getName(), actName);
-		intent.setComponent(cn);
-		startActivity(intent);
-	}
-	
-	/**
-	 * 按照Activity的Class启动
-	 * @param clazz
-	 * @deprecated to ActivityBuilder.clearTop()
-	 */
-	public void startActivityWithoutTrace(Class<? extends Activity> clazz) {
-		Intent intent = new Intent(context, clazz);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
-	}
-	
-	/**
 	 * {@inheritDoc}
 	 * @param clazz
 	 */
@@ -146,42 +114,16 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	}
 
 	/**
-	 * Start activity with biz ID and arguments.
-	 * use getIdFromPreActivity() to retrieve ID.
-	 * use getArgsFromPreActivity() to retrieve arguments.
-	 * @param clazz
-	 * @param id Integer类型表示是选项，Long和String类型表示是ID，其他类型则为参数。
-	 * @param args
-	 * @param forResult
-	 * @deprecated
+	 * 构建一个 Activity 构建器。
+	 * @param activityClass
+	 * @return
 	 */
-	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
-		Intent intent = new Intent(context, clazz);
-		if (id instanceof Integer) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Integer) id);
-		}
-		else if (id instanceof Long) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Long) id);
-		}
-		else if (id instanceof String) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (String) id);
-		}
-		if (args != null)
-			intent.putExtra(Constants.INTENT_DATA_ARGS_KEY, args);
-		if (forResult) {
-			startActivityForResult(intent, REQUEST_CODE_DEFAULT);
-		}
-		else {
-			startActivity(intent);
-		}
-	}
-
 	public ActivityBuilder buildActivity(Class activityClass) {
 		return new ActivityBuilder(context, activityClass);
 	}
 
 	/**
-	 * 创建跳转至指定Fragment的构造器。
+	 * 创建跳转至指定 Fragment 的构造器。
 	 * @param fragment
 	 * @param resId
 	 * @return
@@ -191,34 +133,39 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	}
 
 	/**
-	 * 在资源ID指定的位置显示Fragment
-	 * @param frag
-	 * @param resId
+	 * @deprecated  TODO 也用 builder模式实现
+	 * @param dlgFrag
 	 * @return
-	 * @deprecated
 	 */
-	public Basev4Fragment showFragment(Basev4Fragment frag, int resId) {
-		buildFragment(frag, resId).start();
-		return frag;
-	}
-	
-
 	public BaseDialogFragment showDialogFragment(BaseDialogFragment dlgFrag) {
 		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 		dlgFrag.show(ft, "andex");
 		return dlgFrag;
 	}
 
+	/**
+	 * @deprecated
+	 * @param id
+	 */
 	@Override
 	public void finishWithId(long id) {
 		getIntent().getExtras().putLong(Constants.INTENT_DATA_ID_KEY, id);
 		finish();
 	}
-	
+
+	/**
+	 * @deprecated
+	 * @param row
+	 */
 	public void finishWithData(DataRow row){
 		finishWithData(row, null);
 	}
 
+	/**
+	 * @deprecated
+	 * @param row
+	 * @param args
+	 */
 	public void finishWithData(DataRow row, Bundle args){
 		Intent intent = new Intent();
 //		debug("finishWithData() " + row.getClass());
@@ -298,9 +245,8 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 			return null;
 		}
 		if (Constants.debugMode) {
-			for (Iterator it = bundle.keySet().iterator(); it.hasNext();) {
-				Object key = it.next();
-				Log.v("andex", String.format("  ARG: %s = %s", key, bundle.get(key.toString())));
+			for (String key : bundle.keySet()) {
+				Log.v("andex", String.format("  ARG: %s = %s", key, bundle.get(key)));
 			}
 		}
 		return bundle.get(argName);
@@ -895,7 +841,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 	 * 调试输出当前线程信息
 	 */
 	protected void debugThread() {
-		Log.d("andex", "Thread: " + Thread.currentThread().getId() + "-" + Thread.currentThread().getName());
+		Log.d("andex", String.format("Thread: %d-%s", Thread.currentThread().getId(), Thread.currentThread().getName()));
 	}
 	
 	protected View inflatView(int viewId) {

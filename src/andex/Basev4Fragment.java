@@ -561,21 +561,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 		ft.hide(this);
 		ft.commit();
 	}
-	
-	public void startActivityByName(String actName) {
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		ComponentName cn = new ComponentName(Utils.getClass(this).getPackage().getName(), actName);
-		intent.setComponent(cn);
-		startActivity(intent);
-	}
 
-	public void startActivityWithoutTrace(Class<? extends Activity> clazz) {
-		Intent intent = new Intent(context, clazz);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
-	}
-	
-	
 	/**
 	 * 按照Activity的Class启动
 	 * @param clazz
@@ -590,7 +576,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * 按照Activity的Class启动
 	 * @param clazz
 	 * @param forResult
-	 * @deprecated
 	 */
 	public void startActivity(Class<? extends Activity> clazz, boolean forResult) {
 		if (forResult) {
@@ -602,37 +587,14 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	}
 
 	/**
-	 * Start activity with biz ID and arguments.
-	 * use getIdFromPreActivity() to retrieve ID.
-	 * use getArgsFromPreActivity() to retrieve arguments.
-	 * @param clazz
-	 * @param id Integer类型表示是选项，Long和String类型表示是ID，其他类型则为参数。
-	 * @param args andex.Constants.INTENT_DATA_ARGS_KEY
-	 * @param forResult
-	 * @deprecated
+	 * 创建掉转至指定Activity的构造器。
+	 * @param activityClass
+	 * @return
 	 */
-	public void startActivityWith(Class<? extends Activity> clazz, Object id, Bundle args, boolean forResult) {
-		Intent intent = new Intent(context, clazz);
-		if (id instanceof Integer) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Integer) id);
-		}
-		else if (id instanceof Long) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (Long) id);
-		}
-		else if (id instanceof String) {
-			intent.putExtra(Constants.INTENT_DATA_ID_KEY, (String) id);
-		}
-		
-		if (args != null)
-//			intent.getExtras().putAll(args); // 直接将参数导入
-			intent.putExtra(Constants.INTENT_DATA_ARGS_KEY, args);
-		if (forResult) {
-			startActivityForResult(intent, REQUEST_CODE_DEFAULT);
-		}
-		else {
-			startActivity(intent);
-		}
+	public ActivityBuilder buildActivity(Class activityClass) {
+		return new ActivityBuilder(context, activityClass).from(this);
 	}
+
 
 	/**
 	 * 创建跳转至指定Fragment的构造器。
@@ -642,15 +604,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 */
 	public FragmentBuilder buildFragment(Basev4Fragment fragment, int resId) {
 		return new FragmentBuilder(this, fragment).replace(resId);
-	}
-
-	/**
-	 * 创建掉转至指定Activity的构造器。
-	 * @param activityClass
-	 * @return
-	 */
-	public ActivityBuilder buildActivity(Class activityClass) {
-		return new ActivityBuilder(context, activityClass).from(this);
 	}
 
 	/**
@@ -827,7 +780,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	@Override
 	public void finishWithId(long id) {
 		if (previousFragment != null) {
-			previousFragment.onFragmentResult((Long)id);
+			previousFragment.onFragmentResult(id);
 		}
 		finish();
 	}
