@@ -1,32 +1,25 @@
 package andex.view;
 
-import java.util.List;
-import java.util.Map;
-
-import org.andex.R;
-
 import andex.model.BaseListAdapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
+import android.widget.*;
+import org.andex.R;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * The ListView with SimpleAdapter is not simple actually, so this SimpleListView
  * is born to make it really simple.
- * 
- * If you want to create list view with one icon, inherit me and 
+ * <p/>
+ * If you want to create list view with one icon, inherit me and
  * override getAdapter() method with SimpleIconListViewAdapter returned.
- * @author 
  *
+ * @author
  */
 public class SimpleListView extends SimpleCompositeView {
 
@@ -40,20 +33,34 @@ public class SimpleListView extends SimpleCompositeView {
 
 	@Override
 	protected ListAdapter getAdapter(Context context) {
-		return new SimpleAdapter(context, data, android.R.layout.simple_list_item_2, keys, new int[] {
-				android.R.id.text1, android.R.id.text2 });
+		return new SimpleAdapter(context, data, android.R.layout.simple_list_item_2, keys, new int[]{
+				android.R.id.text1, android.R.id.text2});
 	}
-	
+
 	/**
-	 * Show only information 
-	 * @author
+	 * Show only information
 	 *
+	 * @author
 	 */
 	public static class SimpleInfoListViewAdapter extends BaseAdapter {
 		protected Context context;
 		// Label that displayed while no data for this View.
 		protected String defaultLabel = "";
-		
+
+		private int gravity;
+
+		/**
+		 *
+		 * @param context
+		 * @param info
+		 * @param gravity 设定文字在水平方向的重心
+		 */
+		public SimpleInfoListViewAdapter(Context context, String info, int gravity) {
+			this.context = context;
+			this.defaultLabel = info;
+			this.gravity = gravity;
+		}
+
 		public SimpleInfoListViewAdapter(Context context, String info) {
 			this.context = context;
 			this.defaultLabel = info;
@@ -77,19 +84,21 @@ public class SimpleListView extends SimpleCompositeView {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = LayoutInflater.from(context);
-			LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.ax_lv_item_info, null);
+			LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.ax_lv_item_info, parent, false);
 			TextView tv = (TextView) layout.findViewById(R.id.tv_alii_label);
+			if (gravity != 0) {
+				tv.setGravity(gravity);
+			}
 			tv.setText(defaultLabel);
 			return layout;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Adapter for ListView to show icon and text(title and description).
-	 * 
-	 * @author 
 	 *
+	 * @author
 	 */
 	public static class SimpleIconListViewAdapter extends BaseListAdapter {
 
@@ -100,15 +109,14 @@ public class SimpleListView extends SimpleCompositeView {
 		}
 
 		/**
-		 *
 		 * @param context
 		 * @param data
 		 * @param keys
 		 * @param layoutResId 自定义资源文件
-		 * @param itemResIds 自定义资源文件中的资源ID
+		 * @param itemResIds  自定义资源文件中的资源ID
 		 */
 		public SimpleIconListViewAdapter(Context context, List<Map<String, ?>> data, String[] keys, int layoutResId,
-				int[] itemResIds) {
+										 int[] itemResIds) {
 			super(context, data, keys, layoutResId, itemResIds);
 		}
 
@@ -122,7 +130,7 @@ public class SimpleListView extends SimpleCompositeView {
 			if (row == null) {
 				return layout;
 			}
-			
+
 			// Icon
 			ImageView imgView = (ImageView) layout.findViewById(itemResIds[0]);
 			Object img = row.get(keys[0]);
@@ -135,7 +143,7 @@ public class SimpleListView extends SimpleCompositeView {
 			else {
 				return layout;
 			}
-			
+
 			// Title and Description
 			if (itemResIds.length > 1 && layout.findViewById(itemResIds[1]) != null) {
 				TextView tvTitle = (TextView) layout.findViewById(itemResIds[1]);
@@ -149,6 +157,6 @@ public class SimpleListView extends SimpleCompositeView {
 			return layout;
 		}
 
-		
+
 	}
 }

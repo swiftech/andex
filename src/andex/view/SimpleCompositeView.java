@@ -189,7 +189,7 @@ public abstract class SimpleCompositeView {
 	public SimpleCompositeView addAllItems(Map m) {
 		for (Object k : m.keySet()) {
 			Object v = m.get(k);
-			Log.v("", k + "=" + v);
+			Log.v("", String.format("%s=%s", k, v));
 			if (v != null) {
 				addItem(k, v, v);
 			}
@@ -205,7 +205,7 @@ public abstract class SimpleCompositeView {
 	public SimpleCompositeView addAllItems(Bundle bundle) {
 		for (Object k : bundle.keySet()) {
 			Object v = bundle.get(k.toString());
-			Log.v("", k + "=" + v);
+			Log.v("", String.format("%s=%s", k, v));
 			if (v != null) {
 				addItem(k, k, v);
 			}
@@ -303,7 +303,7 @@ public abstract class SimpleCompositeView {
 			((AdapterView)this.absListView).setAdapter(new SimpleInfoListViewAdapter(ctx, defaultLabel));
 		}
 		else {
-			Log.v("andex", String.format("  Rnder %d items", adapter.getCount()));
+			Log.v("andex", String.format("  Render %d items", adapter.getCount()));
 			((AdapterView)this.absListView).setAdapter(adapter);
 		}
 	}

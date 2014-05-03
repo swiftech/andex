@@ -755,6 +755,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 
 	/**
 	 * 结束当前的Fragment，返回至前一个Fragment（如果设定有返回值的话）
+	 * @deprecated
 	 */
 	public void finish() {
 		if (this.getFragmentManager() == null) {
@@ -866,5 +867,15 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 		if(log == null) log = "[null]";
 		Log.e("andex", log.toString());
 	}
+
+	protected Callback.CallbackAdapter callbackFinish = new Callback.CallbackAdapter(){
+
+		@Override
+		public void invoke() {
+			super.invoke();
+			buildResultToPrevFragment().finish();
+		}
+
+	};
 
 }
