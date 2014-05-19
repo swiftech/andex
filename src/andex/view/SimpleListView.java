@@ -3,6 +3,7 @@ package andex.view;
 import andex.model.BaseListAdapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import java.util.Map;
  * <p/>
  * If you want to create list view with one icon, inherit me and
  * override getAdapter() method with SimpleIconListViewAdapter returned.
- *
+ * @deprecated
  * @author
  */
 public class SimpleListView extends SimpleCompositeView {
@@ -37,71 +38,20 @@ public class SimpleListView extends SimpleCompositeView {
 				android.R.id.text1, android.R.id.text2});
 	}
 
-	/**
-	 * Show only information
-	 *
-	 * @author
-	 */
-	public static class SimpleInfoListViewAdapter extends BaseAdapter {
-		protected Context context;
-		// Label that displayed while no data for this View.
-		protected String defaultLabel = "";
-
-		private int gravity;
-
-		/**
-		 *
-		 * @param context
-		 * @param info
-		 * @param gravity 设定文字在水平方向的重心
-		 */
-		public SimpleInfoListViewAdapter(Context context, String info, int gravity) {
-			this.context = context;
-			this.defaultLabel = info;
-			this.gravity = gravity;
-		}
-
-		public SimpleInfoListViewAdapter(Context context, String info) {
-			this.context = context;
-			this.defaultLabel = info;
-		}
-
-		@Override
-		public int getCount() {
-			return 1;
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return defaultLabel;
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = LayoutInflater.from(context);
-			LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.ax_lv_item_info, parent, false);
-			TextView tv = (TextView) layout.findViewById(R.id.tv_alii_label);
-			if (gravity != 0) {
-				tv.setGravity(gravity);
-			}
-			tv.setText(defaultLabel);
-			return layout;
-		}
-	}
-
 
 	/**
 	 * Adapter for ListView to show icon and text(title and description).
 	 *
 	 * @author
+	 * @deprecated
 	 */
 	public static class SimpleIconListViewAdapter extends BaseListAdapter {
 
+		/**
+		 * @param context
+		 * @param data
+		 * @param keys    分别是 icon, title, description
+		 */
 		public SimpleIconListViewAdapter(Context context, List<Map<String, ?>> data, String[] keys) {
 			super(context, data, keys);
 			layoutResId = R.layout.ax_listview_item_icon_left;
@@ -128,6 +78,7 @@ public class SimpleListView extends SimpleCompositeView {
 
 			Map row = data.get(position);
 			if (row == null) {
+				Log.v("", String.format("No item at position: %d", position));
 				return layout;
 			}
 
@@ -144,15 +95,28 @@ public class SimpleListView extends SimpleCompositeView {
 				return layout;
 			}
 
-			// Title and Description
+			// Title
 			if (itemResIds.length > 1 && layout.findViewById(itemResIds[1]) != null) {
 				TextView tvTitle = (TextView) layout.findViewById(itemResIds[1]);
-				tvTitle.setText(new String(row.get(keys[1]).toString().getBytes()));
+				Object o = row.get(keys[1]);
+				if (o instanceof Integer) {
+					tvTitle.setText(context.getString((Integer) o));
+				}
+				else {
+					tvTitle.setText(new String(o.toString().toString().getBytes()));
+				}
 			}
 
+			// Description
 			if (itemResIds.length > 2 && layout.findViewById(itemResIds[2]) != null) {
 				TextView tvDesc = (TextView) layout.findViewById(itemResIds[2]);
-				tvDesc.setText(new String(row.get(keys[2]).toString().getBytes()));
+				if (keys.length <= 2) {
+					tvDesc.setVisibility(View.GONE);
+				}
+				else {
+					tvDesc.setVisibility(View.VISIBLE);
+					tvDesc.setText(new String(row.get(keys[2]).toString().getBytes()));
+				}
 			}
 			return layout;
 		}

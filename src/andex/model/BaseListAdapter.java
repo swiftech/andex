@@ -11,7 +11,7 @@ import android.widget.ListAdapter;
 /**
  * 列表适配器基类。
  * @author 
- *
+ * @deprecated to BaseListAdapter2
  */
 public abstract class BaseListAdapter implements ListAdapter{
 

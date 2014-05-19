@@ -1,8 +1,7 @@
 package andex.view;
 
 import andex.Callback;
-import andex.Utils;
-import andex.view.SimpleListView.SimpleInfoListViewAdapter;
+import andex.view.composite.SimpleInfoListViewAdapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,21 +25,21 @@ import java.util.Map;
  */
 public abstract class SimpleCompositeView {
 	
-	public static final int STATE_POSITIVE = 1;
-	public static final int STATE_NEGATIVE = 2;
-
-	/**
-	 *
-	 * @param value
-	 * @param posTarget
-	 * @param negTarget
-	 * @return
-	 */
-	public static int translateState(int value, int posTarget, int negTarget) {
-		return (Integer)Utils.quaterLogic(value
-				, posTarget, SimpleCompositeView.STATE_POSITIVE
-				, negTarget, SimpleCompositeView.STATE_NEGATIVE);
-	}
+//	public static final int STATE_POSITIVE = 1;
+//	public static final int STATE_NEGATIVE = 2;
+//
+//	/**
+//	 *
+//	 * @param value
+//	 * @param posTarget
+//	 * @param negTarget
+//	 * @return
+//	 */
+//	public static int translateState(int value, int posTarget, int negTarget) {
+//		return (Integer) Utils.quaterLogic(value
+//				, posTarget, SimpleCompositeView.STATE_POSITIVE
+//				, negTarget, SimpleCompositeView.STATE_NEGATIVE);
+//	}
 	
 	protected Context ctx;
 	protected AbsListView absListView;

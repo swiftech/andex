@@ -14,7 +14,7 @@ import java.io.Serializable;
  * 如果需要更多的处理（比如特定的参数）可以继承实现自己的Builder。
  * @see andex.controller.ResultBuilder
  */
-public class ActivityBuilder {
+public class ActivityBuilder implements ControlBuilder{
 
 	public final int REQUEST_CODE_DEFAULT = 1000;
 
@@ -28,7 +28,7 @@ public class ActivityBuilder {
 	/**
 	 * 通过指定Activity名字来启动它。
 	 * @param context
-	 * @param activityName 想要启动的Actvity名字
+	 * @param activityName 想要启动的 Activity 名字
 	 */
 	public ActivityBuilder(Context context, String activityName) {
 		if (preFrag == null) {
@@ -44,7 +44,7 @@ public class ActivityBuilder {
 	/**
 	 * 通过指定Activity类型启动它。
 	 * @param context
-	 * @param activityClass 想要启动的Actvity类型
+	 * @param activityClass 想要启动的 Activity 类型
 	 */
 	public ActivityBuilder(Context context, Class activityClass) {
 //		if (preFrag == null) {

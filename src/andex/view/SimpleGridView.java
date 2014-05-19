@@ -37,7 +37,7 @@ public class SimpleGridView extends SimpleCompositeView{
 
 
 	/**
-	 * Simple grid view with icon and description from default layout file.
+	 * Simple grid view with icon and description from default itemLayout file.
 	 * @author 
 	 *
 	 */
@@ -61,7 +61,7 @@ public class SimpleGridView extends SimpleCompositeView{
 	 */
 	public static class GridViewIconAdapter extends BaseListAdapter {
 		/**
-		 * Use default layout.
+		 * Use default itemLayout.
 		 * @param context
 		 * @param data
 		 * @param keys
@@ -71,7 +71,7 @@ public class SimpleGridView extends SimpleCompositeView{
 		}
 		
 		/**
-		 * Use specified layout definition.
+		 * Use specified itemLayout definition.
 		 * @param context
 		 * @param data
 		 * @param keys

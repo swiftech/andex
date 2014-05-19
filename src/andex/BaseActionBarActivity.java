@@ -29,6 +29,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import java.io.Serializable;
 import java.util.Map;
 
+/**
+ *
+ */
 public abstract class BaseActionBarActivity extends ActionBarActivity implements ActivityExtendable {
 
 	protected final int REQUEST_CODE_DEFAULT = 1000;
@@ -530,11 +533,11 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 
 	@Override
 	public void showViews(int... ids) {
-		for (int i = 0; i < ids.length; i++) {
-			if (findViewById(ids[i]) == null) {
+		for (int id : ids) {
+			if (findViewById(id) == null) {
 				continue;
 			}
-			findViewById(ids[i]).setVisibility(View.VISIBLE);
+			findViewById(id).setVisibility(View.VISIBLE);
 		}
 	}
 

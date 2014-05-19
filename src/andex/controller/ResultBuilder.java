@@ -147,6 +147,8 @@ public class ResultBuilder {
 			}
 			Log.d("andex", String.format("finish fragment with data (%d)", args.size()));
 			this.thisFragment.getFragmentManager().popBackStackImmediate();
+
+			//
 			if (this.parentActivity != null) {
 				this.parentActivity.finish();
 			}
