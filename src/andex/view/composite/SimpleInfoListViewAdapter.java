@@ -1,8 +1,6 @@
 package andex.view.composite;
 
 import andex.model.BaseListAdapter2;
-import andex.view.composite.ItemViewBuilder;
-import andex.view.composite.ListableItem;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +8,7 @@ import android.widget.TextView;
 import org.andex.R;
 
 /**
- * Show only information
+ * 显示提示信息
  *
  * @author
  */

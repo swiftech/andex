@@ -53,9 +53,8 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 			if (cst == null) {
 				return ret;
 			}
-			Iterator it = coll.iterator();
-			while (it.hasNext()) {
-				ret.add(cst.newInstance(ctx, (Map) it.next()));
+			for (Object aColl : coll) {
+				ret.add(cst.newInstance(ctx, aColl));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,13 +121,13 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 	 * @return
 	 */
 	public DataRow getRow(final long id) {
-		DataRow ret = null; 
+		DataRow ret = null;
 		for (int i = 0; i < this.size(); i++) {
 			DataRow row = this.get(i);
 			if(row.getID() == id) {
 				ret = row;
 				break;
-			}			
+			}
 		}
 		return ret;
 	}

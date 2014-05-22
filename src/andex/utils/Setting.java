@@ -150,10 +150,12 @@ public class Setting {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
 		Map result = new HashMap<String, Object>();
 		Map m = setting.getAll();
-		for (Iterator it = m.keySet().iterator(); it.hasNext();) {
-			String key = (String) it.next();
-			if (key.startsWith(prefix) && m.get(key) != null) {
-				result.put(key, m.get(key));
+		if (m != null) {
+			for (Object o : m.keySet()) {
+				String key = (String) o;
+				if (key.startsWith(prefix) && m.get(key) != null) {
+					result.put(key, m.get(key));
+				}
 			}
 		}
 		return result;

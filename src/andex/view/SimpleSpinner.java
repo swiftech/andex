@@ -1,7 +1,6 @@
 package andex.view;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -163,9 +162,7 @@ public class SimpleSpinner {
 	 */
 	protected List<SpinnerItem> mapToList(Map map) {
 		final List<SpinnerItem> items = new ArrayList<SpinnerItem>();
-		Iterator<Object> it = map.keySet().iterator();
-		while (it.hasNext()) {
-			Object key = it.next();
+		for (Object key : map.keySet()) {
 			Object value = map.get(key);
 			// Log.v("", "" + value);
 			items.add(new SpinnerItem(key, value));

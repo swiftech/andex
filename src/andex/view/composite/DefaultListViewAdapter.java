@@ -2,12 +2,11 @@ package andex.view.composite;
 
 import andex.model.BaseListAdapter2;
 import android.content.Context;
-import org.andex.R;
 
 /**
  * 默认布局的适配器。
  */
-public class DefaultListViewAdapter extends BaseListAdapter2<IconListItem> {
+public class DefaultListViewAdapter extends BaseListAdapter2<ListableItem> {
 
 	/**
 	 * 默认的布局
@@ -17,8 +16,9 @@ public class DefaultListViewAdapter extends BaseListAdapter2<IconListItem> {
 	public DefaultListViewAdapter(Context context) {
 		super(context);
 		super.itemViewBuilder = new ItemViewBuilder(context);
-		super.itemViewBuilder.title(R.id.ax_tv_lv_item_title);
-		super.itemViewBuilder.description(R.id.ax_tv_lv_item_desc);
+		super.itemViewBuilder.itemType(android.R.layout.simple_list_item_2);
+		super.itemViewBuilder.title(android.R.id.text1);
+		super.itemViewBuilder.description(android.R.id.text2);
 	}
 
 	/**

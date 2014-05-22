@@ -1,6 +1,6 @@
 package andex.event;
 
-import andex.AndroidUtils;
+import andex.utils.SysUtils;
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -68,7 +68,7 @@ public abstract class DragAndMoveListener implements OnTouchListener {
 		float y = event.getRawY();
 //		float width = floatWndLayout.getWidth();
 		Log.d("WM", "onTouch().ACTION_MOVE " + x + "," + y);
-		int screenWidth = AndroidUtils.getScreenWidth(context);
+		int screenWidth = SysUtils.getScreenWidth(context);
 		if ((x - startx + width / 2) < screenWidth / 2) {
 			// params.x = 0;
 			this.updateView(0, (int) (y - starty));

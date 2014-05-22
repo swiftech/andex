@@ -12,7 +12,6 @@ import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import org.apache.commons.lang3.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.net.NetworkInterface;
