@@ -5,27 +5,22 @@ import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.PhoneLookup;
 import android.support.v4.app.NotificationCompat;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.util.*;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Utilities for Android.
@@ -99,7 +94,7 @@ public class AndroidUtils {
 	}
 	
 	/**
-	 * 
+	 * 获取指定 APP 的版本名称。
 	 * @param ctx
 	 * @param packageName
 	 * @return
@@ -116,6 +111,7 @@ public class AndroidUtils {
 	
 	/**
 	 * Version of current APP.
+	 * TODO 与 getAppVersionName 重复
 	 * @param ctx
 	 * @return
 	 */
@@ -127,6 +123,44 @@ public class AndroidUtils {
 			e.printStackTrace();
 			return "0.0";
 		}
+	}
+
+	/**
+	 * 获取当前版本
+	 * TODO 与 getAppVersion 重复
+	 * @param ctx
+	 * @return
+	 */
+	public static String getAppVersionName(Context ctx) {
+		PackageManager packageManager = ctx.getPackageManager();
+		if (packageManager != null) {
+			try {
+				PackageInfo packageInfo = packageManager.getPackageInfo(ctx.getPackageName(), 0);
+				return packageInfo.versionName;
+			} catch (PackageManager.NameNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+	}
+
+	/**
+	 * 获取当前版本
+	 *
+	 * @param ctx
+	 * @return
+	 */
+	public static int getAppVersionCode(Context ctx) {
+		PackageManager packageManager = ctx.getPackageManager();
+		if (packageManager != null) {
+			try {
+				PackageInfo packageInfo = packageManager.getPackageInfo(ctx.getPackageName(), 0);
+				return packageInfo.versionCode;
+			} catch (PackageManager.NameNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
 	}
 	
 	/**
@@ -165,254 +199,7 @@ public class AndroidUtils {
 				Math.round((SysUtils.getScreenHeight(ctx) - skipHeight) / gridHeight)));
 		return result;
 	}
-	
-	/**
-	 * 获得屏幕像素数量。
-	 * @param ctx
-	 * @return
-	 * @deprecated
-	 */
-	public static int getScreenPixels(Context ctx) {
-		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
-		return dm.widthPixels * dm.heightPixels;
-	}
-	
-	/**
-	 * 获取屏幕像素宽度
-	 * @param ctx
-	 * @return
-	 * @deprecated
-	 */
-	public static int getScreenWidth(Context ctx) {
-		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
-		return dm.widthPixels;
-	}
-	
-	/**
-	 * 获取屏幕像素高度
-	 * @param ctx
-	 * @return
-	 * @deprecated
-	 */
-	public static int getScreenHeight(Context ctx) {
-		DisplayMetrics dm = ctx.getApplicationContext().getResources().getDisplayMetrics();
-		return dm.heightPixels;
-	}
 
-	/**
-	 * 保存全局设置
-	 * 
-	 * @param ctx
-	 * @param name
-	 * @param value
-	 * @deprecated
-	 */
-	public static void saveGlobalSetting(Context ctx, String name, Object value) {
-		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-
-		if (value instanceof Boolean) {
-			setting.edit().putBoolean(name, (Boolean) value).commit();
-		}
-		else if (value instanceof Integer) {
-			setting.edit().putInt(name, (Integer) value).commit();
-		}
-		else if (value instanceof Long) {
-			setting.edit().putLong(name, (Long) value).commit();
-		}
-		else {
-			setting.edit().putString(name, value.toString()).commit();
-		}
-	}
-
-	/**
-	 * Get global setting from system, return specified default value if not exists.
-	 * 
-	 * @param ctx
-	 * @param name
-	 * @param defaultValue
-	 * @return
-	 * @deprecated
-	 */
-	public static String getGlobalSetting(Context ctx, String name, Object defaultValue) {
-		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		if (defaultValue == null) {
-			throw new RuntimeException("No default value provided.");
-		}
-		if (setting == null) {
-			return defaultValue.toString();
-		}
-		try {
-			if (setting.getString(name, defaultValue.toString()) == null) {
-				return null;
-			}
-			else {
-				return setting.getString(name, defaultValue.toString()).trim();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return defaultValue.toString();
-		}
-	}
-
-	/**
-	 * Get global setting.
-	 * @param ctx
-	 * @param name
-	 * @return
-	 * @deprecated
-	 */
-	public static String getGlobalSetting(Context ctx, String name) {
-		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		try {
-			if(setting.getString(name, null) == null) {
-				return null;
-			}
-			else {
-				return setting.getString(name, null).trim();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
-	
-	/**
-	 * 获取bool类型的设置，如果异常返回false
-	 * @param ctx
-	 * @param name
-	 * @return
-	 * @deprecated
-	 */
-	public static boolean getGlobalSettingBoolean(Context ctx, String name) {
-		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		try {
-			return setting.getBoolean(name, false);
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-	
-	/**
-	 * 获取bool类型的设置，如果异常返回指定的默认值。
-	 * @param ctx
-	 * @param name
-	 * @param defaultValue
-	 * @return
-	 * @deprecated
-	 */
-	public static boolean getGlobalSettingBoolean(Context ctx, String name, boolean defaultValue) {
-		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		try {
-			return setting.getBoolean(name, defaultValue);
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-			return defaultValue;
-		}
-	}
-
-	/**
-	 *
-	 * @deprecated
-	 */
-	public static int getGlobalSettingInt(Context ctx, String name) {
-		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		try {
-			return setting.getInt(name, 0);
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-			return 0;
-		}
-	}
-
-	/**
-	 *
-	 * @deprecated
-	 */
-	public static long getGlobalSettingLong(Context ctx, String name) {
-		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		try {
-			return setting.getLong(name, 0L);
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-			return 0;
-		}
-	}
-
-	/**
-	 * 
-	 * @param ctx
-	 * @param prefix
-	 * @return
-	 * @deprecated
-	 */
-	public static Map<String, Object> getGlobalSettingsWithPrefix(Context ctx, String prefix) {
-		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		Map<String, Object> result = new HashMap<String, Object>();
-		Map m = setting.getAll();
-		for (Object o : m.keySet()) {
-			String key = (String) o;
-			if (key.startsWith(prefix) && m.get(key) != null) {
-				result.put(key, m.get(key));
-			}
-		}
-		return result;
-	}
-	
-	/**
-	 * 
-	 * @param ctx
-	 * @param key
-	 * @return
-	 * @deprecated
-	 */
-	public static boolean removeGlobalSetting(Context ctx, String key) {
-		Log.v("", "Try to remove setting: " + key);
-		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		return setting.edit().remove(key).commit();
-	}
-
-	/**
-	 * 在通知栏显示通知消息通知消息
-	 * @param context
-	 * @param id Notification ID
-	 * @param icon
-	 * @param title
-	 * @param msg
-	 * @param activity 点击后调用的Activity
-	 * @param sticky 是否常驻状态栏
-	 * @deprecated
-	 */
-	public static void showNotification_depreacted(Context context, int id, int icon,String title, String msg, Class activity, boolean sticky) {
-		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(icon,
-				msg, System.currentTimeMillis());
-		Intent notificationIntent = new Intent(context, activity);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(context, title, msg, contentIntent);
-		if(sticky) {
-			notification.flags = Notification.FLAG_ONGOING_EVENT;
-		}
-		notificationManager.notify(id, notification);
-	}
-	
-	/**
-	 * 通知栏
-	 * @param context
-	 * @param id Notification ID
-	 * @param icon
-	 * @param title
-	 * @param msg
-	 * @param clsActivity 点击后调用的Activity
-	 * @param sticky 是否常驻状态栏
-	 * @deprecated to NotificationBuilder
-	 */
-	public static void showNotification(Context context, int id, int icon, String title, String msg, Class clsActivity,
-			boolean sticky) {
-		Intent notificationIntent = new Intent(context, clsActivity);
-		showNotification(context, id, icon, title, msg, notificationIntent, sticky);
-	}
-	
 	/**
 	 * 在通知栏显示一个可以跳转至Activity的通知消息。
 	 * @param context
@@ -492,82 +279,6 @@ public class AndroidUtils {
 	public static boolean isSDCardAvailable() {
 		File sdcard = Environment.getExternalStorageDirectory();
 		return sdcard.exists() && sdcard.canWrite();
-	}
-
-	/**
-	 * 获取联系人数量
-	 * @param context
-	 * @return
-	 * @deprecated
-	 */
-	public static int getContactsCount(Context context) {
-		ContentResolver cr = context.getContentResolver();
-		Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-		return cursor.getCount();
-	}
-
-	/**
-	 * 获取所有联系人的姓名。
-	 * @param context
-	 * @return
-	 * @deprecated
-	 */
-	public static List<String> getAllContactsNames(Context context) {
-		List<String> ret = new ArrayList<String>();
-		ContentResolver cr = context.getContentResolver();
-		String[] projection = new String[]{PhoneLookup.DISPLAY_NAME};
-		Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, projection, null, null, null);
-		if (cursor == null) {
-			return ret;
-		}
-		while (cursor.moveToNext()) {
-			String name = cursor.getString(cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME));
-			if (!StringUtils.isEmpty(name)) {
-				ret.add(name);
-			}
-		}
-		return ret;
-	}
-
-	/**
-	 * 从设备中获取所有拥有电话号码的联系人姓名。
-	 * Read contacts names with phone number from device storage.
-	 * @param context
-	 * @return Map with phone number to contact name.
-	 * @deprecated
-	 */
-	public static Map<String, String> getContactsNamesFromDevice(Context context) {
-		Map<String, String> ret = new HashMap<String, String>();
-		ContentResolver cr = context.getContentResolver();
-		// 先查所有联系人
-		Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-		if (cursor == null) {
-			return ret;
-		}
-		int idxName = cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME);
-		while (cursor.moveToNext()) {
-			String contact = cursor.getString(idxName);
-			if (StringUtils.isEmpty(contact)) {
-				continue;
-			}
-			Log.v("andex", "" + contact);
-
-			String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-			// 第一个参数是确定查询电话号，第三个参数是查询具体某个人的过滤器
-			Cursor phoneNumsCursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-					String.format("%s = %s", ContactsContract.CommonDataKinds.Phone.CONTACT_ID, contactId), null, null);
-			if (phoneNumsCursor == null || phoneNumsCursor.isClosed()) {
-				continue;
-			}
-			int idxNumber = phoneNumsCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-			while (phoneNumsCursor.moveToNext()) {
-				String phoneNum = phoneNumsCursor.getString(idxNumber);
-				ret.put(phoneNum.trim(), contact);
-			}
-			phoneNumsCursor.close();
-		}
-		cursor.close();
-		return ret;
 	}
 
 

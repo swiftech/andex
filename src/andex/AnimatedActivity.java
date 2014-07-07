@@ -1,5 +1,6 @@
 package andex;
 
+import andex.utils.SysUtils;
 import android.view.View;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
@@ -53,7 +54,7 @@ public class AnimatedActivity extends BaseActivity {
 		}
 		AnimationSet aset = new AnimationSet(true);
 
-		int sw = AndroidUtils.getScreenWidth(context);
+		int sw = SysUtils.getScreenWidth(context);
 		int distanceTo = isLeftToRight ? -sw : sw;
 		int distanceFrom = isLeftToRight ? sw : -sw;
 

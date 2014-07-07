@@ -1,13 +1,12 @@
 package andex.model;
 
+import andex.Utils;
+import android.content.Context;
+
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
-
-import andex.Utils;
-import android.content.Context;
 
 /**
  * 表示一个数据集合。
@@ -122,9 +121,8 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
 	 */
 	public DataRow getRow(final long id) {
 		DataRow ret = null;
-		for (int i = 0; i < this.size(); i++) {
-			DataRow row = this.get(i);
-			if(row.getID() == id) {
+		for (DataRow row : this) {
+			if (row.getID() == id) {
 				ret = row;
 				break;
 			}

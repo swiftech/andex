@@ -21,7 +21,7 @@ import android.widget.TextView;
 /**
  * Simple grid view with two text blocks.
  * @author 
- *
+ * @deprecated
  */
 public class SimpleGridView extends SimpleCompositeView{
 
@@ -39,7 +39,7 @@ public class SimpleGridView extends SimpleCompositeView{
 	/**
 	 * Simple grid view with icon and description from default itemLayout file.
 	 * @author 
-	 *
+	 * @deprecated
 	 */
 	public static class SimpleIconGridView extends SimpleGridView {
 
@@ -57,7 +57,7 @@ public class SimpleGridView extends SimpleCompositeView{
 	/**
 	 * Show grid view with icon in either Drawable type or resource type.
 	 * @author 
-	 *
+	 * @deprecated
 	 */
 	public static class GridViewIconAdapter extends BaseListAdapter {
 		/**

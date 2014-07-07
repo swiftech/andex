@@ -1,10 +1,7 @@
 package andex; 
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class Utils {
@@ -105,7 +102,10 @@ public class Utils {
 		return TIME_FORMATTER_TIME.format(cal.getTime());
 	}
 
-
+	public static String formatToTimestamp(Date time) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MMdd_HHmm", Locale.CHINA);
+		return sdf.format(time.getTime());
+	}
 	
 	/**
 	 * 当前线程休眠一段时间

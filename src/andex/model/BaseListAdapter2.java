@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * 列表适配器基类。
- * @author 
+ * @author
  * @see andex.view.composite.ItemViewBuilder
  */
 public class BaseListAdapter2<B extends ListableItem> implements ListAdapter{
@@ -92,7 +92,7 @@ public class BaseListAdapter2<B extends ListableItem> implements ListAdapter{
 	public int getCount() {
 		return data == null ? 0 : data.size();
 	}
-	
+
 	@Override
 	public B getItem(int position) {
 		return data.get(position);
@@ -107,7 +107,7 @@ public class BaseListAdapter2<B extends ListableItem> implements ListAdapter{
 	public long getItemId(int position) {
 		return getItem(position).id();
 	}
-	
+
 	@Override
 	public int getViewTypeCount() {
 		return itemViewBuilder.itemTypes.size();
@@ -131,13 +131,13 @@ public class BaseListAdapter2<B extends ListableItem> implements ListAdapter{
 	@Override
 	public void registerDataSetObserver(DataSetObserver observer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void unregisterDataSetObserver(DataSetObserver observer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

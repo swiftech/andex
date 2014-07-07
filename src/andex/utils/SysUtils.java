@@ -1,5 +1,6 @@
 package andex.utils;
 
+import andex.Utils;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.net.NetworkInterface;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -122,6 +124,15 @@ public class SysUtils {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	/**
+	 * 获得APP编译的时间戳。
+	 * @param ctx
+	 * @return
+	 */
+	public static String getAppBuildTimestamp(Context ctx) {
+		return Utils.formatToTimestamp(new Date(getAppBuildTime(ctx)));
 	}
 
 	/**

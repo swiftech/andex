@@ -1,14 +1,19 @@
 package andex.view.composite;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * 带图标的列表项构建器。
  */
 public class IconListItem extends ListableItem {
 
-	private static final String KEY_ICON = "icon";
+	private static final String KEY_ICON_RES = "icon_res";
+
+	private static final String KEY_ICON_DRAWABLE = "icon_drawable";
 
 	/**
 	 * 无描述信息的项
+	 *
 	 * @param id
 	 * @param title
 	 * @param itemType
@@ -19,7 +24,6 @@ public class IconListItem extends ListableItem {
 	}
 
 	/**
-	 *
 	 * @param id
 	 * @param title
 	 * @param desc
@@ -35,17 +39,35 @@ public class IconListItem extends ListableItem {
 	 *
 	 * @return
 	 */
+	public Drawable iconDrawable() {
+		return (Drawable) get(KEY_ICON_DRAWABLE);
+	}
+
+	public int iconResId() {
+		return (Integer) get(KEY_ICON_RES);
+	}
+
+	/**
+	 * @return
+	 * @deprecated to IconResId
+	 */
 	public int icon() {
-		return (Integer) get(KEY_ICON);
+		return iconResId();
 	}
 
 	/**
 	 * 设置图标资源，未设置的话默认为0
+	 *
 	 * @param icon
 	 * @return
 	 */
 	public IconListItem setIcon(int icon) {
-		put(KEY_ICON, icon);
+		put(KEY_ICON_RES, icon);
+		return this;
+	}
+
+	public IconListItem setIcon(Drawable icon) {
+		put(KEY_ICON_DRAWABLE, icon);
 		return this;
 	}
 }

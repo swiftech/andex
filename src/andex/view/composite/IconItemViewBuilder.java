@@ -1,6 +1,7 @@
 package andex.view.composite;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,12 +15,20 @@ import android.widget.ImageView;
  */
 public class IconItemViewBuilder<I extends IconListItem> extends ItemViewBuilder<I> {
 
+	static final String LOG_TAG = IconItemViewBuilder.class.getSimpleName();
+
 	protected int iconResId;
 
 	public IconItemViewBuilder(Context context) {
 		super(context);
 	}
 
+	/**
+	 * 图标
+	 *
+	 * @param resId
+	 * @return
+	 */
 	public IconItemViewBuilder icon(int resId) {
 		this.iconResId = resId;
 		return this;
@@ -28,9 +37,18 @@ public class IconItemViewBuilder<I extends IconListItem> extends ItemViewBuilder
 	@Override
 	public void build(View itemLayout, I item) {
 		super.build(itemLayout, item);
-		if (item.icon() != 0) {
-			ImageView icon = (ImageView) itemLayout.findViewById(iconResId);
-			icon.setImageResource(item.icon());
+
+		ImageView icon = (ImageView) itemLayout.findViewById(iconResId);
+		if (item.iconDrawable() != null) {
+			Log.d(LOG_TAG, "  Drawable Icon");
+			icon.setImageDrawable(item.iconDrawable());
+		}
+		else if (item.iconResId() > 0) {
+			Log.d(LOG_TAG, "  Icon Resource");
+			icon.setImageResource(item.iconResId());
+		}
+		else {
+			Log.w(LOG_TAG, "  No Icon");
 		}
 	}
 }

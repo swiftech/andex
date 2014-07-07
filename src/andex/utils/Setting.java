@@ -5,13 +5,23 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
  *
  */
 public class Setting {
+
+	/**
+	 * 是否存在名为 name 的设置项。
+	 * @param ctx
+	 * @param name
+	 * @return
+	 */
+	public static boolean hasGlobalSetting(Context ctx, String name) {
+		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
+		return setting.contains(name);
+	}
 
 	/**
 	 * 保存全局设置
@@ -148,7 +158,7 @@ public class Setting {
 	 */
 	public static Map<String, Object> getGlobalSettingsWithPrefix(Context ctx, String prefix) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
-		Map result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
 		Map m = setting.getAll();
 		if (m != null) {
 			for (Object o : m.keySet()) {

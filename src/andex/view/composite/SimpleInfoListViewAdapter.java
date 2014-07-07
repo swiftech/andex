@@ -24,9 +24,8 @@ public class SimpleInfoListViewAdapter extends BaseListAdapter2<ListableItem> {
 	public SimpleInfoListViewAdapter(Context context, String info) {
 		super(context);
 		super.itemViewBuilder = new ItemViewBuilder(context)
-				.title(R.id.tv_alii_label).itemType(0, R.layout.ax_lv_item_info).itemType(1, R.layout.ax_lv_item_info);
-		super.addItem(new ListableItem(0, info, 0));
-		super.addItem(new ListableItem(1, info, 1));
+				.title(R.id.tv_alii_label).itemType(0, R.layout.ax_lv_item_info);
+		super.addItem(new ListableItem(-1, info, 0));
 	}
 
 	/**

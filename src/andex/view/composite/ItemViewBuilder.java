@@ -3,7 +3,6 @@ package andex.view.composite;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,6 +63,10 @@ public class ItemViewBuilder<I extends ListableItem> {
 	 * @param item
 	 */
 	public void build(View itemLayout, final I item) {
+		if (itemLayout == null || item == null) {
+			throw new IllegalArgumentException();
+		}
+
 		this.itemLayout = itemLayout;
 		TextView tvTitle = getTitleView();
 		TextView tvDesc = getDescriptionView();

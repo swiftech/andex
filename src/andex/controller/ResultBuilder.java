@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * For building activity or fragment results.
+ *
  */
 public class ResultBuilder {
 
@@ -24,6 +25,7 @@ public class ResultBuilder {
 	// 当前的fragment
 	Basev4Fragment thisFragment; // TODO 这个可能不是必须的。
 	Basev4Fragment previousFragment;
+
 	// 在finish的时候也调用父Activity的finish方法
 	FragmentActivity parentActivity;
 

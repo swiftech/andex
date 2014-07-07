@@ -18,6 +18,9 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+/**
+ * 与网络相关的操作
+ */
 public class NetworkUtils {
 
 	public static String DEFAULT_MAC_TEMPLATE = "%02X:%02X:%02X:%02X:%02X:%02X";
