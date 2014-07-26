@@ -8,6 +8,9 @@ import java.util.Calendar;
 
 import android.util.Log;
 
+import static andex.builder.TimeFormatBuilder.TIME_FORMAT_BUILDER_DATE_MINUS;
+import static andex.builder.TimeFormatBuilder.TIME_FORMAT_BUILDER_DATE_TIME_MINUS;
+
 /**
  * Log to file
  * @author 
@@ -27,7 +30,8 @@ public class Flog {
 			i("Flog was already inited");
 			return true;
 		}
-		String fName = dir + "/" + Utils.stringifyDate(Calendar.getInstance()) + ".log";
+
+		String fName = String.format("%s/%s.log", dir, TIME_FORMAT_BUILDER_DATE_MINUS.format(Calendar.getInstance()));
 		File file = new File(fName);
 		
 		if (!file.getParentFile().exists()) {
@@ -47,7 +51,7 @@ public class Flog {
 	public static void d(Object msg) {
 		if(fos != null) {
 			try {
-				String wmsg = String.format("%s D %s \r\n", Utils.stringifyTime(Calendar.getInstance()), msg);
+				String wmsg = String.format("%s D %s \r\n",  TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg);
 //				fos.write((Utils.stringifyDate(Calendar.getInstance()) + "D " + msg + "\r\n").getBytes());
 				fos.write(wmsg.getBytes());
 				fos.flush();
@@ -64,7 +68,7 @@ public class Flog {
 	public static void i(Object msg) {
 		if(fos != null) {
 			try {
-				String wmsg = String.format("%s I %s \r\n", Utils.stringifyTime(Calendar.getInstance()), msg);
+				String wmsg = String.format("%s I %s \r\n",  TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg);
 				fos.write(wmsg.getBytes());
 				fos.flush();
 			} catch (IOException e) {
@@ -80,7 +84,7 @@ public class Flog {
 	public static void w(Object msg) {
 		if(fos != null) {
 			try {
-				String wmsg = String.format("%s W %s \r\n", Utils.stringifyTime(Calendar.getInstance()), msg);
+				String wmsg = String.format("%s W %s \r\n",  TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg);
 				fos.write(wmsg.getBytes());
 				fos.flush();
 			} catch (IOException e) {
@@ -105,11 +109,11 @@ public class Flog {
 	public static void e(String msg, Exception ex) {
 		if(fos != null) {
 			try {
-				fos.write(String.format("%s E %s \r\n", Utils.stringifyTime(Calendar.getInstance()), msg.getBytes())
+				fos.write(String.format("%s E %s \r\n",  TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg.getBytes())
 						.getBytes());
 				
 				if (ex != null) {
-					String emsg = String.format("%s E %s \r\n", Utils.stringifyTime(Calendar.getInstance()),
+					String emsg = String.format("%s E %s \r\n",  TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()),
 							ex.getMessage());
 					fos.write(emsg.getBytes());
 					StackTraceElement[] trace = ex.getStackTrace();

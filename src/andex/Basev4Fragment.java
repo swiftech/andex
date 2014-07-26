@@ -81,12 +81,15 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	
 	public Basev4Fragment(int resourceId) {
 		super();
+		if (resourceId == 0) {
+			throw new IllegalArgumentException(String.format("Layout resource ID is not available: %d, you may implement the getLayoutResourceId() method", layoutResourceId));
+		}
 		this.thisFragment = this;
 		this.layoutResourceId = resourceId;
 	}
 
 	public int getLayoutResourceId(){
-		return 0;
+		return this.layoutResourceId;
 	}
 
 	@Override
@@ -108,6 +111,9 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// 此处如果不指定container，可能会出现子布局无法扩张到整个区域的问题
+		if (layoutResourceId == 0) {
+			throw new IllegalArgumentException(String.format("Layout Resource ID is not available: %d", layoutResourceId));
+		}
 		Object view = inflater.inflate(layoutResourceId, container, false);
 		if(view == null) {
 			throw new RuntimeException("可能是没有设置layoutResourceId");

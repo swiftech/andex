@@ -80,28 +80,58 @@ public class Utils {
 		return ret;
 	}
 
+	/**
+	 * @deprecated to TimeFormatBuilder
+	 * @param date
+	 * @return
+	 */
 	public static String stringifyDate(Calendar date) {
 		return TIME_FORMATTER_DATA.format(date.getTime());
 	}
-	
+
+	/**
+	 * @deprecated to TimeFormatBuilder
+	 * @param date
+	 * @return
+	 */
 	public static String stringifyDate(Date date) {
 		return TIME_FORMATTER_DATA.format(date);
 	}
 
+	/**
+	 * @deprecated to TimeFormatBuilder
+	 * @param time
+	 * @return
+	 */
 	public static String stringifyTime(Date time) {
 		return TIME_FORMATTER_TIME.format(time);
 	}
-	
+
+	/**
+	 * @deprecated to TimeFormatBuilder
+	 * @param time
+	 * @return
+	 */
 	public static String stringifyTime(Calendar time) {
 		return TIME_FORMATTER_TIME.format(time.getTime());
 	}
-	
+
+	/**
+	 * @deprecated to TimeFormatBuilder
+	 * @param time
+	 * @return
+	 */
 	public static String stringifyTime(long time) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(time);
 		return TIME_FORMATTER_TIME.format(cal.getTime());
 	}
 
+	/**
+	 * @deprecated to TimeFormatBuilder
+	 * @param time
+	 * @return
+	 */
 	public static String formatToTimestamp(Date time) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MMdd_HHmm", Locale.CHINA);
 		return sdf.format(time.getTime());

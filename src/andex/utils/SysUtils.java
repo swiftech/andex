@@ -1,6 +1,6 @@
 package andex.utils;
 
-import andex.Utils;
+import andex.builder.TimeFormatBuilder;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -132,7 +132,8 @@ public class SysUtils {
 	 * @return
 	 */
 	public static String getAppBuildTimestamp(Context ctx) {
-		return Utils.formatToTimestamp(new Date(getAppBuildTime(ctx)));
+		return TimeFormatBuilder.TIME_FORMAT_BUILDER_TIME_STAMP.format(new Date(getAppBuildTime(ctx)));
+//		return Utils.formatToTimestamp(new Date(getAppBuildTime(ctx)));
 	}
 
 	/**

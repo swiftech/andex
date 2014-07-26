@@ -40,10 +40,9 @@ import android.widget.ToggleButton;
 /**
  * 
  *
- * @param <T>
- *            FragmentActivity
+ * @param <T> DialogFragment
  */
-public class BaseDialogFragment<T extends FragmentActivity> extends DialogFragment {
+public abstract class BaseDialogFragment<T extends FragmentActivity> extends DialogFragment {
 
 	protected Context context;
 
@@ -65,7 +64,7 @@ public class BaseDialogFragment<T extends FragmentActivity> extends DialogFragme
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.context = (Context) this.getActivity();
+		this.context = this.getActivity();
 		this.rs = context.getResources();
 
 		this.simpleDialog = new SimpleDialog(context);
@@ -76,7 +75,11 @@ public class BaseDialogFragment<T extends FragmentActivity> extends DialogFragme
 		setStyle(STYLE_NO_FRAME, 0);
 	}
 
+	public abstract int getLayoutResourceId();
+
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		layoutResourceId = getLayoutResourceId();
 		if (layoutResourceId == 0) {
 			throw new RuntimeException("没有设置layoutResourceId");
 		}
