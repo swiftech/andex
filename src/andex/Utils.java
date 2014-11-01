@@ -156,6 +156,11 @@ public class Utils {
 		return target.getClass();
 	}
 
+	/**
+	 * 获得一个对象的类名
+	 * @param target
+	 * @return
+	 */
 	public static String getClassName(Object target) {
 		if (target == null) {
 			return null;

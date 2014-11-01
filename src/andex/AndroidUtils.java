@@ -56,6 +56,7 @@ public class AndroidUtils {
 	 * @param packageName
 	 * @param targetVersion
 	 * @return Return 1 if target version higher than app version, return -1 if lower, return 0 if equals.
+	 * @deprecated to AppUtils.getAppVersionName()
 	 */
 	public static int compareAppVersion(Context ctx, String packageName, String targetVersion) {
 		int[] appVersion = getAppVersion(ctx, packageName);
@@ -77,6 +78,7 @@ public class AndroidUtils {
 	 * @param ctx
 	 * @param packageName
 	 * @return 版本数组（长度取决于版本信息
+	 * @deprecated to AppUtils.getAppVersionNameString()
 	 */
 	public static int[] getAppVersion(Context ctx, String packageName) {
 		List<PackageInfo> pkgs = ctx.getPackageManager().getInstalledPackages(0);
@@ -98,6 +100,7 @@ public class AndroidUtils {
 	 * @param ctx
 	 * @param packageName
 	 * @return
+	 * @deprecated to AppUtils
 	 */
 	public static String getAppVersionString(Context ctx, String packageName) {
 		List<PackageInfo> pkgs = ctx.getPackageManager().getInstalledPackages(0);
@@ -114,6 +117,7 @@ public class AndroidUtils {
 	 * TODO 与 getAppVersionName 重复
 	 * @param ctx
 	 * @return
+	 * @deprecated to AppUtils
 	 */
 	public static String getAppVersion(Context ctx) {
 		try {
@@ -130,6 +134,7 @@ public class AndroidUtils {
 	 * TODO 与 getAppVersion 重复
 	 * @param ctx
 	 * @return
+	 * @deprecated to AppUtils
 	 */
 	public static String getAppVersionName(Context ctx) {
 		PackageManager packageManager = ctx.getPackageManager();
@@ -149,6 +154,7 @@ public class AndroidUtils {
 	 *
 	 * @param ctx
 	 * @return
+	 * @deprecated to AppUtils
 	 */
 	public static int getAppVersionCode(Context ctx) {
 		PackageManager packageManager = ctx.getPackageManager();

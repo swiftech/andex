@@ -72,7 +72,7 @@ public class SimpleDialog {
 	 * @return
 	 */
 	protected boolean enterComposing() {
-		if(isComposing == true) {
+		if(isComposing) {
 			return true;// TODO
 		}
 		isComposing = true;

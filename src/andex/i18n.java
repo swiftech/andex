@@ -22,8 +22,13 @@ public class i18n {
 
 		tagOk = rs.getString(android.R.string.ok);
 		tagCancel = rs.getString(android.R.string.cancel);
-		tagClose = rs.getString(R.string.common_close);
-		tagYes = rs.getString(R.string.common_yes);
-		tagNo = rs.getString(R.string.common_no);
+
+		try {
+			tagClose = rs.getString(R.string.common_close);
+			tagYes = rs.getString(R.string.common_yes);
+			tagNo = rs.getString(R.string.common_no);
+		} catch (Resources.NotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }

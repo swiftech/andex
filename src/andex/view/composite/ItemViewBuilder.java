@@ -15,7 +15,7 @@ public class ItemViewBuilder<I extends ListableItem> {
 
 	protected Context context;
 
-	// 列表项与项资源文件的对应关系
+	/** 列表项与项资源文件的对应关系 */
 	public Map<Integer, Integer> itemTypes = new HashMap<Integer, Integer>();
 
 	protected View itemLayout;

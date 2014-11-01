@@ -5,6 +5,7 @@ import android.content.Context;
 
 /**
  * 默认布局的适配器。
+ * 默认布局文件为：android.R.layout.simple_list_item2
  */
 public class DefaultListViewAdapter extends BaseListAdapter2<ListableItem> {
 
