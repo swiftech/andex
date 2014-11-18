@@ -26,7 +26,7 @@ public class BaseListAdapter2<B extends ListableItem> implements ListAdapter{
 
 	protected LayoutInflater inflater;
 
-	protected List<B> data = new ArrayList<B>();
+	protected List<B> data = new ArrayList<>();
 
 	protected ItemViewBuilder itemViewBuilder;
 
@@ -57,18 +57,18 @@ public class BaseListAdapter2<B extends ListableItem> implements ListAdapter{
 		}
 
 		if (itemViewBuilder == null) {
-			Log.w(LOG_TAG, "No builder for adapter");
+			Log.e(LOG_TAG, "No view builder for adapter");
 			return null;
 		}
 
-		Log.v(LOG_TAG, String.format("ItemType:%d", item.itemType()));
+//		Log.v(LOG_TAG, String.format("ItemType:%d", item.itemType()));
 
 		int itemResId = (Integer) itemViewBuilder.itemTypes.get(item.itemType());
 		inflater = LayoutInflater.from(context);
-		ViewGroup layout = (ViewGroup) inflater.inflate(itemResId, null);
+		View view = (View) inflater.inflate(itemResId, null);
 
-		itemViewBuilder.build(layout, item);
-		return layout;
+		itemViewBuilder.build(view, item);
+		return view;
 	}
 
 	public void addItem(B item) {

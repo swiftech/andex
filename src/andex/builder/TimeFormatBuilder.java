@@ -8,7 +8,6 @@ import java.util.Locale;
 /**
  * 构造时间格式。
  * 最后用 format() 方法来格式化时间。
- * Created by yuxing on 14-7-22.
  */
 public class TimeFormatBuilder {
 
@@ -16,7 +15,7 @@ public class TimeFormatBuilder {
 	public static TimeFormatBuilder TIME_FORMAT_BUILDER_DATE_MINUS
 			= new TimeFormatBuilder().year().minus().month().minus().day();
 
-	// yyyy-MM-dd HH:mm
+	// yyyy-MM-dd HH:mm:ss
 	public static TimeFormatBuilder TIME_FORMAT_BUILDER_DATE_TIME_MINUS
 			= new TimeFormatBuilder().year().minus().month().minus().day().blank().hour().colon().minute().colon().second();
 
@@ -77,7 +76,22 @@ public class TimeFormatBuilder {
 		return this;
 	}
 
+	public TimeFormatBuilder Y() {
+		timeFormat.append("yyyy");
+		return this;
+	}
+
+	public TimeFormatBuilder y() {
+		timeFormat.append("yy");
+		return this;
+	}
+
 	public TimeFormatBuilder month() {
+		timeFormat.append("MM");
+		return this;
+	}
+
+	public TimeFormatBuilder M() {
 		timeFormat.append("MM");
 		return this;
 	}
@@ -87,7 +101,17 @@ public class TimeFormatBuilder {
 		return this;
 	}
 
+	public TimeFormatBuilder d() {
+		timeFormat.append("dd");
+		return this;
+	}
+
 	public TimeFormatBuilder hour() {
+		timeFormat.append("HH");
+		return this;
+	}
+
+	public TimeFormatBuilder H() {
 		timeFormat.append("HH");
 		return this;
 	}
@@ -97,7 +121,17 @@ public class TimeFormatBuilder {
 		return this;
 	}
 
+	public TimeFormatBuilder m() {
+		timeFormat.append("mm");
+		return this;
+	}
+
 	public TimeFormatBuilder second() {
+		timeFormat.append("ss");
+		return this;
+	}
+
+	public TimeFormatBuilder s() {
 		timeFormat.append("ss");
 		return this;
 	}

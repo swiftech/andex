@@ -14,6 +14,7 @@ public class Setting {
 
 	/**
 	 * 是否存在名为 name 的设置项。
+	 *
 	 * @param ctx
 	 * @param name
 	 * @return
@@ -33,17 +34,22 @@ public class Setting {
 	public static void saveGlobalSetting(Context ctx, String name, Object value) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
 
-		if (value instanceof Boolean) {
-			setting.edit().putBoolean(name, (Boolean) value).commit();
-		}
-		else if (value instanceof Integer) {
-			setting.edit().putInt(name, (Integer) value).commit();
-		}
-		else if (value instanceof Long) {
-			setting.edit().putLong(name, (Long) value).commit();
+		if (value == null) {
+			setting.edit().remove(name);
 		}
 		else {
-			setting.edit().putString(name, value.toString()).commit();
+			if (value instanceof Boolean) {
+				setting.edit().putBoolean(name, (Boolean) value).commit();
+			}
+			else if (value instanceof Integer) {
+				setting.edit().putInt(name, (Integer) value).commit();
+			}
+			else if (value instanceof Long) {
+				setting.edit().putLong(name, (Long) value).commit();
+			}
+			else {
+				setting.edit().putString(name, value.toString()).commit();
+			}
 		}
 	}
 
@@ -77,7 +83,8 @@ public class Setting {
 	}
 
 	/**
-	 * Get global setting.
+	 * 获取全局设定，如果不存在则返回 null
+	 *
 	 * @param ctx
 	 * @param name
 	 * @return
@@ -85,7 +92,7 @@ public class Setting {
 	public static String getGlobalSetting(Context ctx, String name) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
 		try {
-			if(setting.getString(name, null) == null) {
+			if (setting.getString(name, null) == null) {
 				return null;
 			}
 			else {
@@ -99,6 +106,7 @@ public class Setting {
 
 	/**
 	 * 获取bool类型的设置，如果异常返回false
+	 *
 	 * @param ctx
 	 * @param name
 	 * @return
@@ -115,6 +123,7 @@ public class Setting {
 
 	/**
 	 * 获取bool类型的设置，如果异常返回指定的默认值。
+	 *
 	 * @param ctx
 	 * @param name
 	 * @param defaultValue
@@ -151,7 +160,6 @@ public class Setting {
 	}
 
 	/**
-	 *
 	 * @param ctx
 	 * @param prefix
 	 * @return
@@ -172,7 +180,6 @@ public class Setting {
 	}
 
 	/**
-	 *
 	 * @param ctx
 	 * @param key
 	 * @return

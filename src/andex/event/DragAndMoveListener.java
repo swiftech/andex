@@ -39,7 +39,7 @@ public abstract class DragAndMoveListener implements OnTouchListener {
 			if (isDockable) {
 				autoDock(event);
 			}
-			Log.d("WM", "onTouch().ACTION_UP " + event.getX() + "," + event.getY());
+			Log.d("WM", String.format("onTouch().ACTION_UP %s,%s", event.getX(), event.getY()));
 			return false;
 		}
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {

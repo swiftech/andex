@@ -41,7 +41,9 @@ import java.util.Map;
  * 
  */
 public abstract class BaseActivity extends FragmentActivity implements ActivityExtendable{
-	
+
+	public static final String FLAG_FULL_SCREEN = "full_screen";
+
 	protected final int REQUEST_CODE_DEFAULT = 1000;
 	
 	protected Activity thisActivity;
@@ -64,6 +66,14 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 		thisActivity = this;
 
 		context = this;
+
+		// 使用 ActivityBuilder.fullscreen() 方法即可设置这个标志来设定是否要全屏显示
+		if (getIntent().getExtras() != null) {
+			boolean isFullscreen = getIntent().getExtras().getBoolean(BaseActivity.FLAG_FULL_SCREEN);
+			if (isFullscreen) {
+				setWindowFullscreenNoTitle();
+			}
+		}
 
 		simpleDialog = new SimpleDialog(context);
 

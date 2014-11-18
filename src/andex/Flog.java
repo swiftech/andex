@@ -60,7 +60,7 @@ public class Flog {
 			}
 		}
 		else {
-			Log.w("", "Flog输出流错误");
+			Log.w("andex", "Flog输出流错误");
 		}
 		Log.d("andex", msg + "");
 	}
@@ -76,7 +76,7 @@ public class Flog {
 			}
 		}
 		else {
-			Log.w("", "Flog输出流错误");
+			Log.w("andex", "Flog输出流错误");
 		}
 		Log.i("andex", msg + "");
 	}
@@ -92,7 +92,7 @@ public class Flog {
 			}
 		}
 		else {
-			Log.w("", "Flog输出流错误");
+			Log.w("andex", "Flog输出流错误");
 		}
 		Log.w("andex", msg + "");
 	}
@@ -128,7 +128,7 @@ public class Flog {
 			}
 		}
 		else {
-			Log.w("", "Flog输出流错误");
+			Log.w("andex", "Flog输出流错误");
 		}
 		Log.e("andex", String.format("%s \r\n %s", msg, (ex == null ? "" : ex.getMessage())));
 	}

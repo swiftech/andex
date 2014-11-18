@@ -8,9 +8,9 @@ import android.os.Handler;
  * @author 
  *
  */
-public class BaseServiceBinder extends Binder {
+public class BaseServiceBinder<T extends BaseService> extends Binder {
 	
-	protected BaseService service;
+	protected T service;
 	
 	public Handler handler;
 	
@@ -18,7 +18,7 @@ public class BaseServiceBinder extends Binder {
 		this.handler = new Handler();
 	}
 	
-	public BaseServiceBinder(BaseService service) {
+	public BaseServiceBinder(T service) {
 		this();
 		this.service = service;
 	}

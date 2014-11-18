@@ -143,18 +143,21 @@ public class ResultBuilder {
 	 * @return
 	 */
 	public ResultBuilder finish() {
+		// 是 Fragment
 		if (this.thisFragment != null) {
 			if (this.previousFragment != null) {
 				this.previousFragment.onFragmentResult(args);
 			}
 			Log.d("andex", String.format("finish fragment with data (%d)", args.size()));
 			this.thisFragment.getFragmentManager().popBackStackImmediate();
+//			this.thisFragment.getChildFragmentManager().popBackStackImmediate();
 
 			//
 			if (this.parentActivity != null) {
 				this.parentActivity.finish();
 			}
 		}
+		// 是 Activity
 		else if (this.activity != null) {
 			if (!args.isEmpty()) {
 				Intent intent = new Intent();

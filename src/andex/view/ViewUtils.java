@@ -8,13 +8,13 @@ import android.widget.TextView;
 public class ViewUtils {
 
 	public static EditText initEditTextByType(EditText et, Class clazz) {
-		if(clazz == Integer.class || clazz == Long.class) {
+		if (clazz == Integer.class || clazz == Long.class) {
 			et.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
 		}
-		else if(clazz == Float.class || clazz == Double.class) {
+		else if (clazz == Float.class || clazz == Double.class) {
 			et.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		}
-		else if(clazz == String.class) {
+		else if (clazz == String.class) {
 			et.setInputType(InputType.TYPE_CLASS_TEXT);
 		}
 		else {
@@ -22,7 +22,7 @@ public class ViewUtils {
 		}
 		return et;
 	}
-	
+
 	public static TextView createTextView(Context context, String title) {
 		TextView tv = new TextView(context);
 		tv.setText(title);

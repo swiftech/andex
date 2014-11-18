@@ -4,7 +4,7 @@ package andex;
  * Provide key-value item for Spinner.
  * TODO any other controls else?
  * @author 
- *
+ * @deprecated
  */
 public class SpinnerItem<K, V> {
 	private K id;

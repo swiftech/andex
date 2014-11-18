@@ -1,5 +1,6 @@
 package andex.controller;
 
+import andex.BaseActivity;
 import andex.Constants;
 import andex.Utils;
 import android.content.ComponentName;
@@ -17,6 +18,7 @@ import java.io.Serializable;
 public class ActivityBuilder implements ControlBuilder{
 
 	public final int REQUEST_CODE_DEFAULT = 1000;
+
 
 	Context context;
 
@@ -98,6 +100,11 @@ public class ActivityBuilder implements ControlBuilder{
 	 */
 	public ActivityBuilder with(Bundle args) {
 		intent.putExtras(args);
+		return this;
+	}
+
+	public ActivityBuilder fullscreen() {
+		with(BaseActivity.FLAG_FULL_SCREEN, true);
 		return this;
 	}
 

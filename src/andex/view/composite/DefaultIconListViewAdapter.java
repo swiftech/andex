@@ -6,7 +6,6 @@ import org.andex.R;
 
 /**
  * 默认的带图标的布局
- * Created by yuxing on 14-5-20.
  */
 public class DefaultIconListViewAdapter<B extends IconListItem> extends BaseListAdapter2<B> {
 
