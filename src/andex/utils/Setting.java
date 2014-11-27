@@ -35,7 +35,7 @@ public class Setting {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
 
 		if (value == null) {
-			setting.edit().remove(name);
+			setting.edit().remove(name).commit();
 		}
 		else {
 			if (value instanceof Boolean) {

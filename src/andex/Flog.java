@@ -13,15 +13,16 @@ import static andex.builder.TimeFormatBuilder.TIME_FORMAT_BUILDER_DATE_TIME_MINU
 
 /**
  * Log to file
- * @author 
  *
+ * @author
  */
 public class Flog {
-	
+
 	private static FileOutputStream fos;
-	
+
 	/**
 	 * 打开dir下面以日期为名称的日志文件。
+	 *
 	 * @param dir
 	 * @return
 	 */
@@ -33,7 +34,12 @@ public class Flog {
 
 		String fName = String.format("%s/%s.log", dir, TIME_FORMAT_BUILDER_DATE_MINUS.format(Calendar.getInstance()));
 		File file = new File(fName);
-		
+
+		return openFile(file);
+	}
+
+	public static synchronized boolean openFile(File file) {
+		Log.i("andex", String.format("Open file %s to log", file));
 		if (!file.getParentFile().exists()) {
 			if (!file.getParentFile().mkdirs()) {
 				return false;
@@ -44,14 +50,14 @@ public class Flog {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		i("Log to file: " + fName);
+		i("Log to file: " + file);
 		return true;
 	}
-	
+
 	public static void d(Object msg) {
-		if(fos != null) {
+		if (fos != null) {
 			try {
-				String wmsg = String.format("%s D %s \r\n",  TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg);
+				String wmsg = String.format("%s D %s \r\n", TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg);
 //				fos.write((Utils.stringifyDate(Calendar.getInstance()) + "D " + msg + "\r\n").getBytes());
 				fos.write(wmsg.getBytes());
 				fos.flush();
@@ -64,11 +70,11 @@ public class Flog {
 		}
 		Log.d("andex", msg + "");
 	}
-	
+
 	public static void i(Object msg) {
-		if(fos != null) {
+		if (fos != null) {
 			try {
-				String wmsg = String.format("%s I %s \r\n",  TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg);
+				String wmsg = String.format("%s I %s \r\n", TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg);
 				fos.write(wmsg.getBytes());
 				fos.flush();
 			} catch (IOException e) {
@@ -80,11 +86,11 @@ public class Flog {
 		}
 		Log.i("andex", msg + "");
 	}
-	
+
 	public static void w(Object msg) {
-		if(fos != null) {
+		if (fos != null) {
 			try {
-				String wmsg = String.format("%s W %s \r\n",  TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg);
+				String wmsg = String.format("%s W %s \r\n", TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg);
 				fos.write(wmsg.getBytes());
 				fos.flush();
 			} catch (IOException e) {
@@ -96,24 +102,24 @@ public class Flog {
 		}
 		Log.w("andex", msg + "");
 	}
-	
-	
+
+
 	public static void e(String msg) {
 		e(msg, null);
 	}
-	
+
 	public static void e(Exception ex) {
 		e(ex.getLocalizedMessage(), ex);
 	}
-	
+
 	public static void e(String msg, Exception ex) {
-		if(fos != null) {
+		if (fos != null) {
 			try {
-				fos.write(String.format("%s E %s \r\n",  TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg.getBytes())
+				fos.write(String.format("%s E %s \r\n", TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()), msg.getBytes())
 						.getBytes());
-				
+
 				if (ex != null) {
-					String emsg = String.format("%s E %s \r\n",  TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()),
+					String emsg = String.format("%s E %s \r\n", TIME_FORMAT_BUILDER_DATE_TIME_MINUS.format(Calendar.getInstance()),
 							ex.getMessage());
 					fos.write(emsg.getBytes());
 					StackTraceElement[] trace = ex.getStackTrace();
@@ -132,7 +138,7 @@ public class Flog {
 		}
 		Log.e("andex", String.format("%s \r\n %s", msg, (ex == null ? "" : ex.getMessage())));
 	}
-	
+
 	public static void closeFile() {
 		try {
 			fos.flush();

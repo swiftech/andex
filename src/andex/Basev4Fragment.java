@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -796,11 +797,12 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * @deprecated
 	 */
 	public void finish() {
-		if (this.getFragmentManager() == null) {
+		FragmentManager fragManager = this.getFragmentManager();
+		if (fragManager == null) {
 			Log.w("andex", "No fragment manager!");
 		}
 		else {
-			getFragmentManager().popBackStack();
+			fragManager.popBackStack();
 //			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
 //			ft.remove(this);
 //			if (previousFragment != null) {
@@ -863,7 +865,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	}
 
 	/**
-	 * 当从一个Fragment返回时调用，并且附带数据（可以为NULL）。
+	 * 当从一个Fragment返回时调用，并且附带数据（可以为NULL），此操作在 Fragment 事务完成前执行。
 	 *
 	 * @param data
 	 */
@@ -872,19 +874,43 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 		throw new NotImplementedException(DataRow.class.getSimpleName());
 	}
 
+	/**
+	 * 当从一个Fragment返回时调用，并且附带数据（可以为NULL），此操作在 Fragment 事务完成前执行。
+	 *
+	 * @param data
+	 */
 	protected void onFragmentResult(Map data) {
 		// NOTHING NEED TO DO FOR NOW, INHERIT ME.
 		throw new NotImplementedException(Map.class.getSimpleName());
 	}
 
+	/**
+	 * 当从一个Fragment返回时调用，并且附带数据（可以为NULL），此操作在 Fragment 事务完成前执行。
+	 *
+	 * @param data
+	 */
 	protected void onFragmentResult(Object data) {
 		// NOTHING NEED TO DO FOR NOW, INHERIT ME.
 		throw new NotImplementedException(Object.class.getSimpleName());
 	}
 
+	/**
+	 * 当从一个Fragment返回时调用，并且附带数据（可以为NULL），此操作在 Fragment 事务完成前执行。
+	 *
+	 * @param args
+	 */
 	public void onFragmentResult(Bundle args) {
 		// NOTHING NEED TO DO FOR NOW, INHERIT ME.
 		throw new NotImplementedException(Bundle.class.getSimpleName());
+	}
+
+	/**
+	 * 当从一个Fragment返回时调用，并且附带数据（可以为NULL），此操作在 Fragment 事务完成后执行。
+	 * 用于在返回前一个 Fragment 之后立即跳转至另外一个 Fragment
+	 * @param args
+	 */
+	public void afterFragmentResult(Bundle args) {
+		// NOTHING NEED TO DO FOR NOW, INHERIT ME.
 	}
 
 	/**

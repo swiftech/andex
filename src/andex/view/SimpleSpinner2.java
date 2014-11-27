@@ -19,7 +19,7 @@ import java.util.Map;
  * 简化Spinner的操作
  * 
  * @author
- * 
+ * @deprecated 貌似也不靠谱，用实现 ListView 的方式来实现
  */
 public class SimpleSpinner2 {
 

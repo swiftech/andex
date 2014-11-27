@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -139,20 +140,29 @@ public class ResultBuilder {
 	}
 
 	/**
-	 * 结束当前的Fragment或者Activity，返回至前面的Fragment，有参数附带返回参数。
+	 * 结束当前的 Fragment 或者 Activity，返回至前面的 Fragment，有参数附带返回参数。
 	 * @return
 	 */
 	public ResultBuilder finish() {
 		// 是 Fragment
 		if (this.thisFragment != null) {
-			if (this.previousFragment != null) {
-				this.previousFragment.onFragmentResult(args);
-			}
-			Log.d("andex", String.format("finish fragment with data (%d)", args.size()));
-			this.thisFragment.getFragmentManager().popBackStackImmediate();
-//			this.thisFragment.getChildFragmentManager().popBackStackImmediate();
 
-			//
+			Log.d("andex", String.format("finish fragment with data (%d)", args.size()));
+			if (this.previousFragment != null) {
+				this.previousFragment.onFragmentResult(args); // onFragmentResult 放在后面是因为有可能其中有跳转至另外的 Fragment 的情况
+			}
+			try {
+				FragmentManager fragmentManager = this.thisFragment.getFragmentManager();
+				fragmentManager.popBackStackImmediate();
+			} catch (Exception e) {
+				e.printStackTrace();
+				FragmentManager fragManager = this.thisFragment.getChildFragmentManager();
+				fragManager.popBackStackImmediate();
+			}
+			if (this.previousFragment != null){
+				this.previousFragment.afterFragmentResult(args);
+			}
+
 			if (this.parentActivity != null) {
 				this.parentActivity.finish();
 			}
