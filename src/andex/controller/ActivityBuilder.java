@@ -33,13 +33,13 @@ public class ActivityBuilder implements ControlBuilder{
 	 * @param activityName 想要启动的 Activity 名字
 	 */
 	public ActivityBuilder(Context context, String activityName) {
-		if (preFrag == null) {
-			throw new IllegalArgumentException("Previous Fragment Needed");
-		}
+//		if (preFrag == null) {
+//			throw new IllegalArgumentException("Previous Fragment Needed");
+//		}
 		this.context = context;
 		this.activityName = activityName;
 		this.intent = new Intent(Intent.ACTION_VIEW);
-		ComponentName cn = new ComponentName(Utils.getClass(this).getPackage().getName(), activityName);
+		ComponentName cn = new ComponentName(context.getPackageName(), activityName);
 		intent.setComponent(cn);
 	}
 

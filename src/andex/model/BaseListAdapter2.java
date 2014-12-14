@@ -65,7 +65,7 @@ public class BaseListAdapter2<B extends ListableItem> implements ListAdapter{
 
 		int itemResId = (Integer) itemViewBuilder.itemTypes.get(item.itemType());
 		inflater = LayoutInflater.from(context);
-		View view = (View) inflater.inflate(itemResId, null);
+		View view = inflater.inflate(itemResId, null);
 
 		itemViewBuilder.build(view, item);
 		return view;

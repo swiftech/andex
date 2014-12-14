@@ -149,6 +149,16 @@ public class Setting {
 		}
 	}
 
+	public static int getGlobalSettingInt(Context ctx, String name, int defaultValue) {
+		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
+		try {
+			return setting.getInt(name, defaultValue);
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			return defaultValue;
+		}
+	}
+
 	public static long getGlobalSettingLong(Context ctx, String name) {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
 		try {

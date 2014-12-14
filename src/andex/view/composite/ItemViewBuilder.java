@@ -9,6 +9,8 @@ import java.util.Map;
 
 /**
  * 列表项视图创建器。如果有更多的内容需要构建，则继承并实现 build() 方法。
+ * itemType() 定制项布局资源文件。
+ * 用 title() 和 description() 方法指定显示它们在布局何处。
  *
  */
 public class ItemViewBuilder<I extends ListableItem> {

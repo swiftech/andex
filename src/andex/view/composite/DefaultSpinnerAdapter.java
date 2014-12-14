@@ -5,16 +5,18 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SpinnerAdapter;
+import org.andex.R;
 
 /**
  * 默认的 Spinner 的适配器
  */
-public class DefaultSpinnerAdapter extends BaseListAdapter2  implements SpinnerAdapter{
+public class DefaultSpinnerAdapter extends BaseListAdapter2 implements SpinnerAdapter {
 
 	public DefaultSpinnerAdapter(Context context) {
 		super(context);
 		super.itemViewBuilder = new ItemViewBuilder(context);
-		super.itemViewBuilder.itemType(android.R.layout.simple_spinner_item);
+//		super.itemViewBuilder.itemType(android.R.layout.simple_spinner_item);
+		super.itemViewBuilder.itemType(R.layout.ax_spinner_item);
 		super.itemViewBuilder.title(android.R.id.text1);
 	}
 
@@ -34,22 +36,24 @@ public class DefaultSpinnerAdapter extends BaseListAdapter2  implements SpinnerA
 
 	/**
 	 * 根据 Spinner 项的 ID 获取它的位置索引（通常用于选中动作）
+	 *
 	 * @param id
 	 * @return
 	 */
 	public int indexOf(long id) {
 		int ret = 0;
 		for (Object item : super.data) {
-			if (((ListableItem)item).id() == id) {
+			if (((ListableItem) item).id() == id) {
 				return ret;
 			}
-			ret ++;
+			ret++;
 		}
 		return -1;
 	}
 
 	/**
 	 * 添加只有 title 的项
+	 *
 	 * @param items
 	 */
 	public void addItems(String... items) {
@@ -60,6 +64,7 @@ public class DefaultSpinnerAdapter extends BaseListAdapter2  implements SpinnerA
 
 	/**
 	 * 添加 ID 和 title 一样的项
+	 *
 	 * @param items
 	 */
 	public void addItems(Long... items) {
@@ -70,6 +75,7 @@ public class DefaultSpinnerAdapter extends BaseListAdapter2  implements SpinnerA
 
 	/**
 	 * 添加 ID 和 title 一样的项
+	 *
 	 * @param items
 	 */
 	public void addItems(Integer... items) {

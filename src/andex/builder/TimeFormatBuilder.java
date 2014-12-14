@@ -19,6 +19,10 @@ public class TimeFormatBuilder {
 	public static TimeFormatBuilder TIME_FORMAT_BUILDER_DATE_TIME_MINUS
 			= new TimeFormatBuilder().year().minus().month().minus().day().blank().hour().colon().minute().colon().second();
 
+	// HH:mm:ss
+	public static TimeFormatBuilder TIME_FORMAT_BUILDER_TIME_MINUS
+			= new TimeFormatBuilder().hour().colon().minute().colon().second();
+
 	// yyyy_MMdd_HHmm TODO 待验证
 	public static TimeFormatBuilder TIME_FORMAT_BUILDER_TIME_STAMP
 			= new TimeFormatBuilder().year().underscore().month().day().underscore().hour().minute();

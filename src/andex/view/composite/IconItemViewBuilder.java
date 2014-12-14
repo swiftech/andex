@@ -34,6 +34,11 @@ public class IconItemViewBuilder<I extends IconListItem> extends ItemViewBuilder
 		return this;
 	}
 
+	/**
+	 *
+	 * @param itemLayout
+	 * @param item
+	 */
 	@Override
 	public void build(View itemLayout, I item) {
 		super.build(itemLayout, item);
