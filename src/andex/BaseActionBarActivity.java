@@ -81,7 +81,44 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		}
 
 	}
-	
+
+//
+//	/**
+//	 * 切换 ActionBar 上面的菜单按钮的可用状态
+//	 * @param resId
+//	 */
+//	public void toggleMenuItem(int resId) {
+//		if (actionBar == null) {
+//			Log.i(LOG_TAG, "CAB mode was never started to dismiss");
+//			return;
+//		}
+//		if (actionMode.getMenu() == null) {
+//			Log.i(LOG_TAG, "No menu found to toggle");
+//			return;
+//		}
+//		MenuItem item = .getMenu().getItem(resId);
+//		item.setEnabled(!item.isEnabled());
+//	}
+//
+//	public void disableMenuItem(int resId) {
+//		if (actionMode.getMenu() == null) {
+//			Log.i(LOG_TAG, "No menu found to toggle");
+//			return;
+//		}
+//		MenuItem item = actionMode.getMenu().getItem(resId);
+//		item.setEnabled(false);
+//	}
+//
+//	public void enableMenuItem(int resId) {
+//		if (actionMode.getMenu() == null) {
+//			Log.i(LOG_TAG, "No menu found to toggle");
+//			return;
+//		}
+//		MenuItem item = actionMode.getMenu().getItem(resId);
+//		item.setEnabled(true);
+//	}
+
+
 	/**
 	 * 执行布局的初始化操作，用处是：
 	 * <p>
