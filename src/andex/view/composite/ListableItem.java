@@ -32,7 +32,6 @@ public class ListableItem extends HashMap<String, Object> {
 	}
 
 	/**
-	 *
 	 * @param id
 	 * @param title
 	 * @param desc
@@ -47,10 +46,11 @@ public class ListableItem extends HashMap<String, Object> {
 
 	/**
 	 * 业务ID，-1表示无效。
+	 *
 	 * @return
 	 */
 	public long id() {
-		return (Long)get(KEY_ID);
+		return (Long) get(KEY_ID);
 	}
 
 	public String title() {

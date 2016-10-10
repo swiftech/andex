@@ -17,7 +17,7 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.*;
@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  *
  */
-public abstract class BaseActionBarActivity extends ActionBarActivity implements ActivityExtendable {
+public abstract class BaseActionBarActivity extends AppCompatActivity implements ActivityExtendable {
 
 	protected final int REQUEST_CODE_DEFAULT = 1000;
 	

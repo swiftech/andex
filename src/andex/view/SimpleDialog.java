@@ -42,7 +42,7 @@ public class SimpleDialog {
 	protected int dialogTxtColor = Color.BLACK;
 	
 	// The current on top of any other dialogs.
-	protected Stack<AlertDialog> dialogStack = new Stack<AlertDialog>();
+	protected Stack<AlertDialog> dialogStack = new Stack<>();
 	
 	protected Context context;
 	
@@ -298,8 +298,13 @@ public class SimpleDialog {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dismissDialogOnTop();
-				callback.onPositive(etInput.getText().toString().trim());
-				
+				try {
+					callback.onPositive(etInput.getText().toString().trim());
+				} catch (Exception e) {
+					e.printStackTrace();
+					showInfoDialog(e.getMessage()); //试水
+				}
+
 			}
 		});
 		dBuilder.setNegativeButton(tagNo, new OnClickListener() {
@@ -380,7 +385,7 @@ public class SimpleDialog {
 	 * 
 	 * @param title
 	 * @param checkboxListViewAdapter
-	 *            Adapter to init the list view with checkboxs.
+	 *            Adapter to init the list view with checkboxes.
 	 * @param callback
 	 *            Callback to invoker.
 	 * @return
@@ -563,7 +568,7 @@ public class SimpleDialog {
 				if (init[i] instanceof CustomDialogInit) {
 					CustomDialogInit h = (CustomDialogInit) init[i];
 					int size = h.init(layout, resIds[i]);
-					v.setEnabled(size == 0 ? false : true);
+					v.setEnabled(size != 0);
 					new SimpleSpinner((Spinner) v).setSelection(h.setValue());
 				}
 			}
@@ -645,9 +650,9 @@ public class SimpleDialog {
 		 * @param resId
 		 * @return size of data
 		 */
-		public int init(View layout, int resId){return 0;};
-		
-		public Object setValue(){return null;};
+		public int init(View layout, int resId){return 0;}
+
+		public Object setValue(){return null;}
 	}
 	
 	/**
@@ -660,30 +665,30 @@ public class SimpleDialog {
 		/**
 		 * 
 		 */
-		public void onPositive(){};
-		
+		public void onPositive(){}
+
 		/**
 		 * Positive button clicked.
 		 * @param value
 		 */
-		public void onPositive(T value){};
-		
+		public void onPositive(T value){}
+
 		/**
 		 * Positive button clicked with multi-values returned.
 		 * @param values
 		 */
-		public void onPositive(T... values) {};
-		
+		public void onPositive(T... values) {}
+
 		/**
 		 * 
 		 */
-		public void onNegative(){};
+		public void onNegative(){}
 
 		/**
 		 * Negative button clicked.
 		 */
-		public void onNegative(T value){};
-		
+		public void onNegative(T value){}
+
 		/**
 		 * Invoked after any choices that make.
 		 */

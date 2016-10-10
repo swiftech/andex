@@ -103,7 +103,7 @@ public class SimpleListView extends SimpleCompositeView {
 					tvTitle.setText(context.getString((Integer) o));
 				}
 				else {
-					tvTitle.setText(new String(o.toString().toString().getBytes()));
+					tvTitle.setText(new String(o.toString().getBytes()));
 				}
 			}
 
