@@ -2,17 +2,17 @@ package andex;
 
 /**
  * Callback for any delayed invoking.
- * @author Administrator
+ * @author Swiftech
  *
  * @param <T>
  */
 public interface Callback<T> {
 
-	public void invoke();
+	void invoke();
 
-	public void invoke(T arg);
+	void invoke(T arg);
 
-	public void invoke(Object... args);
+	void invoke(Object... args);
 
 	/**
 	 * Adapter for Callback interface.
@@ -20,7 +20,7 @@ public interface Callback<T> {
 	 *
 	 * @param <T>
 	 */
-	public static class CallbackAdapter<T> implements Callback<T> {
+	class CallbackAdapter<T> implements Callback<T> {
 		@Override
 		public void invoke() {
 		}

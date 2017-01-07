@@ -19,19 +19,19 @@ import java.util.Map;
  */
 public class ResultBuilder {
 
-	Context context;
+	private Context context;
 
-	Bundle args = new Bundle();
+	private Bundle args = new Bundle();
 
 	// 当前的fragment
-	Basev4Fragment thisFragment; // TODO 这个可能不是必须的。
-	Basev4Fragment previousFragment;
+	private Basev4Fragment thisFragment; // TODO 这个可能不是必须的。
+	private Basev4Fragment previousFragment;
 
 	// 在finish的时候也调用父Activity的finish方法
-	FragmentActivity parentActivity;
+	private FragmentActivity parentActivity;
 
 	// 当前的Activity
-	FragmentActivity activity;
+	private FragmentActivity activity;
 
 	public ResultBuilder(Context context) {
 		this.context = context;

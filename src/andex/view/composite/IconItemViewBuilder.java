@@ -15,7 +15,7 @@ import android.widget.ImageView;
  */
 public class IconItemViewBuilder<I extends IconListItem> extends ItemViewBuilder<I> {
 
-	static final String LOG_TAG = IconItemViewBuilder.class.getSimpleName();
+	private static final String LOG_TAG = IconItemViewBuilder.class.getSimpleName();
 
 	protected int iconResId;
 
@@ -34,11 +34,6 @@ public class IconItemViewBuilder<I extends IconListItem> extends ItemViewBuilder
 		return this;
 	}
 
-	/**
-	 *
-	 * @param itemLayout
-	 * @param item
-	 */
 	@Override
 	public void build(View itemLayout, I item) {
 		super.build(itemLayout, item);

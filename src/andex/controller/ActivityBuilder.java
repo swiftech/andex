@@ -20,12 +20,12 @@ public class ActivityBuilder implements ControlBuilder{
 	public final int REQUEST_CODE_DEFAULT = 1000;
 
 
-	Context context;
+	private Context context;
 
-	Intent intent;
-	Fragment preFrag;
-	Class activityClass;
-	String activityName;
+	private Intent intent;
+	private Fragment preFrag;
+	private Class activityClass;
+	private String activityName;
 
 	/**
 	 * 通过指定Activity名字来启动它。

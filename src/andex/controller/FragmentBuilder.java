@@ -15,11 +15,11 @@ import java.io.Serializable;
  */
 public class FragmentBuilder implements ControlBuilder{
 
-	Basev4Fragment preFrag;
-	Basev4Fragment frag;
-	int resourceId;
-	boolean addToBackStack = false;
-	FragmentTransaction ft;
+	private Basev4Fragment preFrag;
+	private Basev4Fragment frag;
+	private int resourceId;
+	private boolean addToBackStack = false;
+	private FragmentTransaction ft;
 
 	/**
 	 * 从一个Fragment开始的。

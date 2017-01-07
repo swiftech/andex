@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Convert string to any data type safely(return defalut if exception)
+ * Convert string to any data type safely(return default if exception)
  * @author 
  *
  */
@@ -75,7 +75,7 @@ public class NumberConverter {
 		return CONVERTERS.get(clazz).convert(str);
 	}
 
-	public static interface Converter<T> {
-		public T convert(Object value);
+	public interface Converter<T> {
+		T convert(Object value);
 	}
 }

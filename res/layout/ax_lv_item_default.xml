@@ -4,7 +4,7 @@
 			  android:layout_height="match_parent"
 			  android:orientation="vertical"
 			  android:padding="6dp">
-
+	<!--默认列表项-->
 	<TextView
 			android:id="@+id/tv_alii_label"
 			android:layout_width="fill_parent"
@@ -12,6 +12,6 @@
 			android:text="[ ListView information ]"
 			android:textAppearance="?android:attr/textAppearanceLarge"
 			android:textColor="@color/ax_text_color_hint"
-			android:textSize="20sp"/>
+			android:textSize="14sp"/>
 
 </LinearLayout>
