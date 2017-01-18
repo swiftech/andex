@@ -12,6 +12,7 @@ import android.widget.ImageView;
  * builder.icon(R.id.iv_menu_icon).title(R.id.tv_menu_title);
  * builder.itemType(typeHead, R.layout.lv_item_menu_head);
  * builder.itemType(typeItem, R.layout.lv_item_menu_item);
+ * 初始化完成后用它来初始化 ListView 的 适配器
  */
 public class IconItemViewBuilder<I extends IconListItem> extends ItemViewBuilder<I> {
 
@@ -46,9 +47,9 @@ public class IconItemViewBuilder<I extends IconListItem> extends ItemViewBuilder
 		else if (item.iconResId() > 0) {
 			Log.d(LOG_TAG, "  Icon Resource");
 			icon.setImageResource(item.iconResId());
-		}
-		else {
-			Log.w(LOG_TAG, "  No Icon");
+//		}
+//		else {
+//			Log.w(LOG_TAG, "  No Icon");
 		}
 	}
 }

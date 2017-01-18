@@ -707,7 +707,7 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 
 	@Override
 	public AlertDialog showCheckBoxsDialog(String title, BaseAdapter checkboxListViewAdapter, DialogCallback callback) {
-		return simpleDialog.showCheckBoxsDialog(title, checkboxListViewAdapter, callback);
+		return simpleDialog.showCheckBoxesDialog(title, checkboxListViewAdapter, callback);
 	}
 
 	@Override

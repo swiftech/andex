@@ -331,7 +331,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 
 	public AlertDialog showCheckBoxsDialog(String title, BaseAdapter checkboxListViewAdapter,
 			final DialogCallback callback) {
-		return simpleDialog.showCheckBoxsDialog(title, checkboxListViewAdapter, callback);
+		return simpleDialog.showCheckBoxesDialog(title, checkboxListViewAdapter, callback);
 	}
 
 	@Override

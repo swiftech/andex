@@ -24,6 +24,18 @@ import java.util.Stack;
 /**
  * 各种常见模式的对话框，比如等待对话框、信息对话框，选项列表对话框、单个和多个输入对话框等。
  * Show all kinds of dialogs in a simple way.
+ * 用以下方法弹出不同类型的对话框：
+ * showInfoDialog()
+ * showConfirmDialog()
+ * showProgressDialog()
+ * showTextInputDialog()
+ * showFloatInputDialog()
+ * showInputDialog()
+ * showRadioGroupDialog()
+ * showCheckBoxesDialog()
+ * showListSelectDialog()
+ * showCustomizedDialog()
+ * 用 dismissDialogOnTop() 方法关闭最上层的对话框，如果有多个对话框则调用多次。
  * 
  * @author 
  *
@@ -390,8 +402,8 @@ public class SimpleDialog {
 	 *            Callback to invoker.
 	 * @return
 	 */
-	public AlertDialog showCheckBoxsDialog(String title, BaseAdapter checkboxListViewAdapter,
-			final DialogCallback callback) {
+	public AlertDialog showCheckBoxesDialog(String title, BaseAdapter checkboxListViewAdapter,
+											final DialogCallback callback) {
 		if(!enterComposing())return null;
 		View inputView = LayoutInflater.from(context).inflate(R.layout.ax_dialog_list_select, null);
 		final ListView listView = (ListView) inputView.findViewById(R.id.cdl_list);
@@ -555,14 +567,14 @@ public class SimpleDialog {
 			if (v == null) {
 				continue;
 			}
-			if (v instanceof TextView) {
-				TextView tv = (TextView) v;
-				tv.setText(init[i].toString());
-			}
-			else if (v instanceof EditText) {
+			if (v instanceof EditText) {
 				EditText et = (EditText) v;
 				ViewUtils.initEditTextByType(et, init[i].getClass());
 				et.setText(init[i].toString());
+			}
+			else if (v instanceof TextView) {
+				TextView tv = (TextView) v;
+				tv.setText(init[i].toString());
 			}
 			else if (v instanceof Spinner) {
 				if (init[i] instanceof CustomDialogInit) {
@@ -589,13 +601,13 @@ public class SimpleDialog {
 					if(v == null) {
 						continue;
 					}
-					if(v instanceof TextView) {
-						TextView tv = (TextView)v;
-						ret[i] = tv.getText().toString();
-					}
-					else if(v instanceof EditText) {
+					if(v instanceof EditText) {
 						EditText et = (EditText)v;
 						ret[i] = et.getText().toString();
+					}
+					else if(v instanceof TextView) {
+						TextView tv = (TextView)v;
+						ret[i] = tv.getText().toString();
 					}
 					else if(v instanceof Spinner) {
 						SimpleSpinner spinner = new SimpleSpinner(context);

@@ -325,7 +325,7 @@ public abstract class BaseActionBarActivity extends AppCompatActivity implements
 
 	@Override
 	public AlertDialog showCheckBoxsDialog(String title, BaseAdapter checkboxListViewAdapter, DialogCallback callback) {
-		return simpleDialog.showCheckBoxsDialog(title, checkboxListViewAdapter, callback);
+		return simpleDialog.showCheckBoxesDialog(title, checkboxListViewAdapter, callback);
 	}
 
 	@Override

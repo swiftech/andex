@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
+import org.andex.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class BaseListAdapter2<B extends ListableItem> implements ListAdapter{
 
-	static final String LOG_TAG = BaseListAdapter2.class.getSimpleName();
+	private static final String LOG_TAG = BaseListAdapter2.class.getSimpleName();
 
 	protected Context context;
 
@@ -57,8 +58,10 @@ public class BaseListAdapter2<B extends ListableItem> implements ListAdapter{
 		}
 
 		if (itemViewBuilder == null) {
-			Log.e(LOG_TAG, "No view builder for adapter");
-			return null;
+//			Log.e(LOG_TAG, "No item view builder for adapter");
+//			return null;
+			Log.w(LOG_TAG, String.format("No customized item view builder specified for position %d, use default instead", position));
+			itemViewBuilder = new ItemViewBuilder(context).itemType(R.layout.ax_lv_item_default).title(R.id.ax_tv_lv_item_title);
 		}
 
 //		Log.v(LOG_TAG, String.format("ItemType:%d", item.itemType()));
@@ -108,14 +111,28 @@ public class BaseListAdapter2<B extends ListableItem> implements ListAdapter{
 		return getItem(position).id();
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public int getViewTypeCount() {
-		return itemViewBuilder.itemTypes.size();
+		if (itemViewBuilder == null || itemViewBuilder.itemTypes == null) {
+			return 1;
+		}
+		else {
+			return itemViewBuilder.itemTypes.size();
+		}
 	}
 
 	@Override
 	public int getItemViewType(int position) {
-		return data.get(position).itemType() % itemViewBuilder.itemTypes.size();
+		if (itemViewBuilder == null || itemViewBuilder.itemTypes == null) {
+			return 0;
+		}
+		else {
+			return data.get(position).itemType() % itemViewBuilder.itemTypes.size();
+		}
 	}
 
 	@Override

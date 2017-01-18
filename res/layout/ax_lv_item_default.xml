@@ -6,7 +6,7 @@
 			  android:padding="6dp">
 	<!--默认列表项-->
 	<TextView
-			android:id="@+id/tv_alii_label"
+			android:id="@+id/ax_tv_lv_item_title"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:text="[ ListView information ]"

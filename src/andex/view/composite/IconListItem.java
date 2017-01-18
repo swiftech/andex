@@ -14,8 +14,8 @@ public class IconListItem extends ListableItem {
 	/**
 	 * 无描述信息的项
 	 *
-	 * @param id
-	 * @param title
+	 * @param id 列表项 ID
+	 * @param title 列表项标题
 	 * @param itemType
 	 */
 	public IconListItem(int id, String title, int itemType) {
@@ -24,8 +24,8 @@ public class IconListItem extends ListableItem {
 	}
 
 	/**
-	 * @param id
-	 * @param title
+	 * @param id 列表项 ID
+	 * @param title 列表项标题
 	 * @param desc
 	 * @param itemType
 	 */
