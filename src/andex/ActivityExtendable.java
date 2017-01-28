@@ -7,58 +7,59 @@ public interface ActivityExtendable extends Extendable {
 
 	/**
 	 * 从前一Activity或Fragment获取ID。
+	 *
 	 * @return
 	 */
-	public Object getIdObjectFromPrevious();
+	Object getIdObjectFromPrevious();
 
-	public int getIntIdFromPrevious();
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getIdStrFromIntent();
-	
+	int getIntIdFromPrevious();
 
 	/**
-	 * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
-	 * @param argName
 	 * @return
 	 */
-	public int getArgIntFromIntent(String argName);
+	String getIdStrFromIntent();
+
 
 	/**
 	 * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
-	 * 
+	 *
 	 * @param argName
 	 * @return
 	 */
-	public String getArgStrFromIntent(String argName);
+	int getArgIntFromIntent(String argName);
 
 	/**
 	 * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
-	 * 
+	 *
 	 * @param argName
 	 * @return
 	 */
-	public Object getArgFromIntent(String argName);
+	String getArgStrFromIntent(String argName);
 
-	public DataList getDataListFromIntent();
+	/**
+	 * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
+	 *
+	 * @param argName
+	 * @return
+	 */
+	Object getArgFromIntent(String argName);
 
-	public DataRow getDataRowFromIntent();
+	DataList getDataListFromIntent();
 
-	public void showToast(String msg);
+	DataRow getDataRowFromIntent();
 
-	public void showToast(String msg, Object... params);
-	
+	void showToast(String msg);
+
+	void showToast(String msg, Object... params);
+
 
 	/**
 	 * Show progress bar if long time operation will be performed. resource "pgb_wait" is required
 	 */
-	public void beforeLoadingData(int resId);
+	void beforeLoadingData(int resId);
 
 	/**
 	 * Hide progress bar after long time operation. resource "pgb_wait" is required
 	 */
-	public void afterLoadingData(int resId);
+	void afterLoadingData(int resId);
 }

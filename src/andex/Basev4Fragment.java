@@ -42,6 +42,9 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	//
 	public final int REQUEST_CODE_DEFAULT = 1000;
 
+	// 从参数中获取标题
+	public static final String ARG_TITLE = "arg_title";
+
 	/**
 	 * 当前Fragment的引用
 	 */
@@ -70,7 +73,6 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 */
 	public final Handler handler = new Handler();
 
-
 	/**
 	 * Simple Dialogs
 	 */
@@ -85,6 +87,12 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 	 * Resource id for this fragment view.
 	 */
 	public int layoutResourceId = 0;
+
+
+	/**
+	 * Title of this fragment
+	 */
+	private String title;
 
 	public Basev4Fragment() {
 		super();
@@ -953,4 +961,11 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
 
 	};
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 }
