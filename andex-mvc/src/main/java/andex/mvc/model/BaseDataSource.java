@@ -173,18 +173,13 @@ public abstract class BaseDataSource {
         if (Constants.debugMode) {
             // Log.v(LOG_TAG, "SQL:" + sql);
         }
-        Cursor cur = null;
-        try {
-            cur = db.rawQuery(sql, null);
+        try (Cursor cur = db.rawQuery(sql, null)) {
             if (cur.moveToNext()) {
                 return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        } finally {
-            if (cur != null)
-                cur.close();
         }
         return false;
     }
@@ -249,7 +244,7 @@ public abstract class BaseDataSource {
             return cursorToMapList(cursor);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ArrayList<Map>();
+            return new ArrayList<>();
         } finally {
             if (isAutoDisconnect)
                 this.disconnect();

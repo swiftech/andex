@@ -29,7 +29,7 @@ public class DefaultSQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i("DB", "Upgrade DB schema from version " + oldVersion + " to " + newVersion);
+        Log.i("DB", String.format("Upgrade DB schema from version %d to %d", oldVersion, newVersion));
     }
 
 }

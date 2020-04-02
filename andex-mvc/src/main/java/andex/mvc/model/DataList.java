@@ -189,16 +189,16 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
         boolean BREAK = false;
         boolean CONTINUE = true;
 
-        public void before(int size);
+        void before(int size);
 
-        public void after();
+        void after();
 
         /**
          * @param i
          * @param row
          * @return true to continue; false to break the following operations.
          */
-        public boolean invoke(int i, T row);
+        boolean invoke(int i, T row);
     }
 
 

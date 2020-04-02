@@ -321,13 +321,10 @@ public abstract class SimpleCompositeView {
      * @param handler Invoked with ID and displayed contents if ID exists.
      */
     public void onItemClick(final Callback handler) {
-        this.absListView.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int pos, long itemid) {
-                Log.v("andex", String.format("  Item at position %d was clicked", pos));
-                view.setSelected(true); // TODO
-                handleClickEvent(pos, handler);
-            }
+        this.absListView.setOnItemClickListener((parent, view, pos, itemid) -> {
+            Log.v("andex", String.format("  Item at position %d was clicked", pos));
+            view.setSelected(true); // TODO
+            handleClickEvent(pos, handler);
         });
     }
 
@@ -337,13 +334,10 @@ public abstract class SimpleCompositeView {
      * @param handler Invoked with ID and displayed contents if ID exists.
      */
     public void onItemLongClick(final Callback handler) {
-        this.absListView.setOnItemLongClickListener(new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long itemid) {
-                Log.v("andex", String.format("  Item at position %d was long clicked", pos));
-                handleClickEvent(pos, handler);
-                return true;
-            }
+        this.absListView.setOnItemLongClickListener((parent, view, pos, itemid) -> {
+            Log.v("andex", String.format("  Item at position %d was long clicked", pos));
+            handleClickEvent(pos, handler);
+            return true;
         });
     }
 

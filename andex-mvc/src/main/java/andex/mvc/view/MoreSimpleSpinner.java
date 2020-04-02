@@ -72,10 +72,9 @@ public class MoreSimpleSpinner extends SimpleSpinner {
         if (activity == null) {
             throw new RuntimeException("No activity specified for this Spinner");
         }
-        spinner = (Spinner) activity.findViewById(resId);
+        spinner = activity.findViewById(resId);
         if (spinner == null) {
-            Log.w("andex", "Failed to load Spinner: " + activity.getResources().getResourceEntryName(resId)
-                    + " from Activity " + activity.getClass().getName());
+            Log.w("andex", String.format("Failed to load Spinner: %s from Activity %s", activity.getResources().getResourceEntryName(resId), activity.getClass().getName()));
             return null;
         }
         return initSpinner(spinner, data);

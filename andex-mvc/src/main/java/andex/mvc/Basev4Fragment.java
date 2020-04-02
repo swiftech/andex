@@ -142,11 +142,11 @@ public abstract class Basev4Fragment<T extends FragmentActivity> extends Fragmen
         if (layoutResourceId == 0) {
             throw new IllegalArgumentException(String.format("Layout Resource ID is not available: %d", layoutResourceId));
         }
-        Object view = inflater.inflate(layoutResourceId, container, false);
+        View view = inflater.inflate(layoutResourceId, container, false);
         if (view == null) {
             throw new RuntimeException("可能是没有设置layoutResourceId");
         }
-        fragmentView = (View) view;
+        fragmentView = view;
         return fragmentView;
     }
 

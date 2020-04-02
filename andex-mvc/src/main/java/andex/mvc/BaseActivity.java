@@ -714,7 +714,7 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityE
 
     @Override
     public CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
-        final CompoundButton view = (CompoundButton) this.findViewById(resId);
+        final CompoundButton view = this.findViewById(resId);
         if (view == null) {
             Log.w("andex", "No view found：" + rs.getResourceName(resId));
             return view;

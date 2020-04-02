@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
@@ -35,12 +34,12 @@ import andex.Callback;
 import andex.Callback.CallbackAdapter;
 import andex.Constants;
 import andex.i18n;
-import andex.mvc.model.DataList;
-import andex.mvc.model.DataRow;
 import andex.mvc.controller.ActivityBuilder;
 import andex.mvc.controller.FragmentBuilder;
-import andex.mvc.view.SimpleDialog;
+import andex.mvc.model.DataList;
+import andex.mvc.model.DataRow;
 import andex.mvc.view.DialogCallback;
+import andex.mvc.view.SimpleDialog;
 
 /**
  *
@@ -578,14 +577,11 @@ public abstract class BaseActionBarActivity extends AppCompatActivity implements
             Log.w("andex", "No view found：" + rs.getResourceName(resId));
             return view;
         }
-        view.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                view.setEnabled(false);
-                handler.invoke();
-                handler.invoke(v);
-                view.setEnabled(true);
-            }
+        view.setOnClickListener(v -> {
+            view.setEnabled(false);
+            handler.invoke();
+            handler.invoke(v);
+            view.setEnabled(true);
         });
         return view;
     }
@@ -599,18 +595,15 @@ public abstract class BaseActionBarActivity extends AppCompatActivity implements
 
     @Override
     public CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
-        final CompoundButton view = (CompoundButton) this.findViewById(resId);
+        final CompoundButton view = this.findViewById(resId);
         if (view == null) {
             Log.w("andex", "No view found：" + rs.getResourceName(resId));
             return view;
         }
-        view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                view.setEnabled(false);
-                handler.invoke(isChecked);
-                view.setEnabled(true);
-            }
+        view.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            view.setEnabled(false);
+            handler.invoke(isChecked);
+            view.setEnabled(true);
         });
         return view;
     }

@@ -95,14 +95,11 @@ public abstract class BaseDialogFragment<T extends FragmentActivity> extends Dia
             Log.w("andex", "No view found：" + rs.getResourceName(resId));
             return view;
         }
-        view.setOnClickListener(new OnClickListener() {
-
-            public void onClick(View v) {
-                view.setEnabled(false);
-                handler.invoke();
-                handler.invoke(v);
-                view.setEnabled(true);
-            }
+        view.setOnClickListener(v -> {
+            view.setEnabled(false);
+            handler.invoke();
+            handler.invoke(v);
+            view.setEnabled(true);
         });
         return view;
     }

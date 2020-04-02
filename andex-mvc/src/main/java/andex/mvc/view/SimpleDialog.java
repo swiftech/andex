@@ -155,25 +155,19 @@ public class SimpleDialog {
         Builder dBuilder = new Builder(context);
         dBuilder.setMessage(msg);
         dBuilder.setIcon(android.R.drawable.ic_menu_help);
-        dBuilder.setPositiveButton(tagPositive, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.v("andex", "Positive button clicked for confirmation dialog");
-                callback.onPositive();
-                callback.onPositive(dialog); // deprecated
-                dismissDialogOnTop();
-                callback.afterSelected();
-            }
+        dBuilder.setPositiveButton(tagPositive, (dialog, which) -> {
+            Log.v("andex", "Positive button clicked for confirmation dialog");
+            callback.onPositive();
+            callback.onPositive(dialog); // deprecated
+            dismissDialogOnTop();
+            callback.afterSelected();
         });
-        dBuilder.setNegativeButton(tagNegative, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.v("andex", "Negative button clicked for confirmation dialog ");
-                callback.onNegative();
-                callback.onNegative(dialog); // deprecated
-                dismissDialogOnTop();
-                callback.afterSelected();
-            }
+        dBuilder.setNegativeButton(tagNegative, (dialog, which) -> {
+            Log.v("andex", "Negative button clicked for confirmation dialog ");
+            callback.onNegative();
+            callback.onNegative(dialog); // deprecated
+            dismissDialogOnTop();
+            callback.afterSelected();
         });
 
         AlertDialog confirmDialog = dBuilder.create();
@@ -232,13 +226,10 @@ public class SimpleDialog {
         Builder dBuilder = new Builder(context);
         dBuilder.setView(progressView);
         dBuilder.setIcon(android.R.drawable.ic_dialog_info);
-        dBuilder.setNegativeButton(tagCancel, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.v("andex", "Calcel clicked");
-                dismissDialogOnTop();
-                callback.onNegative(dialog);
-            }
+        dBuilder.setNegativeButton(tagCancel, (dialog, which) -> {
+            Log.v("andex", "Calcel clicked");
+            dismissDialogOnTop();
+            callback.onNegative(dialog);
         });
 
         AlertDialog progressDialog = dBuilder.create();
@@ -321,25 +312,19 @@ public class SimpleDialog {
         dBuilder.setView(inputView);
         dBuilder.setIcon(android.R.drawable.ic_dialog_info);
         dBuilder.setMessage(msg);
-        dBuilder.setPositiveButton(tagYes, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dismissDialogOnTop();
-                try {
-                    callback.onPositive(etInput.getText().toString().trim());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    showInfoDialog(e.getMessage()); //试水
-                }
+        dBuilder.setPositiveButton(tagYes, (dialog, which) -> {
+            dismissDialogOnTop();
+            try {
+                callback.onPositive(etInput.getText().toString().trim());
+            } catch (Exception e) {
+                e.printStackTrace();
+                showInfoDialog(e.getMessage()); //试水
+            }
 
-            }
         });
-        dBuilder.setNegativeButton(tagNo, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dismissDialogOnTop();
-                callback.onNegative(dialog);
-            }
+        dBuilder.setNegativeButton(tagNo, (dialog, which) -> {
+            dismissDialogOnTop();
+            callback.onNegative(dialog);
         });
 
         etInput.setInputType(inputType);
@@ -375,7 +360,7 @@ public class SimpleDialog {
             RadioButton radio = new RadioButton(context);
             radio.setId(i);
             radio.setText(labels[i]);
-            radio.setChecked(checked == i ? true : false);
+            radio.setChecked(checked == i);
             radio.setTextColor(dialogTxtColor);
             radioGroup.addView(radio);
         }
@@ -384,19 +369,13 @@ public class SimpleDialog {
         dBuilder.setView(inputView);
         dBuilder.setIcon(android.R.drawable.ic_menu_more);
         if (!StringUtils.isEmpty(msg)) dBuilder.setMessage(msg);
-        dBuilder.setPositiveButton(tagYes, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                callback.onPositive(radioGroup.getCheckedRadioButtonId());
-                dismissDialogOnTop();
-            }
+        dBuilder.setPositiveButton(tagYes, (dialog, which) -> {
+            callback.onPositive(radioGroup.getCheckedRadioButtonId());
+            dismissDialogOnTop();
         });
-        dBuilder.setNegativeButton(tagNo, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                callback.onNegative(dialog);
-                dismissDialogOnTop();
-            }
+        dBuilder.setNegativeButton(tagNo, (dialog, which) -> {
+            callback.onNegative(dialog);
+            dismissDialogOnTop();
         });
 
         AlertDialog radioGroupDialog = dBuilder.create();
@@ -426,19 +405,13 @@ public class SimpleDialog {
         Builder dBuilder = new Builder(context);
         dBuilder.setView(inputView);
         dBuilder.setIcon(android.R.drawable.ic_menu_more);
-        dBuilder.setPositiveButton(tagYes, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                callback.onPositive(listView);
-                dismissDialogOnTop();
-            }
+        dBuilder.setPositiveButton(tagYes, (dialog, which) -> {
+            callback.onPositive(listView);
+            dismissDialogOnTop();
         });
-        dBuilder.setNegativeButton(tagNo, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                callback.onNegative(dialog);
-                dismissDialogOnTop();
-            }
+        dBuilder.setNegativeButton(tagNo, (dialog, which) -> {
+            callback.onNegative(dialog);
+            dismissDialogOnTop();
         });
 
         AlertDialog listSelectDialog = dBuilder.create();
@@ -467,14 +440,11 @@ public class SimpleDialog {
         if (!enterComposing()) return;
         Builder dBuilder = new Builder(context);
         dBuilder.setMessage(msg);
-        dBuilder.setPositiveButton(android.R.string.ok, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.v("showInfoDialog", "Positive Clicked");
-                if (callback != null)
-                    callback.onPositive();
-                dismissDialogOnTop();
-            }
+        dBuilder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            Log.v("showInfoDialog", "Positive Clicked");
+            if (callback != null)
+                callback.onPositive();
+            dismissDialogOnTop();
         });
         AlertDialog infoDialog = dBuilder.create();
         infoDialog.setTitle(android.R.string.dialog_alert_title);
@@ -499,24 +469,14 @@ public class SimpleDialog {
         View selectView = LayoutInflater.from(context).inflate(R.layout.ax_dialog_list_select, null);
         ListView listSelect = selectView.findViewById(R.id.cdl_list);
         listSelect.setAdapter(new ArrayAdapter(context, android.R.layout.simple_list_item_1, items));
-        listSelect.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                callback.onPositive(position);
-            }
-
-        });
+        listSelect.setOnItemClickListener((adapterView, view, position, id) -> callback.onPositive(position));
         Builder dBuilder = new Builder(context);
         dBuilder.setTitle(title);
         dBuilder.setIcon(android.R.drawable.ic_menu_more);
         dBuilder.setView(selectView);
-        dBuilder.setNegativeButton(tagCancel, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                callback.onNegative(which);
-                dismissDialogOnTop();
-            }
+        dBuilder.setNegativeButton(tagCancel, (dialog, which) -> {
+            callback.onNegative(which);
+            dismissDialogOnTop();
         });
         AlertDialog listSelectDialog = dBuilder.create();
         listSelectDialog.show();
@@ -550,12 +510,9 @@ public class SimpleDialog {
         dBuilder.setTitle(title);
         dBuilder.setIcon(android.R.drawable.ic_menu_more);
         dBuilder.setView(layout);
-        dBuilder.setNegativeButton(tagCancel, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dismissDialogOnTop();
-                callback.onNegative(dialog);
-            }
+        dBuilder.setNegativeButton(tagCancel, (dialog, which) -> {
+            dismissDialogOnTop();
+            callback.onNegative(dialog);
         });
         AlertDialog listSelectDialog = dBuilder.create();
         listSelectDialog.show();
@@ -603,37 +560,31 @@ public class SimpleDialog {
         dBuilder.setTitle(title);
         dBuilder.setIcon(android.R.drawable.ic_menu_info_details);
         dBuilder.setView(layout);
-        dBuilder.setPositiveButton(android.R.string.ok, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.v("showCustomizedDialog", "Positive Button Clicked");
-                dismissDialogOnTop();
-                Object[] ret = new Object[resIds.length];
-                for (int i = 0; i < resIds.length; i++) {
-                    View v = layout.findViewById(resIds[i]);
-                    if (v == null) {
-                        continue;
-                    }
-                    if (v instanceof EditText) {
-                        EditText et = (EditText) v;
-                        ret[i] = et.getText().toString();
-                    } else if (v instanceof TextView) {
-                        TextView tv = (TextView) v;
-                        ret[i] = tv.getText().toString();
-                    } else if (v instanceof Spinner) {
-                        SimpleSpinner spinner = new SimpleSpinner(context);
-                        // TODO
-                    }
+        dBuilder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            Log.v("showCustomizedDialog", "Positive Button Clicked");
+            dismissDialogOnTop();
+            Object[] ret = new Object[resIds.length];
+            for (int i = 0; i < resIds.length; i++) {
+                View v = layout.findViewById(resIds[i]);
+                if (v == null) {
+                    continue;
                 }
-                callback.onPositive(ret);
+                if (v instanceof EditText) {
+                    EditText et = (EditText) v;
+                    ret[i] = et.getText().toString();
+                } else if (v instanceof TextView) {
+                    TextView tv = (TextView) v;
+                    ret[i] = tv.getText().toString();
+                } else if (v instanceof Spinner) {
+                    SimpleSpinner spinner = new SimpleSpinner(context);
+                    // TODO
+                }
             }
+            callback.onPositive(ret);
         });
-        dBuilder.setNegativeButton(android.R.string.cancel, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dismissDialogOnTop();
-                callback.onNegative(dialog);
-            }
+        dBuilder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+            dismissDialogOnTop();
+            callback.onNegative(dialog);
         });
         AlertDialog customDialog = dBuilder.create();
         customDialog.show();
