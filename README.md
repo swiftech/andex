@@ -16,12 +16,12 @@ andex是一个Android SDK的扩展框架。andex旨在把简化常见代码的�
 * 使用andex很简单，只需要将您的Activity继承自andex的BaseActivity，您就可以获得大多数调用简便的扩展功能了。
 
 	```java
-			public class MyActivity extends BaseActivity {
-			
-			}
+    public class MyActivity extends BaseActivity {
+
+    }
 	```
 
-4. 最后运行Run as Android Application 即可调试你的程序了。
+* 最后运行Run as Android Application 即可调试你的程序了。
 
 
 ### API指南
