@@ -12,7 +12,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import java.io.Serializable;
 import java.util.Map;
 
-import andex.mvc.Basev4Fragment;
+import andex.mvc.BaseFlowV4Fragment;
 import andex.mvc.model.DataRow;
 
 /**
@@ -25,8 +25,8 @@ public class ResultBuilder {
     private Bundle args = new Bundle();
 
     // 当前的fragment
-    private Basev4Fragment thisFragment; // TODO 这个可能不是必须的。
-    private Basev4Fragment previousFragment;
+    private BaseFlowV4Fragment thisFragment; // TODO 这个可能不是必须的。
+    private BaseFlowV4Fragment previousFragment;
 
     // 在finish的时候也调用父Activity的finish方法
     private FragmentActivity parentActivity;
@@ -44,7 +44,7 @@ public class ResultBuilder {
      * @param thisFragment
      * @return
      */
-    public ResultBuilder fragment(Basev4Fragment thisFragment) {
+    public ResultBuilder fragment(BaseFlowV4Fragment thisFragment) {
         if (activity != null) {
             throw new IllegalStateException();
         }
@@ -59,7 +59,7 @@ public class ResultBuilder {
      * @param parentActivity
      * @return
      */
-    public ResultBuilder fragment(Basev4Fragment thisFragment, FragmentActivity parentActivity) {
+    public ResultBuilder fragment(BaseFlowV4Fragment thisFragment, FragmentActivity parentActivity) {
         if (activity != null) {
             throw new IllegalStateException();
         }
@@ -76,7 +76,7 @@ public class ResultBuilder {
      * @param prevFragment
      * @return
      */
-    public ResultBuilder fragment(Basev4Fragment thisFrag, Basev4Fragment prevFragment) {
+    public ResultBuilder fragment(BaseFlowV4Fragment thisFrag, BaseFlowV4Fragment prevFragment) {
         if (activity != null) {
             throw new IllegalStateException();
         }

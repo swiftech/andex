@@ -1,8 +1,5 @@
 package andex.mvc.controller;
 
-import andex.mvc.BaseActivity;
-import andex.Constants;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import java.io.Serializable;
+
+import andex.Constants;
+import andex.mvc.constant.FlowConstants;
 
 /**
  * 如果需要更多的处理（比如特定的参数）可以继承实现自己的Builder。
@@ -105,7 +105,7 @@ public class ActivityBuilder implements ControlBuilder {
     }
 
     public ActivityBuilder fullscreen() {
-        with(BaseActivity.FLAG_FULL_SCREEN, true);
+        with(FlowConstants.FLAG_FULL_SCREEN, true);
         return this;
     }
 

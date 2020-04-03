@@ -1,1 +1,4 @@
-include ':andex-utils', ':andex-mvc', ':andex-service'
+include ':andex-utils'
+include ':andex-mvc'
+include ':andex-widget'
+include ':andex-demo'

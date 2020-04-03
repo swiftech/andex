@@ -6,13 +6,14 @@ android {
     buildToolsVersion "28.0.3"
 
     defaultConfig {
-//        applicationId "org.andex"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 2
         versionName "2.0.1-SNAPSHOT"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -33,6 +34,8 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(path: ':andex-utils')
+    implementation project(path: ':andex-mvc')
 }
 
 uploadArchives {
@@ -67,7 +70,7 @@ uploadArchives {
         mavenDeployer {
             repository(url: local_maven_repo)
             pom.groupId = 'com.github.swiftech'
-            pom.artifactId = 'andex-utils'
+            pom.artifactId = 'andex-widget'
             pom.version = '2.0.1-SNAPSHOT'
             pom.packaging = 'aar'
         }

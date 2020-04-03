@@ -68,32 +68,6 @@ andex是一个Android SDK的扩展框架。andex旨在把简化常见代码的�
     unblockViews(R.id.view0, R.id.view1, ...);
     ```
 
-* 单击组件的操作特别多，因此需要简化
-
-    原来：
-
-    ```java
-    View view = this.findViewById(R.id.view);
-    if(view != null) {
-        view.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            //
-            }
-        });
-    }
-    ```
-
-    现在：
-
-    ```java
-    onViewClicked(R.id.button, new CallbackAdapter() {
-        public void invoke(Object view) {
-          //
-        }
-    });
-    ```
-
 * 简化调试输出
 
     原来：

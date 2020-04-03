@@ -1,14 +1,14 @@
 package andex.mvc.controller;
 
-import andex.Constants;
-import andex.Utils;
-import andex.mvc.Basev4Fragment;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 import java.io.Serializable;
+
+import andex.Constants;
+import andex.Utils;
+import andex.mvc.BaseFlowV4Fragment;
 
 /**
  * Fragment事务的构造器。如果需要更多的处理（比如特定的参数）可以继承实现自己的Builder。
@@ -17,8 +17,8 @@ import java.io.Serializable;
  */
 public class FragmentBuilder implements ControlBuilder {
 
-    private Basev4Fragment preFrag;
-    private Basev4Fragment frag;
+    private BaseFlowV4Fragment preFrag;
+    private BaseFlowV4Fragment frag;
     private int resourceId;
     private boolean addToBackStack = false;
     private FragmentTransaction ft;
@@ -29,7 +29,7 @@ public class FragmentBuilder implements ControlBuilder {
      * @param preFrag
      * @param frag
      */
-    public FragmentBuilder(Basev4Fragment preFrag, Basev4Fragment frag) {
+    public FragmentBuilder(BaseFlowV4Fragment preFrag, BaseFlowV4Fragment frag) {
         if (preFrag == null || frag == null) {
             throw new IllegalArgumentException();
         }
@@ -44,7 +44,7 @@ public class FragmentBuilder implements ControlBuilder {
      * @param act
      * @param frag
      */
-    public FragmentBuilder(FragmentActivity act, Basev4Fragment frag) {
+    public FragmentBuilder(FragmentActivity act, BaseFlowV4Fragment frag) {
         if (frag == null) {
             throw new IllegalArgumentException();
         }
