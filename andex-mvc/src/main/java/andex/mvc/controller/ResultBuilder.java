@@ -12,13 +12,14 @@ import org.apache.commons.lang3.NotImplementedException;
 import java.io.Serializable;
 import java.util.Map;
 
+import andex.constants.LogConstants;
 import andex.mvc.BaseFlowV4Fragment;
 import andex.mvc.model.DataRow;
 
 /**
  * For building activity or fragment results.
  */
-public class ResultBuilder {
+public class ResultBuilder implements LogConstants {
 
     private Context context;
 
@@ -155,7 +156,7 @@ public class ResultBuilder {
         // 是 Fragment
         if (this.thisFragment != null) {
 
-            Log.d("andex", String.format("finish fragment with data (%d)", args.size()));
+            Log.d(LogConstants.LOG_TAG, String.format("finish fragment with data (%d)", args.size()));
             if (this.previousFragment != null) {
                 this.previousFragment.onFragmentResult(args); // onFragmentResult 放在后面是因为有可能其中有跳转至另外的 Fragment 的情况
             }
@@ -181,7 +182,7 @@ public class ResultBuilder {
                 Intent intent = new Intent();
                 intent.putExtras(args);
             }
-            Log.d("andex", String.format("finish activity with data (%d)", args.size()));
+            Log.d(LogConstants.LOG_TAG, String.format("finish activity with data (%d)", args.size()));
             this.activity.finish();
         } else {
             throw new IllegalStateException("Don't know how to finish");

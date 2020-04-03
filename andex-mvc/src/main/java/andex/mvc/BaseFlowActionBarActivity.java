@@ -18,7 +18,7 @@ import andex.mvc.controller.ActivityBuilder;
 import andex.mvc.controller.FragmentBuilder;
 import andex.mvc.model.DataRow;
 
-public abstract class BaseFlowActionBarActivity extends AppCompatActivity implements Flowable {
+public abstract class BaseFlowActionBarActivity extends AppCompatActivity implements ActivityFlowable {
     protected final int REQUEST_CODE_DEFAULT = 1000;
     protected Context context;
     // Resources from context.
@@ -130,7 +130,7 @@ public abstract class BaseFlowActionBarActivity extends AppCompatActivity implem
     public String getArgStrFromIntent(String argName) {
         Object o = getArgFromIntent(argName);
         if (o == null) {
-            Log.v("andex", String.format("参数值%s不存在", argName));
+            Log.v(LOG_TAG, String.format("参数值%s不存在", argName));
             return null;
 //			throw new RuntimeException(String.format("参数值%s不存在", argName));
         }
@@ -148,7 +148,7 @@ public abstract class BaseFlowActionBarActivity extends AppCompatActivity implem
         }
         if (Constants.debugMode) {
             for (String key : bundle.keySet()) {
-                Log.v("andex", String.format("  ARG: %s = %s", key, bundle.get(key)));
+                Log.v(LOG_TAG, String.format("  ARG: %s = %s", key, bundle.get(key)));
             }
         }
         return bundle.get(argName);
@@ -157,7 +157,7 @@ public abstract class BaseFlowActionBarActivity extends AppCompatActivity implem
     public View onViewClicked(int resId, final Callback handler) {
         final View view = this.findViewById(resId);
         if (view == null) {
-            Log.w("andex", "No view found：" + rs.getResourceName(resId));
+            Log.w(LOG_TAG, "No view found：" + rs.getResourceName(resId));
             return view;
         }
         view.setOnClickListener(v -> {
@@ -178,7 +178,7 @@ public abstract class BaseFlowActionBarActivity extends AppCompatActivity implem
     public CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
         final CompoundButton view = this.findViewById(resId);
         if (view == null) {
-            Log.w("andex", "No view found：" + rs.getResourceName(resId));
+            Log.w(LOG_TAG, "No view found：" + rs.getResourceName(resId));
             return view;
         }
         view.setOnCheckedChangeListener((buttonView, isChecked) -> {

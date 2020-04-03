@@ -25,7 +25,7 @@ import andex.mvc.controller.FragmentBuilder;
 import andex.mvc.controller.ResultBuilder;
 import andex.mvc.model.DataRow;
 
-public class BaseFlowV4Fragment<T extends FragmentActivity> extends Fragment {
+public class BaseFlowV4Fragment<T extends FragmentActivity> extends Fragment implements Flowable {
     // 从参数中获取标题
     public static final String ARG_TITLE = "arg_title";
     //
@@ -82,7 +82,7 @@ public class BaseFlowV4Fragment<T extends FragmentActivity> extends Fragment {
     public View onViewClicked(int resId, final Callback handler) {
         final View view = fragmentView.findViewById(resId);
         if (view == null) {
-            Log.w("andex", "No view found：" + rs.getResourceName(resId));
+            Log.w(LOG_TAG, "No view found：" + rs.getResourceName(resId));
             return null;
         }
         view.setOnClickListener(v -> {
@@ -101,9 +101,9 @@ public class BaseFlowV4Fragment<T extends FragmentActivity> extends Fragment {
     }
 
     public CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
-        final CompoundButton view = (CompoundButton) fragmentView.findViewById(resId);
+        final CompoundButton view = fragmentView.findViewById(resId);
         if (view == null) {
-            Log.w("andex", "No view found：" + rs.getResourceName(resId));
+            Log.w(LOG_TAG, "No view found：" + rs.getResourceName(resId));
             return null;
         }
         view.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -195,7 +195,7 @@ public class BaseFlowV4Fragment<T extends FragmentActivity> extends Fragment {
     public void backToPrevious() {
         handler.post(() -> {
             if (getFragmentManager() == null) {
-                Log.d("andex", "No fragment manager!");
+                Log.d(LOG_TAG, "No fragment manager!");
             } else {
                 if (!getFragmentManager().popBackStackImmediate()) {
 //						if (parentActivity != null) {
@@ -241,13 +241,13 @@ public class BaseFlowV4Fragment<T extends FragmentActivity> extends Fragment {
     public void finish() {
         FragmentManager fragManager = this.getFragmentManager();
         if (fragManager == null) {
-            Log.w("andex", "No fragment manager!");
+            Log.w(LOG_TAG, "No fragment manager!");
         } else {
             fragManager.popBackStack();
 //			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
 //			ft.remove(this);
 //			if (previousFragment != null) {
-//				Log.d("andex", "Back to previous fragment");
+//				Log.d(LOG_TAG, "Back to previous fragment");
 //				ft.add(previousFragment, Utils.getClassName(previousFragment));
 //				ft.addToBackStack(Utils.getClassName(previousFragment));
 //			}
@@ -360,7 +360,7 @@ public class BaseFlowV4Fragment<T extends FragmentActivity> extends Fragment {
      */
     protected void debug(Object log) {
         if (log == null) log = "[null]";
-        Log.d("andex", log.toString());
+        Log.d(LOG_TAG, log.toString());
     }
 
     /**
@@ -370,7 +370,7 @@ public class BaseFlowV4Fragment<T extends FragmentActivity> extends Fragment {
      */
     protected void warn(Object log) {
         if (log == null) log = "[null]";
-        Log.w("andex", log.toString());
+        Log.w(LOG_TAG, log.toString());
     }
 
     /**
@@ -380,7 +380,7 @@ public class BaseFlowV4Fragment<T extends FragmentActivity> extends Fragment {
      */
     protected void error(Object log) {
         if (log == null) log = "[null]";
-        Log.e("andex", log.toString());
+        Log.e(LOG_TAG, log.toString());
     }
 
     public String getTitle() {

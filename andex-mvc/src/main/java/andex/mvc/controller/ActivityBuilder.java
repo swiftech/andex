@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import java.io.Serializable;
 
 import andex.Constants;
+import andex.constants.LogConstants;
 import andex.mvc.constant.FlowConstants;
 
 /**
