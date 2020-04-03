@@ -1,4 +1,4 @@
-package andex.mvc.event;
+package andex.widget.event;
 
 /**
  * 对话框事件，例如：按后退键弹出确认框之后触发事件调用 Activity 父类的某个方法。

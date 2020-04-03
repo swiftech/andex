@@ -1,4 +1,4 @@
-package andex.mvc.event;
+package andex.widget.event;
 
 import andex.utils.SysUtils;
 import android.content.Context;
