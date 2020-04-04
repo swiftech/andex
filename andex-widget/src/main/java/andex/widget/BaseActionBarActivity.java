@@ -130,17 +130,6 @@ public abstract class BaseActionBarActivity extends BaseFlowActionBarActivity im
     }
 
     @Override
-    public DataList getDataListFromIntent() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public DataRow getDataRowFromIntent() {
-        return (DataRow) this.getIntent().getSerializableExtra(Constants.INTENT_DATA_ROW_KEY);
-//		throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void showConfirmDialog(String msg, DialogCallback callback) {
         simpleDialog.showConfirmDialog(msg, callback);
     }

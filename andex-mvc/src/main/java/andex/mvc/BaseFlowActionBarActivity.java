@@ -16,9 +16,11 @@ import andex.Callback;
 import andex.Constants;
 import andex.mvc.controller.ActivityBuilder;
 import andex.mvc.controller.FragmentBuilder;
+import andex.mvc.model.DataList;
 import andex.mvc.model.DataRow;
 
 public abstract class BaseFlowActionBarActivity extends AppCompatActivity implements ActivityFlowable {
+
     protected final int REQUEST_CODE_DEFAULT = 1000;
     protected Context context;
     // Resources from context.
@@ -43,7 +45,7 @@ public abstract class BaseFlowActionBarActivity extends AppCompatActivity implem
      */
     public void startActivity(Class<? extends Activity> clazz, boolean forResult) {
         if (forResult) {
-            startActivityForResult(new Intent(context, clazz), Constants.REQUEST_CODE_DEFAULT);
+            startActivityForResult(new Intent(context, clazz), REQUEST_CODE_DEFAULT);
         } else {
             startActivity(new Intent(context, clazz));
         }
@@ -127,6 +129,12 @@ public abstract class BaseFlowActionBarActivity extends AppCompatActivity implem
         return (Integer) o;
     }
 
+    /**
+     * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
+     *
+     * @param argName
+     * @return
+     */
     public String getArgStrFromIntent(String argName) {
         Object o = getArgFromIntent(argName);
         if (o == null) {
@@ -137,6 +145,12 @@ public abstract class BaseFlowActionBarActivity extends AppCompatActivity implem
         return (String) o;
     }
 
+    /**
+     * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
+     *
+     * @param argName
+     * @return
+     */
     public Object getArgFromIntent(String argName) {
         Bundle extras = this.getIntent().getExtras();
         if (extras == null) {
@@ -154,6 +168,25 @@ public abstract class BaseFlowActionBarActivity extends AppCompatActivity implem
         return bundle.get(argName);
     }
 
+
+    @Override
+    public DataList getDataListFromIntent() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public DataRow getDataRowFromIntent() {
+        return (DataRow) this.getIntent().getSerializableExtra(Constants.INTENT_DATA_ROW_KEY);
+//		throw new UnsupportedOperationException();
+    }
+
+
+    /**
+     * Simple handle click event for any View component.
+     *
+     * @param resId
+     * @param handler
+     */
     public View onViewClicked(int resId, final Callback handler) {
         final View view = this.findViewById(resId);
         if (view == null) {

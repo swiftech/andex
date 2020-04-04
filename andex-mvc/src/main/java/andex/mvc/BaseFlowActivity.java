@@ -15,6 +15,7 @@ import andex.Callback;
 import andex.Constants;
 import andex.mvc.controller.ActivityBuilder;
 import andex.mvc.controller.FragmentBuilder;
+import andex.mvc.model.DataList;
 import andex.mvc.model.DataRow;
 
 public abstract class BaseFlowActivity extends FragmentActivity implements ActivityFlowable {
@@ -173,8 +174,16 @@ public abstract class BaseFlowActivity extends FragmentActivity implements Activ
         return bundle.get(argName);
     }
 
-    public CheckBox getCheckBox(int resId) {
-        return (CheckBox) this.findViewById(resId);
+
+    @Override
+    public DataList getDataListFromIntent() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public DataRow getDataRowFromIntent() {
+        return (DataRow) this.getIntent().getSerializableExtra(Constants.INTENT_DATA_ROW_KEY);
+//		throw new UnsupportedOperationException();
     }
 
     /**
@@ -199,7 +208,7 @@ public abstract class BaseFlowActivity extends FragmentActivity implements Activ
     }
 
     public CheckBox onCheckBoxChecked(int resId, final CompoundButton.OnCheckedChangeListener listener) {
-        CheckBox ckb = getCheckBox(resId);
+        CheckBox ckb = findViewById(resId);
         ckb.setOnCheckedChangeListener(listener);
         return ckb;
     }

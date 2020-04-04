@@ -30,8 +30,6 @@ import andex.Constants;
 import andex.i18n;
 import andex.mvc.BaseFlowActivity;
 import andex.mvc.constant.FlowConstants;
-import andex.mvc.model.DataList;
-import andex.mvc.model.DataRow;
 
 /**
  * 提供常用功能的基础Activity类<td/>
@@ -103,16 +101,6 @@ public abstract class BaseActivity extends BaseFlowActivity implements ActivityE
         return dlgFrag;
     }
 
-    @Override
-    public DataList getDataListFromIntent() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public DataRow getDataRowFromIntent() {
-        return (DataRow) this.getIntent().getSerializableExtra(Constants.INTENT_DATA_ROW_KEY);
-//		throw new UnsupportedOperationException();
-    }
 
     @Override
     public void showConfirmDialog(String msg, DialogCallback callback) {
