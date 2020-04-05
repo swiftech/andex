@@ -48,7 +48,7 @@ uploadArchives {
                 groupId = 'com.github.swiftech'
                 artifactId = 'andex-utils'
                 version = '2.0.1-SNAPSHOT'
-                packaging = 'jar'
+                packaging = 'aar'
             }
         }
     }

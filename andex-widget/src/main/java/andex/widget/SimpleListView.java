@@ -101,7 +101,7 @@ public class SimpleListView extends SimpleCompositeView {
 
             // Title
             if (itemResIds.length > 1 && layout.findViewById(itemResIds[1]) != null) {
-                TextView tvTitle = (TextView) layout.findViewById(itemResIds[1]);
+                TextView tvTitle = layout.findViewById(itemResIds[1]);
                 Object o = row.get(keys[1]);
                 if (o instanceof Integer) {
                     tvTitle.setText(context.getString((Integer) o));
@@ -112,7 +112,7 @@ public class SimpleListView extends SimpleCompositeView {
 
             // Description
             if (itemResIds.length > 2 && layout.findViewById(itemResIds[2]) != null) {
-                TextView tvDesc = (TextView) layout.findViewById(itemResIds[2]);
+                TextView tvDesc = layout.findViewById(itemResIds[2]);
                 if (keys.length <= 2) {
                     tvDesc.setVisibility(View.GONE);
                 } else {
