@@ -15,6 +15,6 @@ public class Profiler {
 
     public static void end(String tag) {
         endTime = Calendar.getInstance().getTimeInMillis();
-        Log.d("andex", "  PRF: " + tag + "  " + startTime + " -> " + endTime + " = " + (endTime - startTime) + "ms");
+        Log.d("andex", String.format("  PRF: %s  %d -> %d = %dms", tag, startTime, endTime, endTime - startTime));
     }
 }

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import java.io.Serializable;
 
 import andex.Constants;
-import andex.constants.LogConstants;
 import andex.mvc.constant.FlowConstants;
 
 /**
@@ -26,7 +25,9 @@ public class ActivityBuilder implements ControlBuilder {
 
     private Intent intent;
     private Fragment preFrag;
+
     private Class activityClass;
+
     private String activityName;
 
     /**

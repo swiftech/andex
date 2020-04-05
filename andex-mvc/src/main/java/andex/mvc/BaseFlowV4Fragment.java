@@ -103,7 +103,7 @@ public class BaseFlowV4Fragment<T extends FragmentActivity> extends Fragment imp
     public CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
         final CompoundButton view = fragmentView.findViewById(resId);
         if (view == null) {
-            Log.w(LOG_TAG, "No view found：" + rs.getResourceName(resId));
+            Log.w(LOG_TAG, String.format("No view found：%s", rs.getResourceName(resId)));
             return null;
         }
         view.setOnCheckedChangeListener((buttonView, isChecked) -> {

@@ -19,8 +19,11 @@ import andex.mvc.model.DataList;
 import andex.mvc.model.DataRow;
 
 public abstract class BaseFlowActivity extends FragmentActivity implements ActivityFlowable {
+
     protected final int REQUEST_CODE_DEFAULT = 1000;
+
     protected Context context;
+
     // Resources from context.
     protected Resources rs;
 
@@ -195,7 +198,7 @@ public abstract class BaseFlowActivity extends FragmentActivity implements Activ
     public View onViewClicked(int resId, final Callback handler) {
         final View view = this.findViewById(resId);
         if (view == null) {
-            Log.w(LOG_TAG, "No view found：" + rs.getResourceName(resId));
+            Log.w(LOG_TAG, String.format("No view found：%s", rs.getResourceName(resId)));
             return view;
         }
         view.setOnClickListener(v -> {
@@ -216,7 +219,7 @@ public abstract class BaseFlowActivity extends FragmentActivity implements Activ
     public CompoundButton onCompoundButtonChanged(int resId, final Callback<Boolean> handler) {
         final CompoundButton view = this.findViewById(resId);
         if (view == null) {
-            Log.w(LOG_TAG, "No view found：" + rs.getResourceName(resId));
+            Log.w(LOG_TAG, String.format("No view found：%s", rs.getResourceName(resId)));
             return view;
         }
         view.setOnCheckedChangeListener((buttonView, isChecked) -> {
