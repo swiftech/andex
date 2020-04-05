@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
+import andex.constants.LogConstants;
+
 /**
  * Log to file
  *
@@ -38,7 +40,7 @@ public class Flog {
     }
 
     public static synchronized boolean openFile(File file) {
-        Log.i("andex", String.format("Open file %s to log", file));
+        Log.i(LogConstants.LOG_TAG, String.format("Open file %s to log", file));
         if (!file.getParentFile().exists()) {
             if (!file.getParentFile().mkdirs()) {
                 return false;
@@ -64,9 +66,9 @@ public class Flog {
                 e.printStackTrace();
             }
         } else {
-            Log.w("andex", "Flog输出流错误");
+            Log.w(LogConstants.LOG_TAG, "Flog输出流错误");
         }
-        Log.d("andex", msg + "");
+        Log.d(LogConstants.LOG_TAG, msg + "");
     }
 
     public static void i(Object msg) {
@@ -79,9 +81,9 @@ public class Flog {
                 e.printStackTrace();
             }
         } else {
-            Log.w("andex", "Flog输出流错误");
+            Log.w(LogConstants.LOG_TAG, "Flog输出流错误");
         }
-        Log.i("andex", msg + "");
+        Log.i(LogConstants.LOG_TAG, msg + "");
     }
 
     public static void w(Object msg) {
@@ -94,9 +96,9 @@ public class Flog {
                 e.printStackTrace();
             }
         } else {
-            Log.w("andex", "Flog输出流错误");
+            Log.w(LogConstants.LOG_TAG, "Flog输出流错误");
         }
-        Log.w("andex", msg + "");
+        Log.w(LogConstants.LOG_TAG, msg + "");
     }
 
 
@@ -129,9 +131,9 @@ public class Flog {
                 e.printStackTrace();
             }
         } else {
-            Log.w("andex", "Flog输出流错误");
+            Log.w(LogConstants.LOG_TAG, "Flog输出流错误");
         }
-        Log.e("andex", String.format("%s \r\n %s", msg, (ex == null ? "" : ex.getMessage())));
+        Log.e(LogConstants.LOG_TAG, String.format("%s \r\n %s", msg, (ex == null ? "" : ex.getMessage())));
     }
 
     public static void closeFile() {
