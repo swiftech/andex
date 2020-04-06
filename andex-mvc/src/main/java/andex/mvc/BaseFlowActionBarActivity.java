@@ -14,14 +14,16 @@ import android.widget.CompoundButton;
 
 import andex.Callback;
 import andex.Constants;
+import andex.mvc.callback.Callback0;
 import andex.mvc.controller.ActivityBuilder;
 import andex.mvc.controller.FragmentBuilder;
 import andex.mvc.model.DataList;
 import andex.mvc.model.DataRow;
 
+/**
+ *
+ */
 public abstract class BaseFlowActionBarActivity extends AppCompatActivity implements ActivityFlowable {
-
-    protected final int REQUEST_CODE_DEFAULT = 1000;
 
     protected Context context;
 
@@ -47,7 +49,7 @@ public abstract class BaseFlowActionBarActivity extends AppCompatActivity implem
      */
     public void startActivity(Class<? extends Activity> clazz, boolean forResult) {
         if (forResult) {
-            startActivityForResult(new Intent(context, clazz), REQUEST_CODE_DEFAULT);
+            startActivityForResult(new Intent(context, clazz), Constants.REQUEST_CODE_DEFAULT);
         } else {
             startActivity(new Intent(context, clazz));
         }
@@ -199,6 +201,21 @@ public abstract class BaseFlowActionBarActivity extends AppCompatActivity implem
             view.setEnabled(false);
             handler.invoke();
             handler.invoke(v);
+            view.setEnabled(true);
+        });
+        return view;
+    }
+
+    @Override
+    public View onViewClicked(int resId, Callback0 handler) {
+        final View view = this.findViewById(resId);
+        if (view == null) {
+            Log.w(LOG_TAG, String.format("No view found：%s", rs.getResourceName(resId)));
+            return null;
+        }
+        view.setOnClickListener(v -> {
+            view.setEnabled(false);
+            handler.invoke();
             view.setEnabled(true);
         });
         return view;

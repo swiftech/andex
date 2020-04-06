@@ -7,6 +7,7 @@ import android.widget.CompoundButton;
 
 import andex.Callback;
 import andex.constants.LogConstants;
+import andex.mvc.callback.Callback0;
 import andex.mvc.model.DataRow;
 
 public interface Flowable extends LogConstants {
@@ -26,8 +27,19 @@ public interface Flowable extends LogConstants {
      */
     void startActivity(Class<? extends Activity> clazz, boolean forResult);
 
+    /**
+     * Finish current activity and return with a long id.
+     *
+     * @param id
+     * @deprecated
+     */
     void finishWithId(long id);
 
+    /**
+     * Finish current activity and return with a {@link DataRow}
+     *
+     * @param row
+     */
     void finishWithData(DataRow row);
 
     long getLongIdFromPrevious();
@@ -37,8 +49,18 @@ public interface Flowable extends LogConstants {
      *
      * @param resId
      * @param handler
+     * @deprecated
      */
     View onViewClicked(int resId, Callback handler);
+
+    /**
+     * Simple handle click event for any View component.
+     *
+     * @param resId
+     * @param handler
+     * @return
+     */
+    View onViewClicked(int resId, Callback0 handler);
 
     CheckBox onCheckBoxChecked(int resId, CompoundButton.OnCheckedChangeListener listener);
 

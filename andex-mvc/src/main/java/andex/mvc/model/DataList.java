@@ -185,7 +185,7 @@ public class DataList<T extends DataRow> extends ArrayList<T> {
      * @param <T>
      * @author
      */
-    public static interface Callback<T extends DataRow> {
+    public interface Callback<T extends DataRow> {
         boolean BREAK = false;
         boolean CONTINUE = true;
 

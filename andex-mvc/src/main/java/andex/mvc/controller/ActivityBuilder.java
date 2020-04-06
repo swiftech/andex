@@ -18,9 +18,6 @@ import andex.mvc.constant.FlowConstants;
  */
 public class ActivityBuilder implements ControlBuilder {
 
-    public final int REQUEST_CODE_DEFAULT = 1000;
-
-
     private Context context;
 
     private Intent intent;
@@ -140,7 +137,7 @@ public class ActivityBuilder implements ControlBuilder {
         if (this.intent == null) {
             throw new IllegalStateException("No Intent Provided");
         }
-        preFrag.startActivityForResult(this.intent, REQUEST_CODE_DEFAULT);
+        preFrag.startActivityForResult(this.intent, Constants.REQUEST_CODE_DEFAULT);
         return this;
     }
 }

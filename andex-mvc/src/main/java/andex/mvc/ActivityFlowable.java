@@ -4,8 +4,7 @@ import andex.constants.LogConstants;
 import andex.mvc.model.DataList;
 import andex.mvc.model.DataRow;
 
-public interface ActivityFlowable extends LogConstants {
-
+public interface ActivityFlowable extends Flowable, LogConstants {
 
     /**
      * 从前一Activity或Fragment获取ID。

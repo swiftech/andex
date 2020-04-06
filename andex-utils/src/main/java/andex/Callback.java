@@ -5,6 +5,7 @@ package andex;
  *
  * @param <T>
  * @author Swiftech
+ * @deprecated
  */
 public interface Callback<T> {
 
