@@ -1,9 +1,9 @@
 package andex;
 
-import org.andex.R;
-
 import android.content.Context;
 import android.content.res.Resources;
+
+import andex.utils.R;
 
 /**
  * 国际化
