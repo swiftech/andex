@@ -12,8 +12,14 @@ import java.util.TreeMap;
  */
 public class DefaultAction implements Action {
 
+    /**
+     *
+     */
     private List<Integer> resIdList = new ArrayList<>();
 
+    /**
+     *
+     */
     private Map<ActionConstants, Object> actionMapping = new TreeMap<>();
 
     public void addResource(int... resIds) {

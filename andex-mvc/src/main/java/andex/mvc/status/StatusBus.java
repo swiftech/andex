@@ -106,6 +106,15 @@ public class StatusBus {
         return true;
     }
 
+    public boolean toggleStatus(String status1, String status2) {
+        if (isStatus(status1)) {
+            return post(status2);
+        } else if (isStatus(status2)) {
+            return post(status1);
+        }
+        return false;
+    }
+
     private void exeActions(List<Action> actions) {
         // All mapped actions for one status
         for (Action action : actions) {
@@ -113,6 +122,10 @@ public class StatusBus {
                 DefaultAction a = (DefaultAction) action;
                 for (Integer resId : a.getResIdList()) {
                     View view = rootView.findViewById(resId);
+                    if (view == null) {
+                        Log.e(StatusBus.class.getSimpleName(), String.format("View %d could not be found", resId));
+                        continue;
+                    }
                     for (ActionConstants key : a.getActionMapping().keySet()) {
                         Object o = a.getActionMapping().get(key);
                         if (o == null) {
@@ -121,6 +134,12 @@ public class StatusBus {
                         }
                         Log.v(StatusBus.class.getSimpleName(), String.format("execute action(%s) to value %s", key, o));
                         switch (key) {
+                            case ENABLE:
+                                view.setEnabled(true);
+                                break;
+                            case DISABLE:
+                                view.setEnabled(false);
+                                break;
                             case VISIBILITY:
                                 view.setVisibility((Integer) o);
                                 break;

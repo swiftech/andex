@@ -1,6 +1,8 @@
 package andex.mvc.status;
 
 public enum  ActionConstants {
+    ENABLE("enable"),
+    DISABLE("disable"),
     VISIBILITY("visibility"),
     TEXT_STRING("text.string"),
     TEXT_RES("text.res"),

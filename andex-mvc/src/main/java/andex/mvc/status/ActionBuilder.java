@@ -29,6 +29,18 @@ public class ActionBuilder {
         return this;
     }
 
+    public ActionBuilder enable(int... resIds) {
+        this.change(resIds);
+        current.mapping(ActionConstants.ENABLE, true); // this not work actually, just mark
+        return this;
+    }
+
+    public ActionBuilder disable(int... resIds) {
+        this.change(resIds);
+        current.mapping(ActionConstants.DISABLE, false); // this not work actually, just mark
+        return this;
+    }
+
     public ActionBuilder visible(int... resIds) {
         this.change(resIds);
         current.mapping(ActionConstants.VISIBILITY, View.VISIBLE);
