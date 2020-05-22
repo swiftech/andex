@@ -5,15 +5,11 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import andex.mvc.status.Action;
-import andex.mvc.status.ActionBuilder;
-import andex.mvc.status.StatusBus;
+import andex.core.status.ActionBuilder;
+import andex.core.status.StatusBus;
 
 public class StatusDemoActivity extends AppCompatActivity {
 

@@ -2,12 +2,10 @@ package andex.demo;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 
-import andex.mvc.BaseFlowActionBarActivity;
-import andex.mvc.controller.FragmentBuilder;
+import andex.core.BaseFlowActionBarActivity;
+import andex.core.controller.FragmentBuilder;
 
 public class MainActivity extends BaseFlowActionBarActivity {
 

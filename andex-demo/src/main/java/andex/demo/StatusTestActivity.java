@@ -6,8 +6,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import andex.mvc.status.ActionBuilder;
-import andex.mvc.status.StatusBus;
+import andex.core.status.ActionBuilder;
+import andex.core.status.StatusBus;
 
 public class StatusTestActivity extends AppCompatActivity {
 
