@@ -115,6 +115,28 @@ public abstract class BaseFlowActionBarActivity extends AppCompatActivity implem
         return (Integer) getIdObjectFromPrevious();
     }
 
+    public Object getArgFromPrevious(String argKey) {
+        Bundle extras = this.getIntent().getExtras();
+        if (extras == null) {
+            Log.w(LOG_TAG, "No extra from intent");
+            return null;
+        }
+        if (Constants.debugMode) {
+            for (String key : extras.keySet()) {
+                Log.v(LOG_TAG, String.format("  ARG: %s = %s", key, extras.get(key)));
+            }
+        }
+        return extras.get(argKey);
+    }
+
+    public String getArgStrFromPrevious(String argKey) {
+        Object value = getArgFromPrevious(argKey);
+        if (value == null) {
+            return null;
+        }
+        return value.toString();
+    }
+
     public String getIdStrFromIntent() {
         if (this.getIntent().getExtras() == null) {
             return "";

@@ -15,6 +15,10 @@ public interface ActivityFlowable extends Flowable, LogConstants {
 
     int getIntIdFromPrevious();
 
+    Object getArgFromPrevious(String argKey);
+
+    String getArgStrFromPrevious(String argKey);
+
     /**
      * @return
      */

@@ -71,6 +71,8 @@ public class ActivityBuilder implements ControlBuilder {
     }
 
     /**
+     * With a Long type ID to new Activity
+     *
      * @param id
      * @return
      */
@@ -79,12 +81,25 @@ public class ActivityBuilder implements ControlBuilder {
         return this;
     }
 
+    public ActivityBuilder withId(Serializable id) {
+        with(Constants.INTENT_DATA_ID_KEY, id);
+        return this;
+    }
+
+    /**
+     * With a Integer type option to new Activity
+     *
+     * @param option
+     * @return
+     */
     public ActivityBuilder withOption(int option) {
         with(Constants.FRAGMENT_DATA_OPTION_KEY, option);
         return this;
     }
 
     /**
+     * With a key-value arguments
+     *
      * @param key
      * @param value
      * @return
@@ -95,6 +110,8 @@ public class ActivityBuilder implements ControlBuilder {
     }
 
     /**
+     * With arguments from Bundle arguments
+     *
      * @param args
      * @return
      */

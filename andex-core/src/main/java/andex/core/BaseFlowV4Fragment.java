@@ -206,6 +206,14 @@ public class BaseFlowV4Fragment<T extends FragmentActivity> extends Fragment imp
         return (Integer) v;
     }
 
+    public Object getArgFromPrevious(String key) {
+        Bundle args = getArguments();
+        if (args == null) {
+            return null;
+        }
+        return args.get(key);
+    }
+
     /**
      * 直接返回至前一个Fragment（将当前的Fragment退出堆栈），如果没有更多...
      *

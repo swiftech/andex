@@ -5,14 +5,17 @@ import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import andex.Constants;
 import andex.core.BaseFlowActionBarActivity;
 import andex.core.controller.ActivityBuilder;
-import andex.core.controller.FragmentBuilder;
-import andex.utils.StringUtils;
 
 public class MainActivity extends BaseFlowActionBarActivity {
 
     private Handler handler;
+
+    public MainActivity() {
+        Constants.debugMode = true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,20 +28,6 @@ public class MainActivity extends BaseFlowActionBarActivity {
         btnFlowDemo.setOnClickListener(v->{
             new ActivityBuilder(this, FlowDemoActivity.class).with("title", "Flow Demo").start();
         });
-
-
-//        handler = new Handler();
-//        new Thread(() -> {
-//            try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            handler.post(()->{
-//                toSecond();
-//            });
-//        }).start();
-
     }
 
 

@@ -120,6 +120,28 @@ public abstract class BaseFlowActivity extends FragmentActivity implements Activ
         return (Integer) getIdObjectFromPrevious();
     }
 
+    public Object getArgFromPrevious(String argKey) {
+        Bundle extras = this.getIntent().getExtras();
+        if (extras == null) {
+            Log.w(LOG_TAG, "No extra from intent");
+            return null;
+        }
+        if (Constants.debugMode) {
+            for (String key : extras.keySet()) {
+                Log.v(LOG_TAG, String.format("  ARG: %s = %s", key, extras.get(key)));
+            }
+        }
+        return extras.get(argKey);
+    }
+
+    public String getArgStrFromPrevious(String argKey) {
+        Object value = getArgFromPrevious(argKey);
+        if (value == null) {
+            return null;
+        }
+        return value.toString();
+    }
+
     public String getIdStrFromIntent() {
         if (this.getIntent().getExtras() == null) {
             return "";
@@ -140,14 +162,15 @@ public abstract class BaseFlowActivity extends FragmentActivity implements Activ
 
     /**
      * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
+     * TBE: deprecated with getArgStrFromPrevious()
      *
-     * @param argName
+     * @param argKey
      * @return
      */
-    public String getArgStrFromIntent(String argName) {
-        Object o = getArgFromIntent(argName);
+    public String getArgStrFromIntent(String argKey) {
+        Object o = getArgFromIntent(argKey);
         if (o == null) {
-            Log.v(LOG_TAG, String.format("参数值%s不存在", argName));
+            Log.v(LOG_TAG, String.format("参数值%s不存在", argKey));
             return null;
 //			throw new RuntimeException(String.format("参数值%s不存在", argName));
         }
@@ -156,17 +179,20 @@ public abstract class BaseFlowActivity extends FragmentActivity implements Activ
 
     /**
      * 根据Key从前一个Activity或者Fragment的Intent参数中的参数对象中获得参数值。
+     * TBE: deprecated with getArgFromPrevious()
      *
-     * @param argName
+     * @param argKey
      * @return
      */
-    public Object getArgFromIntent(String argName) {
+    public Object getArgFromIntent(String argKey) {
         Bundle extras = this.getIntent().getExtras();
         if (extras == null) {
+            Log.w(LOG_TAG, "No extra from intent");
             return null;
         }
         Bundle bundle = (Bundle) extras.get(Constants.INTENT_DATA_ARGS_KEY);
         if (bundle == null) {
+            Log.w(LOG_TAG, "No bundle from intent extra by key: " + Constants.INTENT_DATA_ARGS_KEY);
             return null;
         }
         if (Constants.debugMode) {
@@ -174,7 +200,7 @@ public abstract class BaseFlowActivity extends FragmentActivity implements Activ
                 Log.v(LOG_TAG, String.format("  ARG: %s = %s", key, bundle.get(key)));
             }
         }
-        return bundle.get(argName);
+        return bundle.get(argKey);
     }
 
 
