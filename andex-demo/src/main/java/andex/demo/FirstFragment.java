@@ -21,7 +21,7 @@ public class FirstFragment extends BaseFlowV4Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         view.findViewById(R.id.button_first).setOnClickListener(v -> {
-                    ((MainActivity) getActivity()).toSecond();
+                    ((FlowDemoActivity) getActivity()).toSecond();
                 }
         );
     }

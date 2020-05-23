@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".FlowDemoActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,17 +21,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/fl_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/btn_flow_demo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Flow Demo" />
-    </LinearLayout>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

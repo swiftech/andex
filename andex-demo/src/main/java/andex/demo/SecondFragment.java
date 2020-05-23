@@ -14,8 +14,7 @@ public class SecondFragment extends BaseFlowV4Fragment {
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_second, container, false);
     }
@@ -24,7 +23,7 @@ public class SecondFragment extends BaseFlowV4Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         view.findViewById(R.id.button_second).setOnClickListener(view1 -> {
-
+            ((FlowDemoActivity) getActivity()).toFirst();
         });
     }
 }
