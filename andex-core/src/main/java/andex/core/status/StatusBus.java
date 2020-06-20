@@ -68,6 +68,15 @@ public class StatusBus {
                 && currentStatus.equals(statusName);
     }
 
+    /**
+     * Get Current status
+     *
+     * @return
+     */
+    public String getStatus() {
+        return currentStatus;
+    }
+
     public boolean post() {
         return this.post(INIT_STATUS);
     }

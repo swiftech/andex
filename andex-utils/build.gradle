@@ -10,7 +10,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 2
-        versionName "2.0.2-SNAPSHOT"
+        versionName "2.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -47,7 +47,7 @@ uploadArchives {
             pom {
                 groupId = 'com.github.swiftech'
                 artifactId = 'andex-utils'
-                version = '2.0.1-SNAPSHOT'
+                version = '2.0.2'
                 packaging = 'aar'
             }
         }
@@ -68,7 +68,7 @@ uploadArchives {
             repository(url: local_maven_repo)
             pom.groupId = 'com.github.swiftech'
             pom.artifactId = 'andex-utils'
-            pom.version = '2.0.2-SNAPSHOT'
+            pom.version = '2.0.2'
             pom.packaging = 'aar'
         }
     }
