@@ -63,9 +63,40 @@ public class StatusBus {
         this.rootView = rootView;
     }
 
+    /**
+     * Whether current status is INIT_STATUS
+     *
+     * @return
+     */
+    public boolean isInit() {
+        return INIT_STATUS.equals(currentStatus);
+    }
+
+    /**
+     * Check current status is
+     *
+     * @param statusName
+     * @return
+     */
     public boolean isStatus(String statusName) {
         return StringUtils.isNotBlank(currentStatus)
                 && currentStatus.equals(statusName);
+    }
+
+    /**
+     * Check current status is in listed statuses.
+     *
+     * @param statuses
+     * @return
+     */
+    public boolean isStatusIn(String... statuses) {
+        for (String status : statuses) {
+            if (StringUtils.isNotBlank(currentStatus)
+                    && currentStatus.equals(status)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -182,7 +213,13 @@ public class StatusBus {
                     }
                 }
             } else {
-                action.execute();
+                // customized actions execute before default actions, and if exception caught, will break the execution process.
+                try {
+                    action.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    break; // Prevent all other actions to be executed
+                }
             }
         }
     }
@@ -201,25 +238,33 @@ public class StatusBus {
     }
 
     public StatusBus in(ActionBuilder actionBuilder) {
-        List<Action> actions = statusMapping.getIn(composeStatus);
-        actions.addAll(actionBuilder.getActionList());
+        Mapping.SubMapping inMapping = statusMapping.getSubMapping(composeStatus);
+        List<DefaultAction> actions = inMapping.getDefaultActions(Mapping.StatusDirection.IN);
+        for (Action action : actionBuilder.getActionList()) {
+            actions.add((DefaultAction) action); // This may be NOT appropriate
+        }
         return this;
     }
 
     public StatusBus in(Action action) {
-        List<Action> actions = statusMapping.getIn(composeStatus);
+        Mapping.SubMapping inMapping = statusMapping.getSubMapping(composeStatus);
+        List<Action> actions = inMapping.getCustomizedActions(Mapping.StatusDirection.IN);
         actions.add(action);
         return this;
     }
 
     public StatusBus out(ActionBuilder actionBuilder) {
-        List<Action> outActions = statusMapping.getOut(composeStatus);
-        outActions.addAll(actionBuilder.getActionList());
+        Mapping.SubMapping inMapping = statusMapping.getSubMapping(composeStatus);
+        List<DefaultAction> actions = inMapping.getDefaultActions(Mapping.StatusDirection.OUT);
+        for (Action action : actionBuilder.getActionList()) {
+            actions.add((DefaultAction) action); // This may be NOT appropriate
+        }
         return this;
     }
 
     public StatusBus out(Action action) {
-        List<Action> actions = statusMapping.getOut(composeStatus);
+        Mapping.SubMapping inMapping = statusMapping.getSubMapping(composeStatus);
+        List<Action> actions = inMapping.getCustomizedActions(Mapping.StatusDirection.OUT);
         actions.add(action);
         return this;
     }

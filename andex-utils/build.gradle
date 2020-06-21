@@ -47,7 +47,7 @@ uploadArchives {
             pom {
                 groupId = 'com.github.swiftech'
                 artifactId = 'andex-utils'
-                version = '2.0.2'
+                version = '2.0.3'
                 packaging = 'aar'
             }
         }
@@ -68,7 +68,7 @@ uploadArchives {
             repository(url: local_maven_repo)
             pom.groupId = 'com.github.swiftech'
             pom.artifactId = 'andex-utils'
-            pom.version = '2.0.2'
+            pom.version = '2.0.3'
             pom.packaging = 'aar'
         }
     }

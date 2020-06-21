@@ -59,12 +59,14 @@ public class ActionBuilder {
         return this;
     }
 
-    public ActionBuilder text(String content){
+    public ActionBuilder text(String content) {
+        this.checkBuildState();
         current.mapping(ActionConstants.TEXT_STRING, content);
         return this;
     }
 
-    public ActionBuilder text(int resId){
+    public ActionBuilder text(int resId) {
+        this.checkBuildState();
         current.mapping(ActionConstants.TEXT_RES, resId);
         return this;
     }
@@ -85,17 +87,19 @@ public class ActionBuilder {
         return this;
     }
 
-    public ActionBuilder hint(String str){
+    public ActionBuilder hint(String str) {
+        this.checkBuildState();
         current.mapping(ActionConstants.HINT_STRING, str);
         return this;
     }
 
-    public ActionBuilder hint(int resId){
+    public ActionBuilder hint(int resId) {
+        this.checkBuildState();
         current.mapping(ActionConstants.HINT_RES, resId);
         return this;
     }
 
-    public ActionBuilder hint(int resId, String str){
+    public ActionBuilder hint(int resId, String str) {
         current = new DefaultAction();
         current.addResource(resId);
         current.mapping(ActionConstants.HINT_STRING, str);
@@ -103,7 +107,7 @@ public class ActionBuilder {
         return this;
     }
 
-    public ActionBuilder hint(int resId, int str){
+    public ActionBuilder hint(int resId, int str) {
         current = new DefaultAction();
         current.addResource(resId);
         current.mapping(ActionConstants.HINT_RES, str);
@@ -112,7 +116,6 @@ public class ActionBuilder {
     }
 
     /**
-     *
      * @param resId
      * @param color
      * @return
@@ -143,22 +146,30 @@ public class ActionBuilder {
     }
 
     public ActionBuilder bgColor(Color color) {
+        this.checkBuildState();
         current.mapping(ActionConstants.BACKGROUND_COLOR, color);
         return this;
     }
 
     public ActionBuilder bgColorInt(int colorInt) {
+        this.checkBuildState();
         current.mapping(ActionConstants.BACKGROUND_COLOR_INT, colorInt);
         return this;
     }
 
     public ActionBuilder bgColorRes(int colorResId) {
+        this.checkBuildState();
         current.mapping(ActionConstants.BACKGROUND_RES, colorResId);
         return this;
     }
 
+    private void checkBuildState() {
+        if (current == null) {
+            throw new IllegalStateException("invoke change() method to specify one or more targets");
+        }
+    }
+
     /**
-     *
      * @return
      */
     public List<Action> getActionList() {

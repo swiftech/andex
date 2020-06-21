@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
@@ -35,20 +36,20 @@ public class Setting {
 		SharedPreferences setting = ctx.getSharedPreferences(ctx.getPackageName(), 0);
 
 		if (value == null) {
-			setting.edit().remove(name).commit();
+			setting.edit().remove(name).apply();
 		}
 		else {
 			if (value instanceof Boolean) {
-				setting.edit().putBoolean(name, (Boolean) value).commit();
+				setting.edit().putBoolean(name, (Boolean) value).apply();
 			}
 			else if (value instanceof Integer) {
-				setting.edit().putInt(name, (Integer) value).commit();
+				setting.edit().putInt(name, (Integer) value).apply();
 			}
 			else if (value instanceof Long) {
-				setting.edit().putLong(name, (Long) value).commit();
+				setting.edit().putLong(name, (Long) value).apply();
 			}
 			else {
-				setting.edit().putString(name, value.toString()).commit();
+				setting.edit().putString(name, value.toString()).apply();
 			}
 		}
 	}
@@ -74,7 +75,7 @@ public class Setting {
 				return null;
 			}
 			else {
-				return setting.getString(name, defaultValue.toString()).trim();
+				return Objects.requireNonNull(setting.getString(name, defaultValue.toString())).trim();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
