@@ -118,9 +118,25 @@ public class StatusBus {
             Log.w(StatusBus.class.getSimpleName(), "No status changes");
             return false;
         }
-
         Log.i(StatusBus.class.getSimpleName(), String.format("Change status from %s to %s", currentStatus, statusName));
 
+        doPost(statusName);
+        return true;
+    }
+
+    /**
+     * Force to run the actions binding to the status, no matter what status is now.
+     *
+     * @param statusName
+     * @return
+     * @since 2.0.3
+     */
+    public boolean forcePost(final String statusName) {
+        doPost(statusName);
+        return true;
+    }
+
+    private void doPost(String statusName) {
         new Handler(context.getMainLooper()).post(() -> {
             // Handle OUT for current status
             if (StringUtils.isNotBlank(currentStatus)) {
@@ -143,7 +159,6 @@ public class StatusBus {
             }
             currentStatus = statusName;
         });
-        return true;
     }
 
     public boolean toggleStatus(String status1, String status2) {
