@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -113,10 +114,26 @@ public class SysUtils {
     }
 
     /**
+     * 根据手机的像素密度从 dp 的单位 转成为 px(像素)
+     */
+    public static int dip2px(Resources resources, float dpValue) {
+        final float scale = resources.getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
      * 根据手机的像素密度从 px(像素) 的单位 转成为 dp
      */
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
+
+    /**
+     * 根据手机的像素密度从 px(像素) 的单位 转成为 dp
+     */
+    public static int px2dip(Resources resources, float pxValue) {
+        final float scale = resources.getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 

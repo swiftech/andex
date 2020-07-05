@@ -21,7 +21,7 @@ public class StatusBus {
 
     public static final String INIT_STATUS = "init";
 
-    private static Map<Class, StatusBus> allBuses = new HashMap<>();
+    private static Map<Object, StatusBus> allBuses = new HashMap<>();
 
     private Context context;
     private View rootView;
@@ -36,7 +36,7 @@ public class StatusBus {
     private String composeStatus;
 
     /**
-     * Create a new status instance if not exist?
+     * Create a new status instance for a Class, overwrite if exists already.
      *
      * @param clazz
      * @param context
@@ -46,6 +46,20 @@ public class StatusBus {
     public static StatusBus newInstance(Class clazz, Context context, View rootView) {
         StatusBus statusBus = new StatusBus(context, rootView);
         allBuses.put(clazz, statusBus);
+        return statusBus;
+    }
+
+    /**
+     * Create a new status instance for a tag, overwrite if exists already.
+     *
+     * @param tag
+     * @param context
+     * @param rootView
+     * @return
+     */
+    public static StatusBus newInstance(String tag, Context context, View rootView) {
+        StatusBus statusBus = new StatusBus(context, rootView);
+        allBuses.put(tag, statusBus);
         return statusBus;
     }
 
