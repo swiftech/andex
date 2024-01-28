@@ -129,7 +129,7 @@ public class StatusBus {
     public boolean post(final String statusName) {
         if (StringUtils.isNotBlank(currentStatus)
                 && currentStatus.equals(statusName)) {
-            Log.w(StatusBus.class.getSimpleName(), "No status changes");
+            Log.w(StatusBus.class.getSimpleName(), "No status changes: " + statusName);
             return false;
         }
         Log.i(StatusBus.class.getSimpleName(), String.format("Change status from %s to %s", currentStatus, statusName));

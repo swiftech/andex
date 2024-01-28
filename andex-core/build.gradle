@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 //apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 3
-        versionName "2.0.3"
+        versionName "2.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -33,27 +33,27 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'org.apache.commons:commons-lang3:3.10'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'com.github.swiftech:swifttime:0.2.1'
 //    implementation 'org.greenrobot:eventbus:3.1.1'
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 //    implementation project(path: ':andex-utils')
     implementation 'com.github.swiftech:andex-utils:2.0.3'
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: local_maven_repo)
-            pom.groupId = 'com.github.swiftech'
-            pom.artifactId = 'andex-core'
-            pom.version = '2.0.3'
-            pom.packaging = 'aar'
-        }
-    }
-}
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: local_maven_repo)
+//            pom.groupId = 'com.github.swiftech'
+//            pom.artifactId = 'andex-core'
+//            pom.version = '2.0.3'
+//            pom.packaging = 'aar'
+//        }
+//    }
+//}
 
 
 //publish {

@@ -13,40 +13,32 @@ public class NumberConverter {
     protected static Map<Class, Converter> CONVERTERS = new HashMap<>();
 
     static {
-        CONVERTERS.put(Integer.class, new Converter<Integer>() {
-            public Integer convert(Object value) {
-                try {
-                    return Integer.parseInt(value.toString());
-                } catch (Exception ex) {
-                    return 0;
-                }
+        CONVERTERS.put(Integer.class, (Converter<Integer>) value -> {
+            try {
+                return Integer.parseInt(value.toString());
+            } catch (Exception ex) {
+                return 0;
             }
         });
-        CONVERTERS.put(Long.class, new Converter<Long>() {
-            public Long convert(Object value) {
-                try {
-                    return Long.parseLong(value.toString());
-                } catch (Exception ex) {
-                    return 0L;
-                }
+        CONVERTERS.put(Long.class, (Converter<Long>) value -> {
+            try {
+                return Long.parseLong(value.toString());
+            } catch (Exception ex) {
+                return 0L;
             }
         });
-        CONVERTERS.put(Float.class, new Converter<Float>() {
-            public Float convert(Object value) {
-                try {
-                    return Float.parseFloat(value.toString());
-                } catch (Exception ex) {
-                    return 0.0f;
-                }
+        CONVERTERS.put(Float.class, (Converter<Float>) value -> {
+            try {
+                return Float.parseFloat(value.toString());
+            } catch (Exception ex) {
+                return 0.0f;
             }
         });
-        CONVERTERS.put(Double.class, new Converter<Double>() {
-            public Double convert(Object value) {
-                try {
-                    return Double.parseDouble(value.toString());
-                } catch (Exception ex) {
-                    return 0.0d;
-                }
+        CONVERTERS.put(Double.class, (Converter<Double>) value -> {
+            try {
+                return Double.parseDouble(value.toString());
+            } catch (Exception ex) {
+                return 0.0d;
             }
         });
     }
@@ -75,6 +67,7 @@ public class NumberConverter {
         return CONVERTERS.get(clazz).convert(str);
     }
 
+    @FunctionalInterface
     public interface Converter<T> {
         T convert(Object value);
     }

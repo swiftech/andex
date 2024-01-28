@@ -13,6 +13,13 @@ import java.io.File;
  */
 public class IntentManager {
 
+    public static Intent createChooseAnyFileIntent(Context ctx) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        return intent;
+    }
+
     /**
      * 发送邮件
      *
